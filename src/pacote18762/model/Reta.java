@@ -1,0 +1,32 @@
+package pacote18762.model;
+
+public class Reta extends Figura{
+
+	private static final long serialVersionUID = 1L;
+	private Ponto ptoInicial;
+	private Ponto ptoFinal;
+	
+	public Reta(Ponto pInicial, Ponto pFinal){
+			this.setPtoInicial(pInicial);
+			this.setPtoFinal(pFinal);
+	}
+	
+	public Ponto getPtoInicial() {
+		return ptoInicial;
+	}
+	public void setPtoInicial(Ponto ptoInicial) {
+		this.ptoInicial = ptoInicial;
+	}
+	public Ponto getPtoFinal() {
+		return ptoFinal;
+	}
+	public void setPtoFinal(Ponto ptoFinal) {
+		this.ptoFinal = ptoFinal;
+	}
+	
+	@Override
+	public String toString() {
+		return "Reta [ptoInicial=" + ptoInicial + ", ptoFinal=" + ptoFinal
+				+ "]";
+	}
+}
