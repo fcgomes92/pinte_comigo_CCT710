@@ -18,7 +18,7 @@ public class ControleElipse extends ControleFigura{
 	private ControlePonto ctrPonto = new ControlePonto();
 	private int count = 0;
 
-	public void drawElipse(Draw panel, Color cor, Ponto centro, Ponto borda, TipoLinha tipoLinha) {
+	public void drawElipse(Draw panel, Color cor, Ponto centro, Ponto borda, TipoLinha tipoLinha, boolean redraw) {
 		
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		
@@ -35,7 +35,7 @@ public class ControleElipse extends ControleFigura{
 		elipse.setDistFocal(Math.pow(elipse.getEixoMaior()/2, 2)-Math.pow(elipse.getEixoMenor()/2, 2));
 		
 		// add a lista obj a ser desenhado
-		elipses_desenhadas.add(elipse);
+		if(!redraw)elipses_desenhadas.add(elipse);
 		
 		int x = 0, y = 0;
 		 	
@@ -105,7 +105,7 @@ public class ControleElipse extends ControleFigura{
 	/****************************************************************************************************************************************************/
 	/** Desenho de arco da elipse **/
 	
-	public void drawElipseArc(Draw panel, Color cor, Ponto centro, Ponto borda, double anguloInicial, double anguloFinal, TipoLinha tipoLinha) {
+	public void drawElipseArc(Draw panel, Color cor, Ponto centro, Ponto borda, double anguloInicial, double anguloFinal, TipoLinha tipoLinha, boolean redraw) {
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		// objeto a ser desenhado
 		Elipse arco = new Elipse();
@@ -117,7 +117,7 @@ public class ControleElipse extends ControleFigura{
 		arco.setDistFocal(Math.pow(arco.getEixoMaior()/2, 2)-Math.pow(arco.getEixoMenor()/2, 2));
 				
 		// add a lista obj a ser desenhado
-		arcos_desenhados.add(arco);
+		if(!redraw)arcos_desenhados.add(arco);
 		
 		// calculo dos pontos referentes ao angulo
 				Ponto angI, angF;

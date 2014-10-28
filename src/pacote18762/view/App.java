@@ -245,20 +245,20 @@ public class App {
 			public void mouseReleased(MouseEvent e) {
 				// pega o ultimo ponto e chama o método de desenho
 				p2 = new Ponto(e.getX(),e.getY());
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
 				
 				// add os pontos de click
 				pontos_ref.add(p1);
 				pontos_ref.add(p2);
 				
-				ctrReta.drawRetaObj(p1,p2,drawPanel,corEscolhida, tipoLinhaDesenho);
+				ctrReta.drawReta(p1,p2,drawPanel,corEscolhida, tipoLinhaDesenho,false);
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// pega o primeiro ponto
 				p1 = new Ponto(e.getX(),e.getY());
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
 			}
 			
 			@Override
@@ -290,8 +290,8 @@ public class App {
 				pontos_ref.add(p1);
 				pontos_ref.add(p2);
 				
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
-				ctrCirculo.drawCirculoDDA(p1, p2, drawPanel, corEscolhida, tipoLinhaDesenho);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
+				ctrCirculo.drawCirculoDDA(p1, p2, drawPanel, corEscolhida, tipoLinhaDesenho,false);
 				
 			}
 			
@@ -299,7 +299,7 @@ public class App {
 			public void mousePressed(MouseEvent e) {
 				// pega o primeiro ponto
 				p1 = new Ponto(e.getX(),e.getY());
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
 			
 			@Override
@@ -331,18 +331,18 @@ public class App {
 				pontos_ref.add(p1);
 				pontos_ref.add(p2);
 				
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 				do {
 					arestasPoligono = Integer.parseInt(JOptionPane.showInputDialog("Entre com a quantidade de lados do polígono:"));
 				}while(arestasPoligono < 0 && arestasPoligono > 360);
-				ctrPoligono.draw_poligono_regular(drawPanel, corEscolhida, tipoLinhaDesenho, p1, p2, arestasPoligono);
+				ctrPoligono.draw_poligono_regular(drawPanel, corEscolhida, tipoLinhaDesenho, p1, p2, arestasPoligono, false);
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// pega o primeiro ponto
 				p1 = new Ponto(e.getX(),e.getY());
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
 			
 			@Override
@@ -394,14 +394,14 @@ public class App {
 				pontos_ref.add(p1);
 				pontos_ref.add(p2);
 				
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
-				ctrElipse.drawElipse(drawPanel, corEscolhida, p1, p2, tipoLinhaDesenho);				
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
+				ctrElipse.drawElipse(drawPanel, corEscolhida, p1, p2, tipoLinhaDesenho,false);				
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
 				p1 = new Ponto(e.getX(), e.getY());
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
 			
 			@Override
@@ -430,15 +430,15 @@ public class App {
 				pontos_ref.add(p1);
 				pontos_ref.add(p2);
 				
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
-				ctrRetangulo.drawRetangulo(drawPanel, corEscolhida, p1, p2, tipoLinhaDesenho);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
+				ctrRetangulo.drawRetangulo(drawPanel, corEscolhida, p1, p2, tipoLinhaDesenho, false);
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// pega o primeiro ponto
 				p1 = new Ponto(e.getX(),e.getY());
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
 			
 			@Override
@@ -477,15 +477,15 @@ public class App {
 				pontos_ref.add(p1);
 				pontos_ref.add(p2);
 				
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
-				ctrCirculo.drawCirculoArch(p1, p2, Math.toRadians(anguloInicial), Math.toRadians(anguloFinal), drawPanel, corEscolhida, tipoLinhaDesenho);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
+				ctrCirculo.drawCirculoArch(p1, p2, Math.toRadians(anguloInicial), Math.toRadians(anguloFinal), drawPanel, corEscolhida, tipoLinhaDesenho, false);
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
 				p1 = new Ponto(e.getX(), e.getY());
 				
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, new Color(255,0,0), TipoLinha.fina);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, new Color(255,0,0), TipoLinha.fina,true);
 			}
 			
 			@Override
@@ -517,14 +517,14 @@ public class App {
 				pontos_ref.add(p1);
 				pontos_ref.add(p2);
 				
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
-				ctrElipse.drawElipseArc(drawPanel, corEscolhida, p1, p2, Math.toRadians(anguloInicial), Math.toRadians(anguloFinal), tipoLinhaDesenho);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
+				ctrElipse.drawElipseArc(drawPanel, corEscolhida, p1, p2, Math.toRadians(anguloInicial), Math.toRadians(anguloFinal), tipoLinhaDesenho, false);
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
 				p1 = new Ponto(e.getX(), e.getY());
-				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
+				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
 			
 			@Override
@@ -845,11 +845,11 @@ public class App {
 			public void actionPerformed(ActionEvent e) {
 				if(show_pontos_ref) 
 					for (Ponto p : pontos_ref) 
-						ctrCirculo.drawCirculoDDA(p, new Ponto(p.getX()+3, p.getY()+3), drawPanel, cor_area_de_trabalho, TipoLinha.fina);
+						ctrCirculo.drawCirculoDDA(p, new Ponto(p.getX()+3, p.getY()+3), drawPanel, cor_area_de_trabalho, TipoLinha.fina,true);
 				
 				else 
 					for (Ponto p : pontos_ref) 
-						ctrCirculo.drawCirculoDDA(p, new Ponto(p.getX()+3, p.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina); 
+						ctrCirculo.drawCirculoDDA(p, new Ponto(p.getX()+3, p.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true); 
 				
 				show_pontos_ref = !show_pontos_ref;
 			}

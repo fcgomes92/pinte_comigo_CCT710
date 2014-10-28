@@ -15,7 +15,7 @@ public class ControlePoligonoRegular extends ControleFigura{
 	private ControlePonto ctrPonto = new ControlePonto();
 	private ControleReta ctrReta = new ControleReta();
 	
-	public void draw_poligono_regular(Draw panel, Color cor, TipoLinha tipoLinha, Ponto centro, Ponto borda, int qtd_lados){
+	public void draw_poligono_regular(Draw panel, Color cor, TipoLinha tipoLinha, Ponto centro, Ponto borda, int qtd_lados, boolean redraw){
 		
 		double raio = ctrPonto.dist(centro, borda);
 		int bx = centro.getX() + (int)Math.round((float)raio) , by = centro.getY();
@@ -26,7 +26,7 @@ public class ControlePoligonoRegular extends ControleFigura{
 		poligono.setQtdArestas(qtd_lados);
 		
 		// add o obj na lista
-		poligonos_regulares_desenhados.add(poligono);
+		if(!redraw)poligonos_regulares_desenhados.add(poligono);
 		
 		Ponto pt_anterior = poligono.getBorda();
 		
@@ -44,7 +44,7 @@ public class ControlePoligonoRegular extends ControleFigura{
 	}
 	
 	public void draw_reta(Draw panel, Color cor, TipoLinha tipoLinha, Reta r){
-		this.ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, cor, tipoLinha);
+		this.ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, cor, tipoLinha, true);
 	}
 	
 }

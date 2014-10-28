@@ -18,7 +18,7 @@ public class ControleCirculo extends ControleFigura{
 	private ControlePonto ctrPonto = new ControlePonto();
 	private int count = 0;
 	
-	public Circulo drawCirculoDDA(Ponto p1, Ponto p2, Draw panel, Color cor, TipoLinha tipoLinha){
+	public Circulo drawCirculoDDA(Ponto p1, Ponto p2, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw){
 		double raio = ctrPonto.dist(p1, p2);
 		int x = 0, y = Math.round((float)raio);
 		double a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
@@ -32,7 +32,7 @@ public class ControleCirculo extends ControleFigura{
 		circulo.setRaio(raio);
 		
 		// add nos circulos desenhados
-		circulos_desenhados.add(circulo);
+		if(!redraw)circulos_desenhados.add(circulo);
 		
 		// parte para desenahar
 		//draw frist pixels
@@ -113,7 +113,7 @@ public class ControleCirculo extends ControleFigura{
 	
 	/*********************************************************************************************************************************************/
 	
-	public Circulo drawCirculoArch(Ponto p1, Ponto p2, double anguloInicial, double anguloFinal, Draw panel, Color cor, TipoLinha tipoLinha){
+	public Circulo drawCirculoArch(Ponto p1, Ponto p2, double anguloInicial, double anguloFinal, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw){
 		double raio = ctrPonto.dist(p1, p2);
 		int x = 0, y = Math.round((float)raio);
 		double a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
@@ -139,7 +139,7 @@ public class ControleCirculo extends ControleFigura{
 		arco.setRaio(raio);
 				
 		// add nos circulos desenhados
-		arcos_desenhados.add(arco);
+		if(!redraw)arcos_desenhados.add(arco);
 		
 		
 		//draw frist pixels

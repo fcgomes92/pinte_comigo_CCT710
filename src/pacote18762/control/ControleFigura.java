@@ -38,9 +38,9 @@ public class ControleFigura extends ControleDraw{
 	
 	// redraw de todas as figuras já desenhadas
 	// função de auxilio em alguns desenhos
-	public void draw_all_again(){
+	public void draw_all_again(Draw panel){
 		for (Circulo c : ctrCirculo.circulos_desenhados) {
-			
+			ctrCirculo.drawCirculoDDA(c.getCentro(), c.getBorda(), panel, c.getCorLinha(), c.getTipoLinha(), true);
 		}
 		
 		// verificação de elipses
@@ -122,15 +122,17 @@ public class ControleFigura extends ControleDraw{
 //		System.out.println(figura_selecionada.getClass());
 		// objetos de comparação
 		if (figura_selecionada instanceof Circulo) {
-			ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, new Color(255,0,0), ((Circulo) figura_selecionada).getTipoLinha());
+			ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, new Color(255,0,0), ((Circulo) figura_selecionada).getTipoLinha(),true);
+			ctrCirculo.circulos_desenhados.remove(figura_selecionada);
+			this.draw_all_again(panel);
 		}
 		
 		else if (figura_selecionada instanceof Elipse) {
-			ctrElipse.drawElipse(panel, new Color(255,0,0), ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha());
+			ctrElipse.drawElipse(panel, new Color(255,0,0), ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true);
 		}
 		
 		else if (figura_selecionada instanceof Retangulo) {
-			ctrRetangulo.drawRetangulo(panel, new Color(255,0,0), ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha());
+			ctrRetangulo.drawRetangulo(panel, new Color(255,0,0), ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true);
 		}
 				
 		

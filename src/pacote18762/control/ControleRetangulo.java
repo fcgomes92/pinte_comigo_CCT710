@@ -14,7 +14,7 @@ public class ControleRetangulo extends ControleFigura {
 	
 	public  ControleReta ctrReta = new ControleReta();
 	
-	public void drawRetangulo(Draw panel, Color cor, Ponto p1, Ponto p2, TipoLinha tipoLinha){
+	public void drawRetangulo(Draw panel, Color cor, Ponto p1, Ponto p2, TipoLinha tipoLinha, boolean redraw){
 		// calculando pontos auxiliares do retangulo
 		Ponto p3 = new Ponto(p1.getX(),p2.getY()), p4 = new Ponto(p2.getX(),p1.getY());
 		
@@ -34,11 +34,11 @@ public class ControleRetangulo extends ControleFigura {
 		));
 		
 		// add figura a ser desenhada
-		retangulos_desenhados.add(ret);
+		if(!redraw)retangulos_desenhados.add(ret);
 		
 		// desenhando cada reta do retangulo
 		for (Reta r : this.getRetas(ret)) {
-			ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, cor, tipoLinha);
+			ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, cor, tipoLinha,true);
 		}
 	}
 	
