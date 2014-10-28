@@ -9,6 +9,8 @@ public class Circulo extends Figura{
 	private double anguloFinal;
 	private double raio;
 	
+	public Circulo(){};
+	
 	public Circulo(Ponto c, Ponto borda){
 		this.centro = c;
 		this.borda = borda;

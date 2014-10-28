@@ -29,6 +29,7 @@ import javax.swing.SpringLayout;
 import pacote18762.control.ControleCirculo;
 import pacote18762.control.ControleDraw;
 import pacote18762.control.ControleElipse;
+import pacote18762.control.ControleFigura;
 import pacote18762.control.ControleLetra;
 import pacote18762.control.ControlePoligonoRegular;
 import pacote18762.control.ControlePonto;
@@ -66,6 +67,7 @@ public class App {
 	private ControleRetangulo ctrRetangulo;
 	private ControleLetra ctrLetra;
 	private ControleDraw ctrDraw;
+	private ControleFigura ctrFigura;
 	
 	// controle de listeners
 	private MouseListener ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse, ml_text, ml_fill, ml_selecionar_figura;
@@ -165,7 +167,7 @@ public class App {
 		bt_fill.setPreferredSize(btDim);
 		bt_fill.setMaximumSize(btDim);
 		
-		bt_selecionar_figura = new JButton("F10");
+		bt_selecionar_figura = new JButton("Selecionar Figura");
 		bt_selecionar_figura.setPreferredSize(btDim);
 		bt_selecionar_figura.setMaximumSize(btDim);
 		
@@ -196,6 +198,7 @@ public class App {
 		ctrRetangulo = new ControleRetangulo();
 		ctrLetra = new ControleLetra();
 		ctrDraw = new ControleDraw();
+		ctrFigura = new ControleFigura(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo);
 		
 		// inicialização das variaveis de auxilio
 		p1 = new Ponto(-1,-1);
@@ -622,10 +625,9 @@ public class App {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				double temp_dist = Double.MAX_VALUE;
 				p1 = new Ponto(e.getX(),e.getY());
 				
-				
+				ctrFigura.get_figura_proxima(p1,drawPanel);
 			}
 		};
 		
@@ -636,6 +638,7 @@ public class App {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// remove outros listeners e adciona o referente
+				drawPanel.removeMouseListener(ml_selecionar_figura);
 				drawPanel.removeMouseListener(ml_circulo);
 				drawPanel.removeMouseListener(ml_poligono);
 				drawPanel.removeMouseListener(ml_elipse);
@@ -653,6 +656,7 @@ public class App {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				drawPanel.removeMouseListener(ml_selecionar_figura);
 				drawPanel.removeMouseListener(ml_reta);
 				drawPanel.removeMouseListener(ml_poligono);
 				drawPanel.removeMouseListener(ml_elipse);
@@ -670,6 +674,7 @@ public class App {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				drawPanel.removeMouseListener(ml_selecionar_figura);
 				drawPanel.removeMouseListener(ml_reta);
 				drawPanel.removeMouseListener(ml_circulo);
 				drawPanel.removeMouseListener(ml_elipse);
@@ -687,6 +692,7 @@ public class App {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				drawPanel.removeMouseListener(ml_selecionar_figura);
 				drawPanel.removeMouseListener(ml_reta);
 				drawPanel.removeMouseListener(ml_circulo);
 				drawPanel.removeMouseListener(ml_poligono);
@@ -704,6 +710,7 @@ public class App {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				drawPanel.removeMouseListener(ml_selecionar_figura);
 				drawPanel.removeMouseListener(ml_reta);
 				drawPanel.removeMouseListener(ml_circulo);
 				drawPanel.removeMouseListener(ml_poligono);
@@ -721,6 +728,7 @@ public class App {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				drawPanel.removeMouseListener(ml_selecionar_figura);
 				drawPanel.removeMouseListener(ml_reta);
 				drawPanel.removeMouseListener(ml_circulo);
 				drawPanel.removeMouseListener(ml_poligono);
@@ -744,6 +752,7 @@ public class App {
 						drawPanel.removeMouseListener(ml_elipse);
 						drawPanel.removeMouseListener(ml_ret);
 						drawPanel.removeMouseListener(ml_arc_circulo);
+						drawPanel.removeMouseListener(ml_selecionar_figura);
 						drawPanel.removeMouseListener(ml_text);
 						drawPanel.removeKeyListener(kl_entrada_txt);
 						drawPanel.addMouseListener(ml_arc_elipse);
@@ -787,6 +796,7 @@ public class App {
 				drawPanel.removeMouseListener(ml_ret);
 				drawPanel.removeMouseListener(ml_arc_elipse);
 				drawPanel.removeMouseListener(ml_arc_circulo);
+				drawPanel.removeMouseListener(ml_selecionar_figura);
 				drawPanel.addMouseListener(ml_text);
 				drawPanel.addKeyListener(kl_entrada_txt);
 				drawPanel.requestFocus();
@@ -842,6 +852,24 @@ public class App {
 						ctrCirculo.drawCirculoDDA(p, new Ponto(p.getX()+3, p.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina); 
 				
 				show_pontos_ref = !show_pontos_ref;
+			}
+		});
+		
+		// botão para selecionar uma figura
+		bt_selecionar_figura.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				drawPanel.removeMouseListener(ml_reta);
+				drawPanel.removeMouseListener(ml_circulo);
+				drawPanel.removeMouseListener(ml_poligono);
+				drawPanel.removeMouseListener(ml_elipse);
+				drawPanel.removeMouseListener(ml_ret);
+				drawPanel.removeMouseListener(ml_arc_elipse);
+				drawPanel.removeMouseListener(ml_arc_circulo);
+				drawPanel.removeMouseListener(ml_text);
+				drawPanel.removeKeyListener(kl_entrada_txt);
+				drawPanel.addMouseListener(ml_selecionar_figura);
 			}
 		});
 		

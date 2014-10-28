@@ -25,8 +25,6 @@ public class ControleDraw {
 	public void preencher(Draw panel, Ponto p, Color cor_nova, Color cor_velha){
 		if(p.getX() > 0 && p.getX() < panel.getWidth() && p.getY() > 0 && p.getY() < panel.getHeight()){
 			Ponto p1 = new Ponto(p.getX()+1,p.getY()), p2 = new Ponto(p.getX()-1,p.getY()), p3 = new Ponto(p.getX(),p.getY()+1), p4 = new Ponto(p.getX(),p.getY()-1);
-//			Color cor_ponto = panel.getGraphics().create(p.getX(),p.getY(),0,0).getColor();
-//			Color cor_ponto = panel.getComponentAt(p.getX(), p.getY()).getBackground();
 			if (p.getX() < panel.getWidth() && p.getX() > 0 && p.getY() < panel.getHeight() && p.getY() > 0){
 				Color cor_ponto = new Color(img.getRGB(p.getX(), p.getY()));
 				if(cor_ponto.getRGB()==cor_velha.getRGB()){

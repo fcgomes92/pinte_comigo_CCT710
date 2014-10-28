@@ -37,18 +37,6 @@ public class ControleElipse extends ControleFigura{
 		// add a lista obj a ser desenhado
 		elipses_desenhadas.add(elipse);
 		
-//		if(tipoLinha == TipoLinha.grossa)
-//			for (int i = 1; i < 5; i++){
-//				this.drawElipseExtra(panel, cor, centro, new Ponto(borda.getX()+i,borda.getY()+i), tipoLinha);
-//				this.drawElipseExtra(panel, cor, centro, new Ponto(borda.getX(),borda.getY()-i), tipoLinha);
-//				this.drawElipseExtra(panel, cor, centro, new Ponto(borda.getX(),borda.getY()+i), tipoLinha);
-//				this.drawElipseExtra(panel, cor, centro, new Ponto(borda.getX()+i,borda.getY()), tipoLinha);
-//				this.drawElipseExtra(panel, cor, centro, new Ponto(borda.getX()+i,borda.getY()), tipoLinha);
-//				this.drawElipseExtra(panel, cor, centro, new Ponto(borda.getX()-i,borda.getY()-i), tipoLinha);
-//				this.drawElipseExtra(panel, cor, centro, new Ponto(borda.getX()+i,borda.getY()-i), tipoLinha);
-//				this.drawElipseExtra(panel, cor, centro, new Ponto(borda.getX()-i,borda.getY()+i), tipoLinha);
-//			}
-		
 		int x = 0, y = 0;
 		 	
 		double a2 = Math.pow((elipse.getEixoMaior()), 2);
@@ -64,8 +52,6 @@ public class ControleElipse extends ControleFigura{
 				}
 			
 			if (s >= 0){
-//				plotPontoPixel(centro, panel, cor, x, y+1, tipoLinha);
-//				plotPontoPixel(centro, panel, cor, x, y+2, tipoLinha);
 	            s += (4*a2) * (1 - y);
 	            y--;
 	        }
@@ -81,8 +67,6 @@ public class ControleElipse extends ControleFigura{
 				}
 			
 	        if (s >= 0){
-//	        	plotPontoPixel(centro, panel, cor, x+1, y, tipoLinha);
-//	        	plotPontoPixel(centro, panel, cor, x+2, y, tipoLinha);
 	            s += (4*b2) * (1 - x);
 	            x--;
 	        }

@@ -46,7 +46,16 @@ public class ControleReta  extends ControleFigura{
 			}
 			
 			// add obj a ser desenhado
-			retas_desenhadas.add(new Reta(auxI, auxF));
+			Reta r = new Reta(auxI, auxF);
+			r.setPtMedio(new Ponto(
+					(Math.abs(Math.round(
+								(auxI.getX()+auxF.getX())/2)
+							)), 
+					(Math.abs(Math.round(
+								(auxI.getY()+auxF.getY())/2)
+							))
+					));
+			retas_desenhadas.add(r);
 			
 			// desenhado os primeiros pontos
 			drawP(panel, auxI, cor, tipoLinha);
@@ -81,14 +90,14 @@ public class ControleReta  extends ControleFigura{
 						if(erro <= 0){
 							x += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy;
 						}
 						else{
 							x += 1;
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy - dx;
 						}
 					}
@@ -101,13 +110,13 @@ public class ControleReta  extends ControleFigura{
 							x += 1;
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy - dx;
 						}
 						else{
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro -= dx;
 						}
 					}
@@ -121,14 +130,14 @@ public class ControleReta  extends ControleFigura{
 						if(erro < 0){
 							x -= 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy;
 						}
 						else{
 							x -= 1;
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy + dx;
 						}
 					}
@@ -141,13 +150,13 @@ public class ControleReta  extends ControleFigura{
 							x -= 1;
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy + dx;
 						}
 						else{
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dx;
 						}
 					}
@@ -172,6 +181,7 @@ public class ControleReta  extends ControleFigura{
 	}
 	
 	/*
+	 * Não será utilizado esse método, mas ficou bonito, então deixei aqui :3
 	 * O método utiliza a distância de um ponto a uma reta
 	 * Sendo que tambem são aplicados os conceitos de retas perpendiculares
 	 * P1 e P2 definem a r1, P1 e P3 definem a reta perpendicular (r2)
@@ -197,32 +207,27 @@ public class ControleReta  extends ControleFigura{
 //		return new Ponto(x3,y3);
 //	}
 	
-	public void LinhaSolidaGrossa_RETA(Draw painel, Ponto ponto, Color cor, int deltaX, int deltaY, TipoLinha tipoLinha){
+	public void get_pontos_paralelos(Draw painel, Ponto ponto, Color cor, int deltaX, int deltaY, TipoLinha tipoLinha){
 		if(deltaX == 0){
-//			this.drawP(painel, ponto, cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX()+1, ponto.getY()), cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX()+2, ponto.getY()), cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX()+3, ponto.getY()), cor, tipoLinha);
-		} else if(deltaY == 0){
-//			this.drawP(painel, ponto, cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()+1), cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()+2), cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()+3), cor, tipoLinha);
-		} else if(deltaX <= deltaY){
-//			this.drawP(painel, ponto, cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX()+1, ponto.getY()), cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX()+2, ponto.getY()), cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX()+3, ponto.getY()), cor, tipoLinha);
+			for (int i = 1; i < 5; i++)
+				this.drawP(painel, new Ponto(ponto.getX()+i, ponto.getY()), cor, tipoLinha);
+		} 
+		else if(deltaY == 0){
+			for (int i = 1; i < 5; i++)
+			this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()+i), cor, tipoLinha);
+		} 
+		else if(deltaX <= deltaY){
+			for (int i = 1; i < 5; i++)				
+				this.drawP(painel, new Ponto(ponto.getX()+i, ponto.getY()), cor, tipoLinha);
+			
 			if (deltaX < 0){
-				this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()+1), cor, tipoLinha);
-				this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()+2), cor, tipoLinha);
-				this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()+3), cor, tipoLinha);
+				for (int i = 1; i < 5; i++)
+					this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()+i), cor, tipoLinha);
 			}
-		} else if (deltaX > deltaY){
-//			this.drawP(painel, ponto, cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()-1), cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()-2), cor, tipoLinha);
-			this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()-3), cor, tipoLinha);
+		} 
+		else if (deltaX > deltaY){
+			for (int i = 1; i < 5; i++)
+				this.drawP(painel, new Ponto(ponto.getX(), ponto.getY()-i), cor, tipoLinha);
 		}
 		else{
 			System.out.println("Não peguei nenhum... #xatiado");
@@ -295,14 +300,14 @@ public class ControleReta  extends ControleFigura{
 						if(erro <= 0){
 							x += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy;
 						}
 						else{
 							x += 1;
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy - dx;
 						}
 					}
@@ -315,13 +320,13 @@ public class ControleReta  extends ControleFigura{
 							x += 1;
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy - dx;
 						}
 						else{
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro -= dx;
 						}
 					}
@@ -335,14 +340,14 @@ public class ControleReta  extends ControleFigura{
 						if(erro < 0){
 							x -= 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy;
 						}
 						else{
 							x -= 1;
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy + dx;
 						}
 					}
@@ -355,13 +360,13 @@ public class ControleReta  extends ControleFigura{
 							x -= 1;
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dy + dx;
 						}
 						else{
 							y += 1;
 							drawP(panel, new Ponto(x,y), cor, tipoLinha);
-							if(tipoLinha == TipoLinha.grossa) this.LinhaSolidaGrossa_RETA(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
+							if(tipoLinha == TipoLinha.grossa) this.get_pontos_paralelos(panel, new Ponto(x,y), cor, dx, dy, tipoLinha);
 							erro += dx;
 						}
 					}

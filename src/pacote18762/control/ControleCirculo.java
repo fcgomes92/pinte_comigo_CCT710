@@ -37,20 +37,22 @@ public class ControleCirculo extends ControleFigura{
 		// parte para desenahar
 		//draw frist pixels
 		plotPontoPixel(p1, panel, cor, x, y, tipoLinha);
-		for (int i = 1; i < 5; i++) {
-			plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha);
-			plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha);
-		}
+		if(tipoLinha == TipoLinha.grossa)
+			for (int i = 1; i < 5; i++) {
+				plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha);
+				plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha);
+			}
 		
 		while(x < y){
 			x++;
 			if(s > 0)y--;
 			// draw pixels
 			plotPontoPixel(p1, panel, cor, x, y, tipoLinha);
-			for (int i = 1; i < 5; i++) {
-				plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha);
-				plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha);
-			}
+			if(tipoLinha == TipoLinha.grossa)
+				for (int i = 1; i < 5; i++) {
+					plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha);
+					plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha);
+				}
 			
 			a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
 			b = ((Math.pow(((x+1)), 2)+Math.pow(((y-1)), 2)))-Math.pow(raio, 2);
@@ -59,10 +61,11 @@ public class ControleCirculo extends ControleFigura{
 		
 		// desenha ultimos pixels
 		plotPontoPixel(p1, panel, cor, x, y, tipoLinha);
-		for (int i = 1; i < 5; i++) {
-			plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha);
-			plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha);
-		}
+		if(tipoLinha == TipoLinha.grossa)
+			for (int i = 1; i < 5; i++) {
+				plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha);
+				plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha);
+			}
 		
 		return circulo;
 	}
@@ -141,20 +144,22 @@ public class ControleCirculo extends ControleFigura{
 		
 		//draw frist pixels
 		plotPontoPixelArch(p1, panel, cor, x, y, angI, angF, tipoLinha);
-		for (int i = 1; i < 5; i++) {
-			plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha);
-			plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha);
-		}
+		if(tipoLinha == TipoLinha.grossa)
+			for (int i = 1; i < 5; i++) {
+				plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha);
+				plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha);
+			}
 		
 		while(x < y){
 			x++;
 			if(s > 0)y--;
 			// draw pixels
 			plotPontoPixelArch(p1, panel, cor, x, y, angI, angF, tipoLinha);
-			for (int i = 1; i < 5; i++) {
-				plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha);
-				plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha);
-			}
+			if(tipoLinha == TipoLinha.grossa)
+				for (int i = 1; i < 5; i++) {
+					plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha);
+					plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha);
+				}
 			
 			a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
 			b = ((Math.pow(((x+1)), 2)+Math.pow(((y-1)), 2)))-Math.pow(raio, 2);
@@ -163,10 +168,11 @@ public class ControleCirculo extends ControleFigura{
 		
 		// desenha ultimos pixels
 		plotPontoPixelArch(p1, panel, cor, x, y, angI, angF, tipoLinha);
-		for (int i = 1; i < 5; i++) {
-			plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha);
-			plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha);
-		}
+		if(tipoLinha == TipoLinha.grossa)
+			for (int i = 1; i < 5; i++) {
+				plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha);
+				plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha);
+			}
 		
 		return arco;
 	}

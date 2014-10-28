@@ -1,6 +1,6 @@
 package pacote18762.model;
 
-public class Retangulo {
+public class Retangulo extends Figura{
 	
 	private Ponto centro;
 	private Reta lado0, lado1, lado2, lado3;

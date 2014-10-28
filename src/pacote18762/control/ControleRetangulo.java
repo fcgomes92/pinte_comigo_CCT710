@@ -10,7 +10,7 @@ import pacote18762.model.Retangulo;
 import pacote18762.model.TipoLinha;
 
 public class ControleRetangulo extends ControleFigura {
-	private LinkedList<Retangulo> retangulos_desenhados = new LinkedList<Retangulo>();
+	public LinkedList<Retangulo> retangulos_desenhados = new LinkedList<Retangulo>();
 	
 	public  ControleReta ctrReta = new ControleReta();
 	
@@ -24,6 +24,14 @@ public class ControleRetangulo extends ControleFigura {
 		ret.setLado1(new Reta(p2,p4));
 		ret.setLado2(new Reta(p2,p3));
 		ret.setLado3(new Reta(p1,p4));
+		ret.setCentro(new Ponto(	
+			(Math.abs(Math.round(
+					(p1.getX()+p2.getX())/2)
+			)), 
+			(Math.abs(Math.round(
+					(p1.getY()+p2.getY())/2)
+			))			
+		));
 		
 		// add figura a ser desenhada
 		retangulos_desenhados.add(ret);
