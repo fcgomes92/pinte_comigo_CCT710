@@ -109,7 +109,10 @@ public class ControleElipse extends ControleFigura{
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		// objeto a ser desenhado
 		Elipse arco = new Elipse();
+		arco.setTipoLinha(tipoLinha);
+		arco.setCorLinha(cor);
 		arco.setCentro(centro);
+		arco.setBorda(borda);
 		arco.setAnguloFinal(anguloFinal);
 		arco.setAnguloInicial(anguloInicial);
 		arco.setEixoMaior(2*ctrPonto.dist(centro, eixoMaior));

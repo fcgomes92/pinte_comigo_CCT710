@@ -81,6 +81,15 @@ public class ControleFigura extends ControleDraw{
 			}
 		}
 		
+		// verificação de arcos de circulo
+		for (Circulo c : ctrCirculo.arcos_desenhados) {
+			distancia_temp = ctrPonto.dist(c.getCentro(),p1);
+			if(distancia_temp<distancia){
+				distancia = distancia_temp;
+				figura_selecionada = c;
+			}
+		}
+		
 		// verificação de elipses
 		for (Elipse e : ctrElipse.elipses_desenhadas) {
 			distancia_temp = ctrPonto.dist(e.getCentro(),p1);
@@ -90,6 +99,14 @@ public class ControleFigura extends ControleDraw{
 			}
 		}
 		
+		// verificação de arcos de elipses
+		for (Elipse e : ctrElipse.arcos_desenhados) {
+			distancia_temp = ctrPonto.dist(e.getCentro(),p1);
+			if(distancia_temp<distancia){
+				distancia = distancia_temp;
+				figura_selecionada = e;
+			}
+		}
 		
 		// verificação de poligonos
 		for (PoligonoRegular p: ctrPoligono.poligonos_regulares_desenhados) {
@@ -122,17 +139,40 @@ public class ControleFigura extends ControleDraw{
 //		System.out.println(figura_selecionada.getClass());
 		// objetos de comparação
 		if (figura_selecionada instanceof Circulo) {
-			ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, new Color(255,0,0), ((Circulo) figura_selecionada).getTipoLinha(),true);
-			ctrCirculo.circulos_desenhados.remove(figura_selecionada);
+			if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0){
+				ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, new Color(255,0,0), ((Circulo) figura_selecionada).getTipoLinha(),true);
+				ctrCirculo.circulos_desenhados.remove(figura_selecionada);
+			}
+			else{
+				ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, new Color(255,0,0), ((Circulo) figura_selecionada).getTipoLinha(), true);
+				ctrCirculo.arcos_desenhados.remove(figura_selecionada);
+			}
 			this.draw_all_again(panel);
 		}
 		
 		else if (figura_selecionada instanceof Elipse) {
-			ctrElipse.drawElipse(panel, new Color(255,0,0), ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true);
+			if(((Elipse) figura_selecionada).getAnguloInicial()==0 && ((Elipse) figura_selecionada).getAnguloFinal() ==0){
+				ctrElipse.drawElipse(panel, new Color(255,0,0), ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true);
+				ctrElipse.elipses_desenhadas.remove(figura_selecionada);
+			}
+			else{
+				ctrElipse.drawElipseArc(panel, new Color(255,0,0), ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true);
+				ctrElipse.arcos_desenhados.remove(figura_selecionada);
+			}
 		}
 		
 		else if (figura_selecionada instanceof Retangulo) {
 			ctrRetangulo.drawRetangulo(panel, new Color(255,0,0), ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true);
+			ctrRetangulo.retangulos_desenhados.remove(figura_selecionada);
+		}
+		
+		else if (figura_selecionada instanceof Reta) {
+			ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, new Color(255,0,0), ((Reta) figura_selecionada).getTipoLinha(), true);
+			ctrReta.retas_desenhadas.remove(figura_selecionada);
+		}
+		else if (figura_selecionada instanceof PoligonoRegular) {
+			ctrPoligono.draw_poligono_regular(panel, new Color(255,0,0), ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true);
+			ctrPoligono.poligonos_regulares_desenhados.remove(figura_selecionada);
 		}
 				
 		
