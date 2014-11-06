@@ -224,4 +224,90 @@ public class ControleCirculo extends ControleFigura{
 			return false;
 		return true;
 	}
+	
+	/************************************************Função para figuras rotacionadas***************************************************/
+	
+	public void plotPontoPixel(Ponto p1, Draw panel, Color cor, int x, int y, TipoLinha tipoLinha, int angulo){
+		// pontos por octante
+				Ponto oct1 = new Ponto(p1.getX()+x,p1.getY()+y);
+				Ponto oct2 = new Ponto(p1.getX()-x,p1.getY()+y);
+				Ponto oct3 = new Ponto(p1.getX()+x,p1.getY()-y);
+				Ponto oct4 = new Ponto(p1.getX()-x,p1.getY()-y);
+				Ponto oct5 = new Ponto(p1.getX()+y,p1.getY()+x);
+				Ponto oct6 = new Ponto(p1.getX()-y,p1.getY()+x);
+				Ponto oct7 = new Ponto(p1.getX()+y,p1.getY()-x);
+				Ponto oct8 = new Ponto(p1.getX()-y,p1.getY()-x);
+				
+				if (tipoLinha == TipoLinha.pontilhada){
+					if(count==2){
+						count = 3;
+					}
+					else if(count == 3) count = 0;
+					else{
+						this.drawPixel(panel, oct1, cor, tipoLinha);
+						this.drawPixel(panel, oct2, cor, tipoLinha);
+						this.drawPixel(panel, oct3, cor, tipoLinha);
+						this.drawPixel(panel, oct4, cor, tipoLinha);
+						this.drawPixel(panel, oct5, cor, tipoLinha);
+						this.drawPixel(panel, oct6, cor, tipoLinha);
+						this.drawPixel(panel, oct7, cor, tipoLinha);
+						this.drawPixel(panel, oct8, cor, tipoLinha);
+						count++;
+					}
+				}
+				else{
+					this.drawPixel(panel, oct1, cor, tipoLinha);
+					this.drawPixel(panel, oct2, cor, tipoLinha);
+					this.drawPixel(panel, oct3, cor, tipoLinha);
+					this.drawPixel(panel, oct4, cor, tipoLinha);
+					this.drawPixel(panel, oct5, cor, tipoLinha);
+					this.drawPixel(panel, oct6, cor, tipoLinha);
+					this.drawPixel(panel, oct7, cor, tipoLinha);
+					this.drawPixel(panel, oct8, cor, tipoLinha);
+				}
+	}
+	
+	public void plotPontoPixelArch(Ponto p1, Draw panel, Color cor, int x, int y, Ponto ptAnguloI, Ponto ptAnguloF, TipoLinha tipoLinha, int angulo){
+		
+		int senT = (int)Math.round(Math.sin(angulo));
+		int cosT = (int)Math.round(Math.cos(angulo));
+		
+		// pontos por octante
+		Ponto oct1 = new Ponto((p1.getX()+y)*cosT - (p1.getY()-x)*senT,(p1.getX()+y)*senT + (p1.getY()-x)*cosT); // octante 1
+		Ponto oct2 = new Ponto(p1.getX()+x,p1.getY()-y); // octante 2
+		Ponto oct3 = new Ponto(p1.getX()-x,p1.getY()-y); // octante 3
+		Ponto oct4 = new Ponto(p1.getX()-y,p1.getY()-x); // octante 4
+		Ponto oct5 = new Ponto(p1.getX()-y,p1.getY()+x); // octante 5
+		Ponto oct6 = new Ponto(p1.getX()-x,p1.getY()+y); // octante 6
+		Ponto oct7 = new Ponto(p1.getX()+x,p1.getY()+y); // octante 7
+		Ponto oct8 = new Ponto(p1.getX()+y,p1.getY()+x); // octante 8
+		
+		if (tipoLinha == TipoLinha.pontilhada){
+			if(count==2){
+				count = 3;
+			}
+			else if(count == 3) count = 0;
+			else{
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct1)) this.drawPixel(panel, oct1, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct2)) this.drawPixel(panel, oct2, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct3)) this.drawPixel(panel, oct3, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct4)) this.drawPixel(panel, oct4, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct5)) this.drawPixel(panel, oct5, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct6)) this.drawPixel(panel, oct6, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct7)) this.drawPixel(panel, oct7, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct8)) this.drawPixel(panel, oct8, cor, tipoLinha);
+				count++;
+			}
+		}
+		else{
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct1)) this.drawPixel(panel, oct1, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct2)) this.drawPixel(panel, oct2, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct3)) this.drawPixel(panel, oct3, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct4)) this.drawPixel(panel, oct4, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct5)) this.drawPixel(panel, oct5, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct6)) this.drawPixel(panel, oct6, cor, tipoLinha);
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct7)) this.drawPixel(panel, oct7, cor, tipoLinha);				
+				if(this.produtoVetorial(ptAnguloI, ptAnguloF, oct8)) this.drawPixel(panel, oct8, cor, tipoLinha);
+		}
+	}	
 }

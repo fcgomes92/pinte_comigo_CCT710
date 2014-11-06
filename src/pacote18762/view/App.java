@@ -51,7 +51,7 @@ public class App {
 	private JButton bt_txt, bt_escolher_tamanho_letra; 
 	
 	// botões de ferramentas de area de trabalho
-	private JButton bt_escolher_cor_area_de_trabalho_tool, bt_show_pontos_ref, bt_fill, bt_selecionar_figura, bt_mover_figura, bt_escala_figura;
+	private JButton bt_escolher_cor_area_de_trabalho_tool, bt_show_pontos_ref, bt_fill, bt_mover_figura_unica, bt_rotacionar_figura_unica, bt_escala_figura;
 	
 	// main window
 	private JFrame mainFrame;
@@ -70,7 +70,7 @@ public class App {
 	private ControleFigura ctrFigura;
 	
 	// controle de listeners
-	private MouseListener ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse, ml_text, ml_fill, ml_mover_figura, ml_escala_figura;
+	private MouseListener ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse, ml_text, ml_fill, ml_mover_figura, ml_escala_figura, ml_rotacionar_figura;
 	
 	// key listeners para entrada de texto
 	private KeyListener kl_entrada_txt;
@@ -167,13 +167,13 @@ public class App {
 		bt_fill.setPreferredSize(btDim);
 		bt_fill.setMaximumSize(btDim);
 		
-		bt_selecionar_figura = new JButton("Mover Figura Única");
-		bt_selecionar_figura.setPreferredSize(btDim);
-		bt_selecionar_figura.setMaximumSize(btDim);
+		bt_mover_figura_unica = new JButton("Mover Figura Única");
+		bt_mover_figura_unica.setPreferredSize(btDim);
+		bt_mover_figura_unica.setMaximumSize(btDim);
 		
-		bt_mover_figura = new JButton("F11");
-		bt_mover_figura.setPreferredSize(btDim);
-		bt_mover_figura.setMaximumSize(btDim);
+		bt_rotacionar_figura_unica = new JButton("Rotacionar Figura Única");
+		bt_rotacionar_figura_unica.setPreferredSize(btDim);
+		bt_rotacionar_figura_unica.setMaximumSize(btDim);
 		
 		bt_escala_figura = new JButton("Alterar Escala Figura");
 		bt_escala_figura.setPreferredSize(btDim);
@@ -239,6 +239,7 @@ public class App {
 		};
 		
 		// inicialização dos listeners de desenho
+		// listener sobre a reta
 		ml_reta = new MouseListener() {
 			
 			@Override
@@ -611,13 +612,14 @@ public class App {
 			public void mouseReleased(MouseEvent e) {
 				p2 = new Ponto(e.getX(),e.getY());
 				
-				ctrFigura.mover_figura_selecionada(drawPanel, p2, cor_area_de_trabalho);				
+				ctrFigura.mover_figura_selecionada(drawPanel, p2, cor_area_de_trabalho);
+//				ctrFigura.move_all(drawPanel, p2, cor_area_de_trabalho);
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				p1 = new Ponto(e.getX(),e.getY());
-				ctrFigura.get_figura_proxima(p1,drawPanel);
+//				p1 = new Ponto(e.getX(),e.getY());
+//				ctrFigura.get_figura_proxima(p1,drawPanel);
 			}
 			
 			@Override
@@ -634,6 +636,41 @@ public class App {
 			}
 		};
 		
+		//listener da rotação de figura
+		ml_rotacionar_figura = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				p1 = new Ponto(arg0.getX(),arg0.getY());
+				ctrFigura.get_figura_proxima(p1, drawPanel);
+				while(anguloInicial < 0 || anguloInicial > 360) anguloInicial = Integer.parseInt(JOptionPane.showInputDialog("Entre com o valor do angulo (0<a<360):"));
+				ctrFigura.rotacionar_figura(drawPanel, (int)Math.round(Math.toRadians(anguloInicial)), p1, cor_area_de_trabalho);
+			}
+		};
 		
 		//listenerr da escala da figura
 		ml_escala_figura = new MouseListener() {
@@ -834,8 +871,18 @@ public class App {
 			}
 		});
 		
+		// botão para rotacionar figura única
+		bt_rotacionar_figura_unica.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent a) {
+				remove_all_listeners(drawPanel);
+				drawPanel.addMouseListener(ml_rotacionar_figura);
+			}
+		});
+		
 		// botão para selecionar uma figura
-		bt_selecionar_figura.addActionListener(new ActionListener() {
+		bt_mover_figura_unica.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -893,8 +940,8 @@ public class App {
 		workspaceToolsPanel.add(bt_escolher_cor_area_de_trabalho_tool);
 		workspaceToolsPanel.add(bt_show_pontos_ref);
 		workspaceToolsPanel.add(bt_fill);
-		workspaceToolsPanel.add(bt_selecionar_figura);
-		workspaceToolsPanel.add(bt_mover_figura);
+		workspaceToolsPanel.add(bt_mover_figura_unica);
+		workspaceToolsPanel.add(bt_rotacionar_figura_unica);
 		workspaceToolsPanel.add(bt_escala_figura);
 		
 		workspaceToolsPanel.setBackground(new Color(0,0,0));
@@ -963,5 +1010,6 @@ public class App {
 		drawPanel.removeKeyListener(kl_entrada_txt);
 		drawPanel.removeMouseListener(ml_mover_figura);
 		drawPanel.removeMouseListener(ml_escala_figura);
+		drawPanel.removeMouseListener(ml_rotacionar_figura);
 	}
 }
