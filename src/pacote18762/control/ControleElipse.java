@@ -19,7 +19,6 @@ public class ControleElipse extends ControleFigura{
 	private int count = 0;
 
 	public void drawElipse(Draw panel, Color cor, Ponto centro, Ponto borda, TipoLinha tipoLinha, boolean redraw) {
-		
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		
 		// objeto a ser desenhado
@@ -105,7 +104,7 @@ public class ControleElipse extends ControleFigura{
 	/****************************************************************************************************************************************************/
 	/** Desenho de arco da elipse **/
 	
-	public void drawElipseArc(Draw panel, Color cor, Ponto centro, Ponto borda, double anguloInicial, double anguloFinal, TipoLinha tipoLinha, boolean redraw) {
+	public void drawElipseArc(Draw panel, Color cor, Ponto centro, Ponto borda, int anguloInicial, int anguloFinal, TipoLinha tipoLinha, boolean redraw) {
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		// objeto a ser desenhado
 		Elipse arco = new Elipse();
@@ -125,12 +124,12 @@ public class ControleElipse extends ControleFigura{
 		// calculo dos pontos referentes ao angulo
 				Ponto angI, angF;
 				int xTemp = 0 , yTemp = 0;
-				xTemp = (int) ((arco.getEixoMaior()/2)*(Math.cos(anguloInicial)));
-				yTemp = (int) ((arco.getEixoMenor()/2)*(Math.sin(anguloInicial)));
+				xTemp = (int) Math.round(((arco.getEixoMaior()/2)*(Math.cos(Math.toRadians(anguloInicial)))));
+				yTemp = (int) Math.round(((arco.getEixoMenor()/2)*(Math.sin(Math.toRadians(anguloInicial)))));
 				angI = new Ponto(centro.getX()+xTemp,centro.getY()+yTemp);
 				
-				xTemp = (int) ((arco.getEixoMaior()/2)*(Math.cos(anguloFinal)));
-				yTemp = (int) ((arco.getEixoMenor()/2)*(Math.sin(anguloFinal)));
+				xTemp = (int) Math.round(((arco.getEixoMaior()/2)*(Math.cos(Math.toRadians(anguloFinal)))));
+				yTemp = (int) Math.round(((arco.getEixoMenor()/2)*(Math.sin(Math.toRadians(anguloFinal)))));
 				angF = new Ponto(centro.getX()+xTemp,centro.getY()+yTemp);
 		
 		// inicio do calculo dos pontos
@@ -212,7 +211,6 @@ public class ControleElipse extends ControleFigura{
 	/************************************************Função para figuras rotacionadas***************************************************/
 	
 	public void drawElipse(Draw panel, Color cor, Ponto centro, Ponto borda, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo) {
-		
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		
 		// objeto a ser desenhado
@@ -237,7 +235,7 @@ public class ControleElipse extends ControleFigura{
 		double s = 0;
 		
 		for (x = 0, y = Math.round((float)(elipse.getEixoMenor())), s = 2*b2+a2*(1-2*(elipse.getEixoMenor())); b2*x <= a2*y; x++){
-			plotPontoPixel(centro, panel, cor, x, y, tipoLinha);
+			plotPontoPixel(centro, panel, cor, x, y, tipoLinha, angulo, pivo);
 			if(tipoLinha == TipoLinha.grossa)
 				for (int i = 1; i < 5; i++) {
 					plotPontoPixel(centro, panel, cor, x+i, y, tipoLinha, angulo, pivo);
@@ -252,7 +250,7 @@ public class ControleElipse extends ControleFigura{
 		}
 		
 		for (x = Math.round((float)elipse.getEixoMaior()), y = 0, s = 2*a2+b2*(1-2*(elipse.getEixoMaior())); a2*y <= b2*x; y++){
-			plotPontoPixel(centro, panel, cor, x, y, tipoLinha);
+			plotPontoPixel(centro, panel, cor, x, y, tipoLinha, angulo, pivo);
 			if(tipoLinha == TipoLinha.grossa)
 				for (int i = 1; i < 5; i++) {
 					plotPontoPixel(centro, panel, cor, x, y+i, tipoLinha, angulo, pivo);
@@ -274,10 +272,10 @@ public class ControleElipse extends ControleFigura{
 		Ponto quad3 = new Ponto(p1.getX()-x,p1.getY()+y); 
 		Ponto quad4 = new Ponto(p1.getX()+x,p1.getY()+y);
 		
-		quad1 = this.novo_ponto(quad1, pivo, angulo);
-		quad2 = this.novo_ponto(quad2, pivo, angulo);
-		quad3 = this.novo_ponto(quad3, pivo, angulo); 
-		quad4 = this.novo_ponto(quad4, pivo, angulo);
+		quad1 = new Ponto(this.novo_ponto(quad1, pivo, angulo));
+		quad2 = new Ponto(this.novo_ponto(quad2, pivo, angulo));
+		quad3 = new Ponto(this.novo_ponto(quad3, pivo, angulo)); 
+		quad4 = new Ponto(this.novo_ponto(quad4, pivo, angulo));
 		
 		if (tipoLinha == TipoLinha.pontilhada){
 			if(count==2){
@@ -300,7 +298,7 @@ public class ControleElipse extends ControleFigura{
 		}
 	}
 	
-	public void drawElipseArc(Draw panel, Color cor, Ponto centro, Ponto borda, double anguloInicial, double anguloFinal, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo) {
+	public void drawElipseArc(Draw panel, Color cor, Ponto centro, Ponto borda, int anguloInicial, int anguloFinal, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo) {
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		// objeto a ser desenhado
 		Elipse arco = new Elipse();
@@ -320,12 +318,12 @@ public class ControleElipse extends ControleFigura{
 		// calculo dos pontos referentes ao angulo
 				Ponto angI, angF;
 				int xTemp = 0 , yTemp = 0;
-				xTemp = (int) ((arco.getEixoMaior()/2)*(Math.cos(anguloInicial)));
-				yTemp = (int) ((arco.getEixoMenor()/2)*(Math.sin(anguloInicial)));
+				xTemp = (int) Math.round(((arco.getEixoMaior()/2)*(Math.cos(Math.toRadians(anguloInicial)))));
+				yTemp = (int) Math.round(((arco.getEixoMenor()/2)*(Math.sin(Math.toRadians(anguloInicial)))));
 				angI = new Ponto(centro.getX()+xTemp,centro.getY()+yTemp);
 				
-				xTemp = (int) ((arco.getEixoMaior()/2)*(Math.cos(anguloFinal)));
-				yTemp = (int) ((arco.getEixoMenor()/2)*(Math.sin(anguloFinal)));
+				xTemp = (int) Math.round(((arco.getEixoMaior()/2)*(Math.cos(Math.toRadians(anguloFinal)))));
+				yTemp = (int) Math.round(((arco.getEixoMenor()/2)*(Math.sin(Math.toRadians(anguloFinal)))));
 				angF = new Ponto(centro.getX()+xTemp,centro.getY()+yTemp);
 		
 		// inicio do calculo dos pontos
@@ -338,7 +336,7 @@ public class ControleElipse extends ControleFigura{
 		for (x = 0, y = Math.round((float)(arco.getEixoMenor())), s = 2*b2+a2*(1-2*(arco.getEixoMenor())); b2*x <= a2*y; x++){
 			
 			//draw frist pixels
-			plotPontoPixelArc(centro, panel, cor, x, y, angI, angF, tipoLinha);
+			plotPontoPixelArc(centro, panel, cor, x, y, angI, angF, tipoLinha, angulo, pivo);
 			if(tipoLinha == TipoLinha.grossa)
 				for (int i = 1; i < 5; i++) {
 					plotPontoPixelArc(centro, panel, cor, x+i, y, angI, angF, tipoLinha, angulo, pivo);
@@ -355,7 +353,7 @@ public class ControleElipse extends ControleFigura{
 		
 		for (x = Math.round((float)arco.getEixoMaior()), y = 0, s = 2*a2+b2*(1-2*(arco.getEixoMaior())); a2*y <= b2*x; y++){
 			
-			plotPontoPixelArc(centro, panel, cor, x, y, angI, angF, tipoLinha);
+			plotPontoPixelArc(centro, panel, cor, x, y, angI, angF, tipoLinha, angulo, pivo);
 			if(tipoLinha == TipoLinha.grossa)
 				for (int i = 1; i < 5; i++) {
 					plotPontoPixelArc(centro, panel, cor, x, y+i, angI, angF, tipoLinha, angulo, pivo);
@@ -376,10 +374,10 @@ public class ControleElipse extends ControleFigura{
 		Ponto quad3 = new Ponto(p1.getX()-x,p1.getY()+y); 
 		Ponto quad4 = new Ponto(p1.getX()+x,p1.getY()+y);
 		
-		quad1 = this.novo_ponto(quad1, pivo, angulo);
-		quad2 = this.novo_ponto(quad2, pivo, angulo);
-		quad3 = this.novo_ponto(quad3, pivo, angulo); 
-		quad4 = this.novo_ponto(quad4, pivo, angulo);
+		quad1 = new Ponto(this.novo_ponto(quad1, pivo, angulo));
+		quad2 = new Ponto(this.novo_ponto(quad2, pivo, angulo));
+		quad3 = new Ponto(this.novo_ponto(quad3, pivo, angulo)); 
+		quad4 = new Ponto(this.novo_ponto(quad4, pivo, angulo));
 		
 		if (tipoLinha == TipoLinha.pontilhada){
 			if(count==2){
@@ -400,22 +398,5 @@ public class ControleElipse extends ControleFigura{
 			if(this.produtoVetorial(angI, angF, quad3)) this.drawPixel(panel, quad3, cor, tipoLinha); // quadrante 3
 			if(this.produtoVetorial(angI, angF, quad4)) this.drawPixel(panel, quad4, cor, tipoLinha); // quadrante 4
 		}
-	}
-	
-	public Ponto novo_ponto(Ponto plot, Ponto pivo, int angulo){
-		
-		double cos = Math.cos(angulo);
-		double sen = Math.sin(angulo);
-		
-		plot.setX(plot.getX()-pivo.getX());
-		plot.setY(plot.getY()-pivo.getY());
-		
-		int x = ((int) Math.round((plot.getX()*cos - plot.getY()*sen)));
-		int y = ((int) Math.round((plot.getX()*sen + plot.getY()*cos)));
-		
-		x = x + pivo.getX();
-		y = y + pivo.getY();
-		
-		return new Ponto(x, y);
 	}
 }

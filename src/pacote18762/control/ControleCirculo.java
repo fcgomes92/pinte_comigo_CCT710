@@ -113,7 +113,7 @@ public class ControleCirculo extends ControleFigura{
 	
 	/*********************************************************************************************************************************************/
 	
-	public Circulo drawCirculoArch(Ponto p1, Ponto p2, double anguloInicial, double anguloFinal, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw){
+	public Circulo drawCirculoArch(Ponto p1, Ponto p2, int anguloInicial, int anguloFinal, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw){
 		double raio = ctrPonto.dist(p1, p2);
 		int x = 0, y = Math.round((float)raio);
 		double a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
@@ -124,12 +124,12 @@ public class ControleCirculo extends ControleFigura{
 		// calculo dos pontos referentes ao angulo
 		Ponto angI, angF;
 		int xTemp = 0 , yTemp = 0;
-		xTemp = (int) ((Math.cos(anguloInicial))*raio);
-		yTemp = (int) ((Math.sin(anguloInicial))*raio);
+		xTemp = (int) Math.round(((Math.cos(Math.toRadians(anguloInicial)))*raio));
+		yTemp = (int) Math.round(((Math.sin(Math.toRadians(anguloInicial)))*raio));
 		angI = new Ponto(p1.getX()+xTemp,p1.getY()+yTemp);
 		
-		xTemp = (int) ((Math.cos(anguloFinal))*raio);
-		yTemp = (int) ((Math.sin(anguloFinal))*raio);
+		xTemp = (int) Math.round(((Math.cos(Math.toRadians(anguloFinal)))*raio));
+		yTemp = (int) Math.round(((Math.sin(Math.toRadians(anguloFinal)))*raio));
 		angF = new Ponto(p1.getX()+xTemp,p1.getY()+yTemp);
 		
 		// objeto desenhado
@@ -227,7 +227,59 @@ public class ControleCirculo extends ControleFigura{
 	
 	/************************************************Função para figuras rotacionadas***************************************************/
 	
-	public void plotPontoPixel(Ponto p1, Draw panel, Color cor, int x, int y, TipoLinha tipoLinha, int angulo){
+	public Circulo drawCirculoDDA(Ponto p1, Ponto p2, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo){
+		double raio = ctrPonto.dist(p1, p2);
+		int x = 0, y = Math.round((float)raio);
+		double a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
+		double b = ((Math.pow(((x+1)), 2)+Math.pow(((y-1)), 2)))-Math.pow(raio, 2);
+		double s = a+b;
+		
+		// objeto desenhado
+		Circulo circulo = new Circulo(p1,p2);
+		circulo.setAnguloInicial(0);
+		circulo.setAnguloFinal(0);
+		circulo.setRaio(raio);
+		
+		// add nos circulos desenhados
+		if(!redraw)circulos_desenhados.add(circulo);
+		
+		// parte para desenahar
+		//draw frist pixels
+		plotPontoPixel(p1, panel, cor, x, y, tipoLinha, angulo, pivo);
+		if(tipoLinha == TipoLinha.grossa)
+			for (int i = 1; i < 5; i++) {
+				plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha, angulo, pivo);
+				plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha, angulo, pivo);
+			}
+		
+		while(x < y){
+			x++;
+			if(s > 0)y--;
+			// draw pixels
+			plotPontoPixel(p1, panel, cor, x, y, tipoLinha, angulo, pivo);
+			if(tipoLinha == TipoLinha.grossa)
+				for (int i = 1; i < 5; i++) {
+					plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha, angulo, pivo);
+					plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha, angulo, pivo);
+				}
+			
+			a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
+			b = ((Math.pow(((x+1)), 2)+Math.pow(((y-1)), 2)))-Math.pow(raio, 2);
+			s=a+b;
+		}
+		
+		// desenha ultimos pixels
+		plotPontoPixel(p1, panel, cor, x, y, tipoLinha);
+		if(tipoLinha == TipoLinha.grossa)
+			for (int i = 1; i < 5; i++) {
+				plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha, angulo, pivo);
+				plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha, angulo, pivo);
+			}
+		
+		return circulo;
+	}
+	
+	public void plotPontoPixel(Ponto p1, Draw panel, Color cor, int x, int y, TipoLinha tipoLinha, int angulo, Ponto pivo){
 		// pontos por octante
 				Ponto oct1 = new Ponto(p1.getX()+x,p1.getY()+y);
 				Ponto oct2 = new Ponto(p1.getX()-x,p1.getY()+y);
@@ -237,6 +289,15 @@ public class ControleCirculo extends ControleFigura{
 				Ponto oct6 = new Ponto(p1.getX()-y,p1.getY()+x);
 				Ponto oct7 = new Ponto(p1.getX()+y,p1.getY()-x);
 				Ponto oct8 = new Ponto(p1.getX()-y,p1.getY()-x);
+				
+				oct1 = new Ponto(this.novo_ponto(oct1, pivo, angulo));
+				oct2 = new Ponto(this.novo_ponto(oct2, pivo, angulo));
+				oct3 = new Ponto(this.novo_ponto(oct3, pivo, angulo));
+				oct4 = new Ponto(this.novo_ponto(oct4, pivo, angulo));
+				oct5 = new Ponto(this.novo_ponto(oct5, pivo, angulo));
+				oct6 = new Ponto(this.novo_ponto(oct6, pivo, angulo));
+				oct7 = new Ponto(this.novo_ponto(oct7, pivo, angulo));
+				oct8 = new Ponto(this.novo_ponto(oct8, pivo, angulo));
 				
 				if (tipoLinha == TipoLinha.pontilhada){
 					if(count==2){
@@ -267,13 +328,74 @@ public class ControleCirculo extends ControleFigura{
 				}
 	}
 	
-	public void plotPontoPixelArch(Ponto p1, Draw panel, Color cor, int x, int y, Ponto ptAnguloI, Ponto ptAnguloF, TipoLinha tipoLinha, int angulo){
+	public Circulo drawCirculoArch(Ponto p1, Ponto p2, int anguloInicial, int anguloFinal, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo){
+		double raio = ctrPonto.dist(p1, p2);
+		int x = 0, y = Math.round((float)raio);
+		double a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
+		double b = ((Math.pow(((x+1)), 2)+Math.pow(((y-1)), 2)))-Math.pow(raio, 2);
+		double s = a+b;
 		
-		int senT = (int)Math.round(Math.sin(angulo));
-		int cosT = (int)Math.round(Math.cos(angulo));
+		
+		// calculo dos pontos referentes ao angulo
+		Ponto angI, angF;
+		int xTemp = 0 , yTemp = 0;
+		xTemp = (int) Math.round(((Math.cos(Math.toRadians(anguloInicial)))*raio));
+		yTemp = (int) Math.round(((Math.sin(Math.toRadians(anguloInicial)))*raio));
+		angI = new Ponto(p1.getX()+xTemp,p1.getY()+yTemp);
+				
+		xTemp = (int) Math.round(((Math.cos(Math.toRadians(anguloFinal)))*raio));
+		yTemp = (int) Math.round(((Math.sin(Math.toRadians(anguloFinal)))*raio));
+		angF = new Ponto(p1.getX()+xTemp,p1.getY()+yTemp);
+		
+		// objeto desenhado
+		Circulo arco = new Circulo(p1,p2);
+		arco.setAnguloInicial(anguloInicial);
+		arco.setAnguloFinal(anguloFinal);
+		arco.setRaio(raio);
+				
+		// add nos circulos desenhados
+		if(!redraw)arcos_desenhados.add(arco);
+		
+		
+		//draw frist pixels
+		plotPontoPixelArch(p1, panel, cor, x, y, angI, angF, tipoLinha, angulo, pivo);
+		if(tipoLinha == TipoLinha.grossa)
+			for (int i = 1; i < 5; i++) {
+				plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha, angulo, pivo);
+				plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha, angulo, pivo);
+			}
+		
+		while(x < y){
+			x++;
+			if(s > 0)y--;
+			// draw pixels
+			plotPontoPixelArch(p1, panel, cor, x, y, angI, angF, tipoLinha);
+			if(tipoLinha == TipoLinha.grossa)
+				for (int i = 1; i < 5; i++) {
+					plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha, angulo, pivo);
+					plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha, angulo, pivo);
+				}
+			
+			a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
+			b = ((Math.pow(((x+1)), 2)+Math.pow(((y-1)), 2)))-Math.pow(raio, 2);
+			s=a+b;
+		}
+		
+		// desenha ultimos pixels
+		plotPontoPixelArch(p1, panel, cor, x, y, angI, angF, tipoLinha, angulo, pivo);
+		if(tipoLinha == TipoLinha.grossa)
+			for (int i = 1; i < 5; i++) {
+				plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha, angulo, pivo);
+				plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha, angulo, pivo);
+			}
+		
+		return arco;
+	}
+	
+	public void plotPontoPixelArch(Ponto p1, Draw panel, Color cor, int x, int y, Ponto ptAnguloI, Ponto ptAnguloF, TipoLinha tipoLinha, int angulo, Ponto pivo){
 		
 		// pontos por octante
-		Ponto oct1 = new Ponto((p1.getX()+y)*cosT - (p1.getY()-x)*senT,(p1.getX()+y)*senT + (p1.getY()-x)*cosT); // octante 1
+		Ponto oct1 = new Ponto(p1.getX()-x,p1.getY()-y); // octante 1
 		Ponto oct2 = new Ponto(p1.getX()+x,p1.getY()-y); // octante 2
 		Ponto oct3 = new Ponto(p1.getX()-x,p1.getY()-y); // octante 3
 		Ponto oct4 = new Ponto(p1.getX()-y,p1.getY()-x); // octante 4
@@ -281,6 +403,15 @@ public class ControleCirculo extends ControleFigura{
 		Ponto oct6 = new Ponto(p1.getX()-x,p1.getY()+y); // octante 6
 		Ponto oct7 = new Ponto(p1.getX()+x,p1.getY()+y); // octante 7
 		Ponto oct8 = new Ponto(p1.getX()+y,p1.getY()+x); // octante 8
+		
+		oct1 = new Ponto(this.novo_ponto(oct1, pivo, angulo));
+		oct2 = new Ponto(this.novo_ponto(oct2, pivo, angulo));
+		oct3 = new Ponto(this.novo_ponto(oct3, pivo, angulo));
+		oct4 = new Ponto(this.novo_ponto(oct4, pivo, angulo));
+		oct5 = new Ponto(this.novo_ponto(oct5, pivo, angulo));
+		oct6 = new Ponto(this.novo_ponto(oct6, pivo, angulo));
+		oct7 = new Ponto(this.novo_ponto(oct7, pivo, angulo));
+		oct8 = new Ponto(this.novo_ponto(oct8, pivo, angulo));
 		
 		if (tipoLinha == TipoLinha.pontilhada){
 			if(count==2){

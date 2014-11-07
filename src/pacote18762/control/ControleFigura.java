@@ -414,17 +414,18 @@ public class ControleFigura extends ControleDraw{
 				
 			Ponto centro_inicial = ((Circulo) figura_selecionada).getCentro();
 			Ponto borda_inicial = ((Circulo) figura_selecionada).getBorda();
+			pivo = new Ponto(centro_inicial.getX(), centro_inicial.getY());
 			
 			if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0){
-				ctrCirculo.drawCirculoDDA(new Ponto(centro_inicial.getX(),centro_inicial.getY()), new Ponto((borda_inicial.getX()), (borda_inicial.getY())), panel, ((Circulo) figura_selecionada).getCorLinha(), ((Circulo) figura_selecionada).getTipoLinha(),false);
+				ctrCirculo.drawCirculoDDA(new Ponto(centro_inicial.getX(),centro_inicial.getY()), new Ponto((borda_inicial.getX()), (borda_inicial.getY())), panel, ((Circulo) figura_selecionada).getCorLinha(), ((Circulo) figura_selecionada).getTipoLinha(),false, angulo, pivo);
 			}
 			else{
-				ctrCirculo.drawCirculoArch(new Ponto(centro_inicial.getX(),centro_inicial.getY()), new Ponto((borda_inicial.getX()), (borda_inicial.getY())), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, ((Circulo) figura_selecionada).getCorLinha(), ((Circulo) figura_selecionada).getTipoLinha(), false);
+				ctrCirculo.drawCirculoArch(new Ponto(centro_inicial.getX(),centro_inicial.getY()), new Ponto((borda_inicial.getX()), (borda_inicial.getY())), ((Circulo) figura_selecionada).getAnguloInicial()+angulo, ((Circulo) figura_selecionada).getAnguloFinal()+angulo, panel, ((Circulo) figura_selecionada).getCorLinha(), ((Circulo) figura_selecionada).getTipoLinha(), false, angulo, pivo);
 			}
 		}
 			
 		else if (figura_selecionada instanceof Elipse) {
-				
+//			System.out.println("RODA RODA!");
 			Ponto centro_inicial = ((Elipse) figura_selecionada).getCentro();
 			Ponto borda_inicial = ((Elipse) figura_selecionada).getBorda();
 			pivo = new Ponto(centro_inicial.getX(), centro_inicial.getY());
@@ -433,7 +434,7 @@ public class ControleFigura extends ControleDraw{
 				ctrElipse.drawElipse(panel, ((Elipse) figura_selecionada).getCorLinha(), new Ponto(centro_inicial.getX(),centro_inicial.getY()), new Ponto((borda_inicial.getX()), (borda_inicial.getY())), ((Elipse) figura_selecionada).getTipoLinha(), false, angulo, pivo);
 			}
 			else{
-				ctrElipse.drawElipseArc(panel, ((Elipse) figura_selecionada).getCorLinha(), new Ponto(centro_inicial.getX(),centro_inicial.getY()), new Ponto((borda_inicial.getX()), (borda_inicial.getY())), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), false, angulo, pivo);
+				ctrElipse.drawElipseArc(panel, ((Elipse) figura_selecionada).getCorLinha(), new Ponto(centro_inicial.getX(),centro_inicial.getY()), new Ponto((borda_inicial.getX()), (borda_inicial.getY())), ((Elipse) figura_selecionada).getAnguloInicial()+angulo, ((Elipse) figura_selecionada).getAnguloFinal()+angulo, ((Elipse) figura_selecionada).getTipoLinha(), false, angulo, pivo);
 			}
 		}
 			
@@ -449,8 +450,9 @@ public class ControleFigura extends ControleDraw{
 				
 			Ponto novo_p1 = new Ponto(((Reta) figura_selecionada).getPtoInicial().getX(),((Reta) figura_selecionada).getPtoInicial().getY());
 			Ponto novo_p2 = new Ponto(((Reta) figura_selecionada).getPtoFinal().getX(),((Reta) figura_selecionada).getPtoFinal().getY());
-					
-				ctrReta.drawReta(novo_p1, novo_p2, panel, ((Reta) figura_selecionada).getCorLinha(), ((Reta) figura_selecionada).getTipoLinha(), false);
+			pivo = ((Reta) figura_selecionada).getPtMedio();
+			
+			ctrReta.drawReta(novo_p1, novo_p2, panel, ((Reta) figura_selecionada).getCorLinha(), ((Reta) figura_selecionada).getTipoLinha(), false, angulo, pivo);
 		}
 		else if (figura_selecionada instanceof PoligonoRegular) {
 			
@@ -555,5 +557,25 @@ public class ControleFigura extends ControleDraw{
 			figura_selecionada = c;
 			alterar_escala_figura(panel, escala, bg_color);
 		}
+	}
+
+	/************************************************Função aux***************************************************/
+	
+	// função auxiliar para calculo de ponto de rotacionamento
+	public Ponto novo_ponto(Ponto plot, Ponto pivo, int angulo){
+		
+		double cos = Math.cos(Math.toRadians(angulo));
+		double sen = Math.sin(Math.toRadians(angulo));
+		
+		plot.setX(plot.getX()-pivo.getX());
+		plot.setY(plot.getY()-pivo.getY());
+		
+		int x = ((int) Math.round((plot.getX()*cos - plot.getY()*sen)));
+		int y = ((int) Math.round((plot.getX()*sen + plot.getY()*cos)));
+		
+		x = x + pivo.getX();
+		y = y + pivo.getY();
+		
+		return new Ponto(x, y);
 	}
 }

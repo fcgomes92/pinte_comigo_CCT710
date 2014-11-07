@@ -5,8 +5,7 @@ public class Circulo extends Figura{
 	private static final long serialVersionUID = 1L;
 	private Ponto centro;
 	private Ponto borda;
-	private double anguloInicial;
-	private double anguloFinal;
+	private int anguloInicial, anguloFinal;
 	private double raio;
 	
 	public Circulo(){};
@@ -37,19 +36,19 @@ public class Circulo extends Figura{
 		this.raio = raio;
 	}
 
-	public double getAnguloInicial() {
+	public int getAnguloInicial() {
 		return anguloInicial;
 	}
 
-	public void setAnguloInicial(double anguloInicial) {
+	public void setAnguloInicial(int anguloInicial) {
 		this.anguloInicial = anguloInicial;
 	}
 
-	public double getAnguloFinal() {
+	public int getAnguloFinal() {
 		return anguloFinal;
 	}
 
-	public void setAnguloFinal(double anguloFinal) {
+	public void setAnguloFinal(int anguloFinal) {
 		this.anguloFinal = anguloFinal;
 	}
 }

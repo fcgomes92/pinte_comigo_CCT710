@@ -4,6 +4,11 @@ public class Ponto {
 	private int x;
 	private int y;
 	
+	public Ponto(Ponto p){
+		this.setX(p.getX());
+		this.setY(p.getY());
+	}
+	
 	public Ponto(int x, int y){
 		this.setX(x);
 		this.setY(y);

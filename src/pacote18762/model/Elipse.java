@@ -5,7 +5,7 @@ public class Elipse extends Figura{
 	private static final long serialVersionUID = 1L;
 	private Ponto centro, borda;
 	private double eixoMaior, eixoMenor, distFocal;
-	private double anguloInicial, anguloFinal;
+	private int anguloInicial, anguloFinal;
 	
 	public double getEixoMaior() {
 		return eixoMaior;
@@ -47,19 +47,19 @@ public class Elipse extends Figura{
 		this.centro = centro;
 	}
 
-	public double getAnguloInicial() {
+	public int getAnguloInicial() {
 		return anguloInicial;
 	}
 
-	public void setAnguloInicial(double anguloInicial) {
+	public void setAnguloInicial(int anguloInicial) {
 		this.anguloInicial = anguloInicial;
 	}
 
-	public double getAnguloFinal() {
+	public int getAnguloFinal() {
 		return anguloFinal;
 	}
 
-	public void setAnguloFinal(double anguloFinal) {
+	public void setAnguloFinal(int anguloFinal) {
 		this.anguloFinal = anguloFinal;
 	}
 }

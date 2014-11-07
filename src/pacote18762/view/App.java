@@ -479,7 +479,7 @@ public class App {
 				pontos_ref.add(p2);
 				
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
-				ctrCirculo.drawCirculoArch(p1, p2, Math.toRadians(anguloInicial), Math.toRadians(anguloFinal), drawPanel, corEscolhida, tipoLinhaDesenho, false);
+				ctrCirculo.drawCirculoArch(p1, p2, anguloInicial, anguloFinal, drawPanel, corEscolhida, tipoLinhaDesenho, false);
 			}
 			
 			@Override
@@ -519,7 +519,7 @@ public class App {
 				pontos_ref.add(p2);
 				
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
-				ctrElipse.drawElipseArc(drawPanel, corEscolhida, p1, p2, Math.toRadians(anguloInicial), Math.toRadians(anguloFinal), tipoLinhaDesenho, false);
+				ctrElipse.drawElipseArc(drawPanel, corEscolhida, p1, p2, anguloInicial, anguloFinal, tipoLinhaDesenho, false);
 			}
 			
 			@Override
@@ -618,8 +618,8 @@ public class App {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-//				p1 = new Ponto(e.getX(),e.getY());
-//				ctrFigura.get_figura_proxima(p1,drawPanel);
+				p1 = new Ponto(e.getX(),e.getY());
+				ctrFigura.get_figura_proxima(p1,drawPanel);
 			}
 			
 			@Override
@@ -667,8 +667,9 @@ public class App {
 			public void mouseClicked(MouseEvent arg0) {
 				p1 = new Ponto(arg0.getX(),arg0.getY());
 				ctrFigura.get_figura_proxima(p1, drawPanel);
+				anguloInicial = -1;
 				while(anguloInicial < 0 || anguloInicial > 360) anguloInicial = Integer.parseInt(JOptionPane.showInputDialog("Entre com o valor do angulo (0<a<360):"));
-				ctrFigura.rotacionar_figura(drawPanel, (int)Math.round(Math.toRadians(anguloInicial)), p1, cor_area_de_trabalho);
+				ctrFigura.rotacionar_figura(drawPanel, anguloInicial, p1, cor_area_de_trabalho);
 			}
 		};
 		
