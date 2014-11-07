@@ -7,7 +7,22 @@ public class Figura extends Draw{
 	private String nome;
 	private TipoLinha tipoLinha;
 	private Color corLinha;
+	private int roatcao;
+	private boolean pintado;
+	private Color cor_pintura;
 	
+	public boolean isPintado() {
+		return pintado;
+	}
+	public void setPintado(boolean pintado) {
+		this.pintado = pintado;
+	}
+	public Color getCor_pintura() {
+		return cor_pintura;
+	}
+	public void setCor_pintura(Color cor_pintura) {
+		this.cor_pintura = cor_pintura;
+	}
 	public String getNome() {
 		return nome;
 	}
@@ -26,4 +41,10 @@ public class Figura extends Draw{
 	public void setTipoLinha(TipoLinha tipoLinha) {
 		this.tipoLinha = tipoLinha;
 	}
+	public int getRoatcao() {
+		return roatcao;
+	}
+	public void setRoatcao(int roatcao) {
+		this.roatcao = roatcao;
+	}	
 }

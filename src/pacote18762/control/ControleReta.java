@@ -47,6 +47,7 @@ public class ControleReta  extends ControleFigura{
 			
 			// add obj a ser desenhado
 			Reta r = new Reta(auxI, auxF);
+			r.setRoatcao(0);
 			r.setPtMedio(new Ponto(
 					(Math.abs(Math.round(
 								(auxI.getX()+auxF.getX())/2)
@@ -268,6 +269,7 @@ public class ControleReta  extends ControleFigura{
 			
 			// add obj a ser desenhado
 			Reta r = new Reta(auxI, auxF);
+			r.setRoatcao(angulo);
 			r.setPtMedio(new Ponto(
 					(Math.abs(Math.round(
 								(auxI.getX()+auxF.getX())/2)

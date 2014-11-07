@@ -23,6 +23,7 @@ public class ControleElipse extends ControleFigura{
 		
 		// objeto a ser desenhado
 		Elipse elipse = new Elipse();
+		elipse.setRoatcao(0);
 		elipse.setTipoLinha(tipoLinha);
 		elipse.setCorLinha(cor);
 		elipse.setCentro(centro);
@@ -101,13 +102,13 @@ public class ControleElipse extends ControleFigura{
 		}
 	}
 	
-	/****************************************************************************************************************************************************/
-	/** Desenho de arco da elipse **/
+	/**************************************************Desenho de arco da elipse************************************************************************************/
 	
 	public void drawElipseArc(Draw panel, Color cor, Ponto centro, Ponto borda, int anguloInicial, int anguloFinal, TipoLinha tipoLinha, boolean redraw) {
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		// objeto a ser desenhado
 		Elipse arco = new Elipse();
+		arco.setRoatcao(0);
 		arco.setTipoLinha(tipoLinha);
 		arco.setCorLinha(cor);
 		arco.setCentro(centro);
@@ -215,6 +216,7 @@ public class ControleElipse extends ControleFigura{
 		
 		// objeto a ser desenhado
 		Elipse elipse = new Elipse();
+		elipse.setRoatcao(angulo);
 		elipse.setTipoLinha(tipoLinha);
 		elipse.setCorLinha(cor);
 		elipse.setCentro(centro);
@@ -302,6 +304,7 @@ public class ControleElipse extends ControleFigura{
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		// objeto a ser desenhado
 		Elipse arco = new Elipse();
+		arco.setRoatcao(angulo);
 		arco.setTipoLinha(tipoLinha);
 		arco.setCorLinha(cor);
 		arco.setCentro(centro);

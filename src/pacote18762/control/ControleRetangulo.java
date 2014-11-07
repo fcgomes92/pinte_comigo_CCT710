@@ -20,6 +20,7 @@ public class ControleRetangulo extends ControleFigura {
 		
 		// criando o novo retangulo
 		Retangulo ret = new Retangulo();
+		ret.setRoatcao(0);
 		ret.setLado0(new Reta(p1,p3));
 		ret.setLado1(new Reta(p2,p4));
 		ret.setLado2(new Reta(p2,p3));
@@ -51,5 +52,36 @@ public class ControleRetangulo extends ControleFigura {
 		retas.add(ret.getLado3());
 		
 		return retas;
+	}
+	
+	/************************************************Função para figuras rotacionadas***************************************************/
+	
+	public void drawRetangulo(Draw panel, Color cor, Ponto p1, Ponto p2, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo){
+		// calculando pontos auxiliares do retangulo
+		Ponto p3 = new Ponto(p1.getX(),p2.getY()), p4 = new Ponto(p2.getX(),p1.getY());
+		
+		// criando o novo retangulo
+		Retangulo ret = new Retangulo();
+		ret.setRoatcao(angulo);
+		ret.setLado0(new Reta(p1,p3));
+		ret.setLado1(new Reta(p2,p4));
+		ret.setLado2(new Reta(p2,p3));
+		ret.setLado3(new Reta(p1,p4));
+		ret.setCentro(new Ponto(	
+			(Math.abs(Math.round(
+					(p1.getX()+p2.getX())/2)
+			)), 
+			(Math.abs(Math.round(
+					(p1.getY()+p2.getY())/2)
+			))			
+		));
+		
+		// add figura a ser desenhada
+		if(!redraw)retangulos_desenhados.add(ret);
+		
+		// desenhando cada reta do retangulo
+		for (Reta r : this.getRetas(ret)) {
+			ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, cor, tipoLinha,true, angulo, pivo);
+		}
 	}
 }
