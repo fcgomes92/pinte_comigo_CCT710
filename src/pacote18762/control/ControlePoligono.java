@@ -36,6 +36,7 @@ public class ControlePoligono extends ControleDraw{
 		pol.setLados(retas);
 		pol.setTipoLinha(tipoLinha);
 		
+		
 		for (Reta r : pol.getLados()) {
 			ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, cor, tipoLinha,true);
 		}

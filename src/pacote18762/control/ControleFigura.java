@@ -41,7 +41,14 @@ public class ControleFigura extends ControleDraw{
 		
 	}
 	
-	// contrutor para o app
+	/**
+	 * Construtor da classe.
+	 * @param circulo
+	 * @param elipse
+	 * @param poligono
+	 * @param reta
+	 * @param retangulo
+	 */
 	public ControleFigura(ControleCirculo circulo, ControleElipse elipse, ControlePoligonoRegular poligono, ControleReta reta, ControleRetangulo retangulo){
 		this.ctrCirculo = circulo;
 		this.ctrElipse = elipse;
@@ -53,7 +60,12 @@ public class ControleFigura extends ControleDraw{
 	
 	/************************************************Função para uma única figura***************************************************/
 	
-	// função para mover uma figura única
+	/**
+	 * função para mover uma figura única
+	 * @param panel
+	 * @param novo_ponto
+	 * @param bg_color
+	 */
 	public void mover_figura_selecionada(Draw panel, Ponto novo_ponto, Color bg_color){
 		// apaga figura antiga
 		this.apaga_figura_selecionada(panel, bg_color);
@@ -121,7 +133,12 @@ public class ControleFigura extends ControleDraw{
 		}
 	}
 	
-	// função para redesenhar uma figura em uma outra escala
+	/**
+	 * função para redesenhar uma figura em uma outra escala
+	 * @param panel
+	 * @param escala
+	 * @param bg_color
+	 */
 	public void alterar_escala_figura(Draw panel, int escala, Color bg_color){
 		// apaga figura antiga
 				this.apaga_figura_selecionada(panel, bg_color);
@@ -178,7 +195,13 @@ public class ControleFigura extends ControleDraw{
 				}
 	}
 	
-	// função para rotacionar uma figura em uma outra escala
+	/**
+	 * função para rotacionar uma figura em uma outra escala
+	 * @param panel
+	 * @param angulo
+	 * @param pivo
+	 * @param bg_color
+	 */
 	public void rotacionar_figura(Draw panel, int angulo, Ponto pivo, Color bg_color){
 		// apaga figura antiga
 		this.apaga_figura_selecionada(panel, bg_color);
@@ -240,7 +263,12 @@ public class ControleFigura extends ControleDraw{
 	
 	/************************************************Função para todas as figuras***************************************************/
 	
-	// função para mover todos os itens da área de trabalho
+	/**
+	 * função para mover todos os itens da área de trabalho
+	 * @param panel
+	 * @param p1
+	 * @param bg_color
+	 */
 	public void move_all(Draw panel, Ponto p1, Color bg_color){
 		
 		Ponto centro_panel = new Ponto(Math.round(panel.getWidth()/2),Math.round(panel.getHeight()/2));
@@ -288,9 +316,13 @@ public class ControleFigura extends ControleDraw{
 			mover_figura_selecionada(panel, p1, bg_color);
 		}
 	}
-
-	// função para mudar a escala de todos os itens da área de trabalho
 	
+	/**
+	 * função para mudar a escala de todos os itens da área de trabalho
+	 * @param panel
+	 * @param escala
+	 * @param bg_color
+	 */
 	public void scale_all(Draw panel, int escala, Color bg_color){
 		circulos_desenhados_aux = ctrCirculo.circulos_desenhados;
 		for (Circulo c : circulos_desenhados_aux) {
@@ -337,9 +369,14 @@ public class ControleFigura extends ControleDraw{
 
 	/************************************************Função aux***************************************************/
 	
-	// função auxiliar para calculo de ponto de rotacionamento
-	
-	// função para mover a figura de um ponto ao outro usando um ponto de ref
+	/**
+	 * função auxiliar para calculo de ponto de rotacionamento
+	 * função para mover a figura de um ponto ao outro usando um ponto de ref
+	 * @param panel
+	 * @param novo_ponto
+	 * @param ref
+	 * @param bg_color
+	 */
 	public void mover_figura_selecionada(Draw panel, Ponto novo_ponto, Ponto ref, Color bg_color){
 		// apaga figura antiga
 		this.apaga_figura_selecionada(panel, bg_color);
@@ -407,8 +444,11 @@ public class ControleFigura extends ControleDraw{
 	
 	/************************************************Função aux***************************************************/
 	
-	// redraw de todas as figuras já desenhadas
-		// função de auxilio em alguns desenhos
+		/**
+		 * redraw de todas as figuras já desenhadas
+		 * função de auxilio em alguns desenhos
+		 * @param panel
+		 */
 		public void draw_all_again(Draw panel){
 			for (Circulo c : ctrCirculo.circulos_desenhados) {
 				if(c.getRoatcao()==0)ctrCirculo.drawCirculoDDA(c.getCentro(), c.getBorda(), panel, c.getCorLinha(), c.getTipoLinha(), true);
@@ -446,6 +486,10 @@ public class ControleFigura extends ControleDraw{
 			}
 		}
 		
+		/**
+		 * @param p1
+		 * @param panel
+		 */
 		public void get_figura_proxima(Ponto p1, Draw panel){
 			
 			double distancia = Double.MAX_VALUE, distancia_temp;
@@ -562,9 +606,13 @@ public class ControleFigura extends ControleDraw{
 				ctrPoligono.poligonos_regulares_desenhados.remove(figura_selecionada);
 			}
 		}
-		
-		// função para apagar uma figura selecionada
-		// função de aux para desenhar e redesenhar
+		 
+		/**
+		 * função para apagar uma figura selecionada
+		 * função de aux para desenhar e redesenhar
+		 * @param panel
+		 * @param bg_color
+		 */
 		public void apaga_figura_selecionada(Draw panel, Color bg_color){
 			if (figura_selecionada instanceof Circulo)
 				if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0)
@@ -600,6 +648,12 @@ public class ControleFigura extends ControleDraw{
 				else ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
 		}
 	
+	/**
+	 * @param plot
+	 * @param pivo
+	 * @param angulo
+	 * @return
+	 */
 	public Ponto novo_ponto(Ponto plot, Ponto pivo, int angulo){
 		
 		double cos = Math.cos(Math.toRadians(angulo));
@@ -618,6 +672,12 @@ public class ControleFigura extends ControleDraw{
 	}
 	
 	
+	/**
+	 * @param anguloI
+	 * @param anguloF
+	 * @param ptTeste
+	 * @return
+	 */
 	public boolean produtoVetorial(Ponto anguloI, Ponto anguloF, Ponto ptTeste){
 		// (Bx-Ax)*(Y-Ay) - (By-Ay)*(X-Ax)
 		if( ( ((anguloF.getX() - anguloI.getX())*(ptTeste.getY() - anguloI.getY()))-((anguloF.getY() - anguloI.getY())*(ptTeste.getX() - anguloI.getX())) ) >= 0)
