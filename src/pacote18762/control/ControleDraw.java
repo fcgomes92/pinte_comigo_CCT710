@@ -9,12 +9,24 @@ import pacote18762.model.Draw;
 import pacote18762.model.Ponto;
 import pacote18762.model.TipoLinha;
 
+/**
+ * Classe de controle de objetos do tipo Draw.
+ * @author gomes
+ *
+ */
 public class ControleDraw {
 	
 	private Graphics g;
 	public BufferedImage img;
 	public LinkedList<Ponto> pontos = new LinkedList<Ponto>();
 	
+	/**
+	 * Método de plot de pixel em um painel.
+	 * @param panel
+	 * @param ponto
+	 * @param c
+	 * @param tipoLinha
+	 */
 	public void drawPixel(Draw panel, Ponto ponto, Color c, TipoLinha tipoLinha){
 		g = panel.getGraphics();
 		g.setColor(c);

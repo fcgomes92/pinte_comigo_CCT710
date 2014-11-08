@@ -9,11 +9,26 @@ import pacote18762.model.Reta;
 import pacote18762.model.Retangulo;
 import pacote18762.model.TipoLinha;
 
+/**
+ * Classe de controle de objetos do tipo Retangulo.
+ * @author gomes
+ *
+ */
 public class ControleRetangulo extends ControleFigura {
 	public LinkedList<Retangulo> retangulos_desenhados = new LinkedList<Retangulo>();
 	
-	public  ControleReta ctrReta = new ControleReta();
+	public ControleReta ctrReta = new ControleReta();
+	private ControlePonto ctrPonto = new ControlePonto();
 	
+	/**
+	 * Método de calculo de pontos de retângulos.
+	 * @param panel
+	 * @param cor
+	 * @param p1
+	 * @param p2
+	 * @param tipoLinha
+	 * @param redraw
+	 */
 	public void drawRetangulo(Draw panel, Color cor, Ponto p1, Ponto p2, TipoLinha tipoLinha, boolean redraw){
 		// calculando pontos auxiliares do retangulo
 		Ponto p3 = new Ponto(p1.getX(),p2.getY()), p4 = new Ponto(p2.getX(),p1.getY());
@@ -25,14 +40,7 @@ public class ControleRetangulo extends ControleFigura {
 		ret.setLado1(new Reta(p2,p4));
 		ret.setLado2(new Reta(p2,p3));
 		ret.setLado3(new Reta(p1,p4));
-		ret.setCentro(new Ponto(	
-			(Math.abs(Math.round(
-					(p1.getX()+p2.getX())/2)
-			)), 
-			(Math.abs(Math.round(
-					(p1.getY()+p2.getY())/2)
-			))			
-		));
+		ret.setCentro(ctrPonto.midPoint(p1, p2));
 		
 		// add figura a ser desenhada
 		if(!redraw)retangulos_desenhados.add(ret);
@@ -43,6 +51,11 @@ public class ControleRetangulo extends ControleFigura {
 		}
 	}
 	
+	/**
+	 * Método de retorno de uma lista de retas de um retângulo.
+	 * @param ret
+	 * @return
+	 */
 	public LinkedList<Reta> getRetas(Retangulo ret){
 		LinkedList<Reta> retas = new LinkedList<Reta>();
 		
@@ -56,6 +69,17 @@ public class ControleRetangulo extends ControleFigura {
 	
 	/************************************************Função para figuras rotacionadas***************************************************/
 	
+	/**
+	 * Método de calculo de pontos de retângulos rotacionado.
+	 * @param panel
+	 * @param cor
+	 * @param p1
+	 * @param p2
+	 * @param tipoLinha
+	 * @param redraw
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void drawRetangulo(Draw panel, Color cor, Ponto p1, Ponto p2, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo){
 		// calculando pontos auxiliares do retangulo
 		Ponto p3 = new Ponto(p1.getX(),p2.getY()), p4 = new Ponto(p2.getX(),p1.getY());

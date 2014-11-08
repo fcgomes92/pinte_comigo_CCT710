@@ -8,6 +8,10 @@ import pacote18762.model.Ponto;
 import pacote18762.model.Reta;
 import pacote18762.model.TipoLinha;
 
+/**
+ * @author gomes
+ *
+ */
 public class ControleReta  extends ControleFigura{
 	
 	// lista de objetos
@@ -16,6 +20,14 @@ public class ControleReta  extends ControleFigura{
 	// var aux
 	private int count = 0;
 	
+	/**
+	 * @param p1
+	 * @param p2
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 * @param redraw
+	 */
 	public void drawReta(Ponto p1, Ponto p2, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw){
 		Ponto auxI = null, auxF = null, temp = null;
 		int dx = 0, dy = 0, erro = 0, x = 0 , y = 0,tempXi = 0, tempYi = 0,tempXf = 0, tempYf = 0; 
@@ -165,6 +177,12 @@ public class ControleReta  extends ControleFigura{
 			}
 	}
 	
+	/**
+	 * @param panel
+	 * @param p1
+	 * @param cor
+	 * @param tipoLinha
+	 */
 	public void drawP(Draw panel, Ponto p1, Color cor, TipoLinha tipoLinha){
 		if(tipoLinha == TipoLinha.pontilhada){
 			if(count==2){
@@ -208,6 +226,14 @@ public class ControleReta  extends ControleFigura{
 //		return new Ponto(x3,y3);
 //	}
 	
+	/**
+	 * @param painel
+	 * @param ponto
+	 * @param cor
+	 * @param deltaX
+	 * @param deltaY
+	 * @param tipoLinha
+	 */
 	public void get_pontos_paralelos(Draw painel, Ponto ponto, Color cor, int deltaX, int deltaY, TipoLinha tipoLinha){
 		if(deltaX == 0){
 			for (int i = 1; i < 5; i++)
@@ -238,6 +264,16 @@ public class ControleReta  extends ControleFigura{
 	
 	/************************************************Função para figuras rotacionadas***************************************************/
 	
+	/**
+	 * @param p1
+	 * @param p2
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 * @param redraw
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void drawReta(Ponto p1, Ponto p2, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo){
 		Ponto auxI = null, auxF = null, temp = null;
 		int dx = 0, dy = 0, erro = 0, x = 0 , y = 0,tempXi = 0, tempYi = 0,tempXf = 0, tempYf = 0; 
@@ -387,6 +423,14 @@ public class ControleReta  extends ControleFigura{
 			}
 	}
 	
+	/**
+	 * @param panel
+	 * @param p1
+	 * @param cor
+	 * @param tipoLinha
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void drawP(Draw panel, Ponto p1, Color cor, TipoLinha tipoLinha, int angulo, Ponto pivo){
 		
 		Ponto p = new Ponto(this.novo_ponto(p1, pivo, angulo));
@@ -406,6 +450,16 @@ public class ControleReta  extends ControleFigura{
 		}
 	}
 	
+	/**
+	 * @param painel
+	 * @param ponto
+	 * @param cor
+	 * @param deltaX
+	 * @param deltaY
+	 * @param tipoLinha
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void get_pontos_paralelos(Draw painel, Ponto ponto, Color cor, int deltaX, int deltaY, TipoLinha tipoLinha, int angulo, Ponto pivo){
 		if(deltaX == 0){
 			for (int i = 1; i < 5; i++)

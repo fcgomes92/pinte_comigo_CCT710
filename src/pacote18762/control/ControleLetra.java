@@ -16,11 +16,23 @@ import pacote18762.model.Reta;
 import pacote18762.model.TamanhoLetra;
 import pacote18762.model.TipoLinha;
 
+/**
+ * @author gomes
+ *
+ */
 public class ControleLetra {
 	
 	private List<Letra> alfabeto = new LinkedList<Letra>();
 	private ControleReta ctrReta = new ControleReta();
 	
+	/**
+	 * @param panel
+	 * @param cor
+	 * @param ptIncial
+	 * @param valor_letra
+	 * @param tipoLinha
+	 * @param tamanho_letra
+	 */
 	public void drawLetra(Draw panel, Color cor, Ponto ptIncial, int valor_letra, TipoLinha tipoLinha, TamanhoLetra tamanho_letra){
 		
 		Ponto p1Temp, p2Temp;
@@ -47,6 +59,12 @@ public class ControleLetra {
 		}
 	}
 	
+	/**
+	 * @param nomeArquivo
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public List<Letra> lerArquivoLetras(String nomeArquivo) throws FileNotFoundException, IOException{
 		Letra tempL = new Letra();
 		FileReader fr = new FileReader(nomeArquivo);

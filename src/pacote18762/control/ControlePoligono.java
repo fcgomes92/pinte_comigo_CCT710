@@ -9,11 +9,22 @@ import pacote18762.model.Ponto;
 import pacote18762.model.Reta;
 import pacote18762.model.TipoLinha;
 
+/**
+ * @author gomes
+ *
+ */
 public class ControlePoligono extends ControleDraw{
 	
 	public Poligono tempPol = new Poligono();
 	private ControleReta ctrReta = new ControleReta();
 	
+	/**
+	 * @param pontos
+	 * @param qtdLados
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 */
 	public void drawPoligono(LinkedList<Ponto> pontos, int qtdLados, Draw panel, Color cor, TipoLinha tipoLinha){
 		Poligono pol = new Poligono();
 		LinkedList<Reta> retas = new LinkedList<Reta>();

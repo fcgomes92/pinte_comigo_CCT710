@@ -12,6 +12,11 @@ import pacote18762.model.Ponto;
 import pacote18762.model.Reta;
 import pacote18762.model.Retangulo;
 
+/**
+ * Classe de controle de objetos do tipo figura.
+ * @author gomes
+ *
+ */
 public class ControleFigura extends ControleDraw{
 	
 	private ControleCirculo ctrCirculo;
@@ -610,5 +615,13 @@ public class ControleFigura extends ControleDraw{
 		y = y + pivo.getY();
 		
 		return new Ponto(x, y);
+	}
+	
+	
+	public boolean produtoVetorial(Ponto anguloI, Ponto anguloF, Ponto ptTeste){
+		// (Bx-Ax)*(Y-Ay) - (By-Ay)*(X-Ax)
+		if( ( ((anguloF.getX() - anguloI.getX())*(ptTeste.getY() - anguloI.getY()))-((anguloF.getY() - anguloI.getY())*(ptTeste.getX() - anguloI.getX())) ) >= 0)
+			return false;
+		return true;
 	}
 }

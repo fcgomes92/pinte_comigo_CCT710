@@ -8,6 +8,11 @@ import pacote18762.model.Draw;
 import pacote18762.model.Ponto;
 import pacote18762.model.TipoLinha;
 
+/**
+ * Classe de controle de objetos Circulo
+ * @author gomes
+ *
+ */
 public class ControleCirculo extends ControleFigura{
 	
 	// lista de figuras já desenhadas
@@ -18,7 +23,17 @@ public class ControleCirculo extends ControleFigura{
 	private ControlePonto ctrPonto = new ControlePonto();
 	private int count = 0;
 	
-	public Circulo drawCirculoDDA(Ponto p1, Ponto p2, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw){
+	/**
+	 * Método de desenho de círculos utilizando o
+	 * o método DDA.
+	 * @param p1
+	 * @param p2
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 * @param redraw
+	 */
+	public void drawCirculoDDA(Ponto p1, Ponto p2, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw){
 		double raio = ctrPonto.dist(p1, p2);
 		int x = 0, y = Math.round((float)raio);
 		double a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
@@ -68,10 +83,18 @@ public class ControleCirculo extends ControleFigura{
 				plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha);
 				plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha);
 			}
-		
-		return circulo;
 	}
 	
+	/**
+	 * Método de plotagem de pixels.
+	 * Utilizado como método auxiliar de drawCirculoDDA.
+	 * @param p1
+	 * @param panel
+	 * @param cor
+	 * @param x
+	 * @param y
+	 * @param tipoLinha
+	 */
 	public void plotPontoPixel(Ponto p1, Draw panel, Color cor, int x, int y, TipoLinha tipoLinha){
 		// pontos por octante
 				Ponto oct1 = new Ponto(p1.getX()+x,p1.getY()+y);
@@ -115,7 +138,18 @@ public class ControleCirculo extends ControleFigura{
 	
 	/*********************************************************************************************************************************************/
 	
-	public Circulo drawCirculoArch(Ponto p1, Ponto p2, int anguloInicial, int anguloFinal, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw){
+	/**
+	 * Método de calculo de pontos do arco de cículo.
+	 * @param p1
+	 * @param p2
+	 * @param anguloInicial
+	 * @param anguloFinal
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 * @param redraw
+	 */
+	public void drawCirculoArch(Ponto p1, Ponto p2, int anguloInicial, int anguloFinal, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw){
 		double raio = ctrPonto.dist(p1, p2);
 		int x = 0, y = Math.round((float)raio);
 		double a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
@@ -176,10 +210,19 @@ public class ControleCirculo extends ControleFigura{
 				plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha);
 				plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha);
 			}
-		
-		return arco;
 	}
 	
+	/**
+	 * Método de plot de pontos do arco de círculo.
+	 * @param p1
+	 * @param panel
+	 * @param cor
+	 * @param x
+	 * @param y
+	 * @param ptAnguloI
+	 * @param ptAnguloF
+	 * @param tipoLinha
+	 */
 	public void plotPontoPixelArch(Ponto p1, Draw panel, Color cor, int x, int y, Ponto ptAnguloI, Ponto ptAnguloF, TipoLinha tipoLinha){
 		
 		// pontos por octante
@@ -221,16 +264,22 @@ public class ControleCirculo extends ControleFigura{
 		}
 	}
 	
-	public boolean produtoVetorial(Ponto anguloI, Ponto anguloF, Ponto ptTeste){
-		// (Bx-Ax)*(Y-Ay) - (By-Ay)*(X-Ax)
-		if( ( ((anguloF.getX() - anguloI.getX())*(ptTeste.getY() - anguloI.getY()))-((anguloF.getY() - anguloI.getY())*(ptTeste.getX() - anguloI.getX())) ) >= 0)
-			return false;
-		return true;
-	}
-	
 	/************************************************Função para figuras rotacionadas***************************************************/
 	
-	public Circulo drawCirculoDDA(Ponto p1, Ponto p2, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo){
+	
+	/**
+	 * Método de cálculo de pontos de circulo
+	 * por DDA para figuras rotacionadas.
+	 * @param p1
+	 * @param p2
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 * @param redraw
+	 * @param angulo
+	 * @param pivo
+	 */
+	public void drawCirculoDDA(Ponto p1, Ponto p2, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo){
 		double raio = ctrPonto.dist(p1, p2);
 		int x = 0, y = Math.round((float)raio);
 		double a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
@@ -279,10 +328,19 @@ public class ControleCirculo extends ControleFigura{
 				plotPontoPixel(p1, panel, cor, x+i, y, tipoLinha, angulo, pivo);
 				plotPontoPixel(p1, panel, cor, x, y-i, tipoLinha, angulo, pivo);
 			}
-		
-		return circulo;
 	}
 	
+	/**
+	 * Método de plot de pontos para figuras rotacionadas.
+	 * @param p1
+	 * @param panel
+	 * @param cor
+	 * @param x
+	 * @param y
+	 * @param tipoLinha
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void plotPontoPixel(Ponto p1, Draw panel, Color cor, int x, int y, TipoLinha tipoLinha, int angulo, Ponto pivo){
 		// pontos por octante
 				Ponto oct1 = new Ponto(p1.getX()+x,p1.getY()+y);
@@ -332,7 +390,21 @@ public class ControleCirculo extends ControleFigura{
 				}
 	}
 	
-	public Circulo drawCirculoArch(Ponto p1, Ponto p2, int anguloInicial, int anguloFinal, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo){
+	/**
+	 * Método de calculo de pontos para arcos
+	 * de círculos rotacionados.
+	 * @param p1
+	 * @param p2
+	 * @param anguloInicial
+	 * @param anguloFinal
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 * @param redraw
+	 * @param angulo
+	 * @param pivo
+	 */
+	public void drawCirculoArch(Ponto p1, Ponto p2, int anguloInicial, int anguloFinal, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo){
 		double raio = ctrPonto.dist(p1, p2);
 		int x = 0, y = Math.round((float)raio);
 		double a = ((Math.pow(((x+1)), 2)+Math.pow(((y)), 2)))-Math.pow(raio, 2);
@@ -393,10 +465,21 @@ public class ControleCirculo extends ControleFigura{
 				plotPontoPixelArch(p1, panel, cor, x+i, y, angI, angF, tipoLinha, angulo, pivo);
 				plotPontoPixelArch(p1, panel, cor, x, y-i, angI, angF, tipoLinha, angulo, pivo);
 			}
-		
-		return arco;
 	}
 	
+	/**
+	 * Método de plot de pontos de arco de círculo rotacionado.
+	 * @param p1
+	 * @param panel
+	 * @param cor
+	 * @param x
+	 * @param y
+	 * @param ptAnguloI
+	 * @param ptAnguloF
+	 * @param tipoLinha
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void plotPontoPixelArch(Ponto p1, Draw panel, Color cor, int x, int y, Ponto ptAnguloI, Ponto ptAnguloF, TipoLinha tipoLinha, int angulo, Ponto pivo){
 		
 		// pontos por octante

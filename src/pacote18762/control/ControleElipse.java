@@ -8,6 +8,10 @@ import pacote18762.model.Elipse;
 import pacote18762.model.Ponto;
 import pacote18762.model.TipoLinha;
 
+/**
+ * @author gomes
+ *
+ */
 public class ControleElipse extends ControleFigura{
 
 	// listas de figuras
@@ -18,6 +22,14 @@ public class ControleElipse extends ControleFigura{
 	private ControlePonto ctrPonto = new ControlePonto();
 	private int count = 0;
 
+	/**
+	 * @param panel
+	 * @param cor
+	 * @param centro
+	 * @param borda
+	 * @param tipoLinha
+	 * @param redraw
+	 */
 	public void drawElipse(Draw panel, Color cor, Ponto centro, Ponto borda, TipoLinha tipoLinha, boolean redraw) {
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		
@@ -74,6 +86,14 @@ public class ControleElipse extends ControleFigura{
 	    }
 	}
 	
+	/**
+	 * @param p1
+	 * @param panel
+	 * @param cor
+	 * @param x
+	 * @param y
+	 * @param tipoLinha
+	 */
 	public void plotPontoPixel(Ponto p1, Draw panel, Color cor, int x, int y, TipoLinha tipoLinha){
 		
 		Ponto quad1 = new Ponto(p1.getX()+x,p1.getY()-y); 
@@ -104,6 +124,16 @@ public class ControleElipse extends ControleFigura{
 	
 	/**************************************************Desenho de arco da elipse************************************************************************************/
 	
+	/**
+	 * @param panel
+	 * @param cor
+	 * @param centro
+	 * @param borda
+	 * @param anguloInicial
+	 * @param anguloFinal
+	 * @param tipoLinha
+	 * @param redraw
+	 */
 	public void drawElipseArc(Draw panel, Color cor, Ponto centro, Ponto borda, int anguloInicial, int anguloFinal, TipoLinha tipoLinha, boolean redraw) {
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		// objeto a ser desenhado
@@ -175,6 +205,16 @@ public class ControleElipse extends ControleFigura{
 	    }
 	}
 	
+	/**
+	 * @param p1
+	 * @param panel
+	 * @param cor
+	 * @param x
+	 * @param y
+	 * @param angI
+	 * @param angF
+	 * @param tipoLinha
+	 */
 	public void plotPontoPixelArc(Ponto p1, Draw panel, Color cor, int x, int y, Ponto angI, Ponto angF, TipoLinha tipoLinha){		
 		Ponto quad1 = new Ponto(p1.getX()+x,p1.getY()-y); 
 		Ponto quad2 = new Ponto(p1.getX()-x,p1.getY()-y); 
@@ -202,15 +242,18 @@ public class ControleElipse extends ControleFigura{
 		}
 	}
 	
-	public boolean produtoVetorial(Ponto anguloI, Ponto anguloF, Ponto ptTeste){
-		// (Bx-Ax)*(Y-Ay) - (By-Ay)*(X-Ax)
-		if( ( ((anguloF.getX() - anguloI.getX())*(ptTeste.getY() - anguloI.getY()))-((anguloF.getY() - anguloI.getY())*(ptTeste.getX() - anguloI.getX())) ) >= 0)
-			return false;
-		return true;
-	}
-	
 	/************************************************Função para figuras rotacionadas***************************************************/
 	
+	/**
+	 * @param panel
+	 * @param cor
+	 * @param centro
+	 * @param borda
+	 * @param tipoLinha
+	 * @param redraw
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void drawElipse(Draw panel, Color cor, Ponto centro, Ponto borda, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo) {
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		
@@ -267,6 +310,16 @@ public class ControleElipse extends ControleFigura{
 	    }
 	}
 	
+	/**
+	 * @param p1
+	 * @param panel
+	 * @param cor
+	 * @param x
+	 * @param y
+	 * @param tipoLinha
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void plotPontoPixel(Ponto p1, Draw panel, Color cor, int x, int y, TipoLinha tipoLinha, int angulo, Ponto pivo){
 		
 		Ponto quad1 = new Ponto(p1.getX()+x,p1.getY()-y); 
@@ -300,6 +353,18 @@ public class ControleElipse extends ControleFigura{
 		}
 	}
 	
+	/**
+	 * @param panel
+	 * @param cor
+	 * @param centro
+	 * @param borda
+	 * @param anguloInicial
+	 * @param anguloFinal
+	 * @param tipoLinha
+	 * @param redraw
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void drawElipseArc(Draw panel, Color cor, Ponto centro, Ponto borda, int anguloInicial, int anguloFinal, TipoLinha tipoLinha, boolean redraw, int angulo, Ponto pivo) {
 		Ponto eixoMaior = new Ponto(borda.getX(),centro.getY()), eixoMenor = new Ponto(centro.getX(), borda.getY());
 		// objeto a ser desenhado
@@ -371,6 +436,18 @@ public class ControleElipse extends ControleFigura{
 	    }
 	}
 	
+	/**
+	 * @param p1
+	 * @param panel
+	 * @param cor
+	 * @param x
+	 * @param y
+	 * @param angI
+	 * @param angF
+	 * @param tipoLinha
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void plotPontoPixelArc(Ponto p1, Draw panel, Color cor, int x, int y, Ponto angI, Ponto angF, TipoLinha tipoLinha, int angulo, Ponto pivo){		
 		Ponto quad1 = new Ponto(p1.getX()+x,p1.getY()-y); 
 		Ponto quad2 = new Ponto(p1.getX()-x,p1.getY()-y); 

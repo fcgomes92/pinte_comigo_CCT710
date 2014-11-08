@@ -4,7 +4,16 @@ import java.io.IOException;
 
 import pacote18762.view.App;
 
+/**
+ * Classe de controlo do aplicativo
+ * @author gomes
+ */
 public class ControleApp {
+	
+	/**
+	 * Método de chamada da interface e inicialização do sistema.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
 			new App();

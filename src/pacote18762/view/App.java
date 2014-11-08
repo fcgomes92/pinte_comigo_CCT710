@@ -40,6 +40,13 @@ import pacote18762.model.Ponto;
 import pacote18762.model.TamanhoLetra;
 import pacote18762.model.TipoLinha;
 
+/**
+ *  Classe principal para gerar a interface 
+ *  do programa.
+ * 
+ *  @author gomes
+ *  @version 1.0
+ */
 public class App {
 	// botões de opção
 	private JButton btExit, btLoad, btSalvar, btNovo, btInstrucoes;
@@ -87,6 +94,12 @@ public class App {
 	private Color cor_area_de_trabalho, cor_pontos_ref;
 	private boolean show_pontos_ref = false;
 	
+	
+	/**
+	 *  Construtor da classe principal. Gera a interface.
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public App() throws FileNotFoundException, IOException{		
 		// inicialização botões
 		btExit = new JButton("Sair");
@@ -999,6 +1012,11 @@ public class App {
 		mainFrame.setVisible(true);
 	}
 	
+	/**
+	 * Método para remover os listeners
+	 * de um painel.
+	 * @param panel
+	 */
 	public void remove_all_listeners(Draw panel){
 		drawPanel.removeMouseListener(ml_reta);
 		drawPanel.removeMouseListener(ml_circulo);

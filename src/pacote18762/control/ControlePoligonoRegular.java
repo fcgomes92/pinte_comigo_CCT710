@@ -9,12 +9,25 @@ import pacote18762.model.Ponto;
 import pacote18762.model.Reta;
 import pacote18762.model.TipoLinha;
 
+/**
+ * @author gomes
+ *
+ */
 public class ControlePoligonoRegular extends ControleFigura{
 	
 	public LinkedList<PoligonoRegular> poligonos_regulares_desenhados = new LinkedList<PoligonoRegular>();
 	private ControlePonto ctrPonto = new ControlePonto();
 	private ControleReta ctrReta = new ControleReta();
 	
+	/**
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 * @param centro
+	 * @param borda
+	 * @param qtd_lados
+	 * @param redraw
+	 */
 	public void draw_poligono_regular(Draw panel, Color cor, TipoLinha tipoLinha, Ponto centro, Ponto borda, int qtd_lados, boolean redraw){
 		
 		double raio = ctrPonto.dist(centro, borda);
@@ -44,12 +57,29 @@ public class ControlePoligonoRegular extends ControleFigura{
 		this.draw_reta(panel, cor, tipoLinha, new Reta(pt_anterior,poligono.getBorda()));
 	}
 	
+	/**
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 * @param r
+	 */
 	public void draw_reta(Draw panel, Color cor, TipoLinha tipoLinha, Reta r){
 		this.ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, cor, tipoLinha, true);
 	}
 	
 	/************************************************Função para figuras rotacionadas***************************************************/
 	
+	/**
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 * @param centro
+	 * @param borda
+	 * @param qtd_lados
+	 * @param redraw
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void draw_poligono_regular(Draw panel, Color cor, TipoLinha tipoLinha, Ponto centro, Ponto borda, int qtd_lados, boolean redraw, int angulo, Ponto pivo){
 		double raio = ctrPonto.dist(centro, borda);
 		int bx = centro.getX() + (int)Math.round((float)raio) , by = centro.getY();
@@ -78,6 +108,14 @@ public class ControlePoligonoRegular extends ControleFigura{
 		this.draw_reta(panel, cor, tipoLinha, new Reta(pt_anterior,poligono.getBorda()),angulo,pivo);
 	}
 	
+	/**
+	 * @param panel
+	 * @param cor
+	 * @param tipoLinha
+	 * @param r
+	 * @param angulo
+	 * @param pivo
+	 */
 	public void draw_reta(Draw panel, Color cor, TipoLinha tipoLinha, Reta r, int angulo, Ponto pivo){
 		this.ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, cor, tipoLinha, true, angulo, pivo);
 	}
