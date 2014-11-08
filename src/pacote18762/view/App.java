@@ -712,10 +712,16 @@ public class App {
 			}
 			
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				p1 = new Ponto(arg0.getX(),arg0.getY());
-				ctrFigura.get_figura_proxima(p1, drawPanel);
-				ctrFigura.alterar_escala_figura(drawPanel, 2, cor_area_de_trabalho);
+			public void mouseClicked(MouseEvent e) {
+				p1 = new Ponto(e.getX(),e.getY());
+				if(e.getButton() == e.BUTTON1){
+					ctrFigura.get_figura_proxima(p1, drawPanel);
+					ctrFigura.alterar_escala_figura(drawPanel, 1.6, cor_area_de_trabalho);
+				}
+				else if(e.getButton() == e.BUTTON3){
+					ctrFigura.get_figura_proxima(p1, drawPanel);
+					ctrFigura.alterar_escala_figura(drawPanel, 0.625, cor_area_de_trabalho);
+				}
 			}
 		};
 		
@@ -732,7 +738,7 @@ public class App {
 						pontos_ref.add(p1);
 						pontos_ref.add(p2);
 						
-						ctrFigura.selecao_multipla(drawPanel, p1, p2);
+						ctrFigura.selecao_multipla(drawPanel, p1, p2, cor_area_de_trabalho);
 					}
 					
 					@Override
