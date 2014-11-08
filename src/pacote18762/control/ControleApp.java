@@ -5,7 +5,7 @@ import java.io.IOException;
 import pacote18762.view.App;
 
 /**
- * Classe de controlo do aplicativo
+ * Classe de controle do aplicativo
  * @author gomes
  */
 public class ControleApp {
