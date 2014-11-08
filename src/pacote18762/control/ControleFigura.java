@@ -11,6 +11,7 @@ import pacote18762.model.PoligonoRegular;
 import pacote18762.model.Ponto;
 import pacote18762.model.Reta;
 import pacote18762.model.Retangulo;
+import pacote18762.model.TipoLinha;
 
 /**
  * Classe de controle de objetos do tipo figura.
@@ -35,6 +36,8 @@ public class ControleFigura extends ControleDraw{
 	private List<Retangulo> retangulos_desenhados_aux = new LinkedList<>();
 	
 	private Object figura_selecionada;
+	private List<Object> figuras_selecao_multipla;
+	private Retangulo selecao_multipla;
 	
 	// contrutor vazio para outras figuras
 	public ControleFigura(){
@@ -369,6 +372,132 @@ public class ControleFigura extends ControleDraw{
 
 	/************************************************Função aux***************************************************/
 	
+	public void selecao_multipla(Draw panel, Ponto p1, Ponto p2){
+		
+		// gerando o retângulo de seleção de área
+		selecao_multipla = ctrRetangulo.gera_ret_selecao(p1, p2);
+		ctrRetangulo.drawRetangulo(panel, new Color(255), p1, p2, TipoLinha.fina, true);
+		// seleciona as figuras dentro do retângulo, e pinta elas
+		for (Circulo c : ctrCirculo.circulos_desenhados) {
+			if(this.interno_selecao(selecao_multipla, c.getCentro())){
+				System.out.println("Circulo dentro!");
+			}
+			else System.out.println("Ciruculo fora!");
+		}
+		
+//		/*
+//		 *  Inicio da verificação dos objetos desenhados no painel
+//		 */
+//		// verificação de ciruclos		
+//		for (Circulo c : ctrCirculo.circulos_desenhados) {
+//			if(this.produtoVetorial()){
+//			}
+//		}
+//		
+//		// verificação de arcos de circulo
+//		for (Circulo c : ctrCirculo.arcos_desenhados) {
+//			distancia_temp = ctrPonto.dist(c.getCentro(),p1);
+//			if(distancia_temp<distancia){
+//				distancia = distancia_temp;
+//				figura_selecionada = c;
+//			}
+//		}
+//		
+//		// verificação de elipses
+//		for (Elipse e : ctrElipse.elipses_desenhadas) {
+//			distancia_temp = ctrPonto.dist(e.getCentro(),p1);
+//			if(distancia_temp<distancia){
+//				distancia = distancia_temp;
+//				figura_selecionada = e;
+//			}
+//		}
+//		
+//		// verificação de arcos de elipses
+//		for (Elipse e : ctrElipse.arcos_desenhados) {
+//			distancia_temp = ctrPonto.dist(e.getCentro(),p1);
+//			if(distancia_temp<distancia){
+//				distancia = distancia_temp;
+//				figura_selecionada = e;
+//			}
+//		}
+//		
+//		// verificação de poligonos
+//		for (PoligonoRegular p: ctrPoligono.poligonos_regulares_desenhados) {
+//			distancia_temp = ctrPonto.dist(p.getCentro(),p1);
+//			if(distancia_temp<distancia){
+//				distancia = distancia_temp;
+//				figura_selecionada = p;
+//			}
+//		}
+//		
+//		// verificação de retangulos
+//		for (Retangulo r : ctrRetangulo.retangulos_desenhados) {
+//			distancia_temp = ctrPonto.dist(r.getCentro(),p1);
+//			if(distancia_temp<distancia){
+//				distancia = distancia_temp;
+//				figura_selecionada = r;
+//			}
+//		}
+//		
+//		// verificação de retas
+//		for (Reta r : ctrReta.retas_desenhadas) {
+//			distancia_temp = ctrPonto.dist(r.getPtMedio(),p1);
+//			if(distancia_temp<distancia){
+//				distancia = distancia_temp;
+//				figura_selecionada = r;
+//			}
+//		}
+	}
+	
+	public void get_figura_dentro_seleção(Ponto p1, Draw panel){
+		
+		// validação do tipo de figura
+//		System.out.println(figura_selecionada.getClass());
+		// objetos de comparação
+		if (figura_selecionada instanceof Circulo) {
+			if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0){
+				if(((Circulo) figura_selecionada).getRoatcao()==0) ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, new Color(255,0,0), ((Circulo) figura_selecionada).getTipoLinha(),true);
+				else ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, new Color(255,0,0), ((Circulo) figura_selecionada).getTipoLinha(),true, ((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro());
+				ctrCirculo.circulos_desenhados.remove(figura_selecionada);
+			}
+			else{
+				if(((Circulo) figura_selecionada).getRoatcao()==0) ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, new Color(255,0,0), ((Circulo) figura_selecionada).getTipoLinha(), true);
+				else ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, new Color(255,0,0), ((Circulo) figura_selecionada).getTipoLinha(), true, ((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro());
+				ctrCirculo.arcos_desenhados.remove(figura_selecionada);
+			}
+		}
+		
+		else if (figura_selecionada instanceof Elipse) {
+			if(((Elipse) figura_selecionada).getAnguloInicial()==0 && ((Elipse) figura_selecionada).getAnguloFinal() ==0){
+				if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipse(panel, new Color(255,0,0), ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true);
+				else ctrElipse.drawElipse(panel, new Color(255,0,0), ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
+				ctrElipse.elipses_desenhadas.remove(figura_selecionada);
+			}
+			else{
+				if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipseArc(panel, new Color(255,0,0), ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true);
+				else ctrElipse.drawElipseArc(panel, new Color(255,0,0), ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
+				ctrElipse.arcos_desenhados.remove(figura_selecionada);
+			}
+		}
+		
+		else if (figura_selecionada instanceof Retangulo) {
+			if(((Retangulo) figura_selecionada).getRoatcao() == 0) ctrRetangulo.drawRetangulo(panel, new Color(255,0,0), ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true);
+			else ctrRetangulo.drawRetangulo(panel, new Color(255,0,0), ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true, ((Retangulo) figura_selecionada).getRoatcao(), ((Retangulo) figura_selecionada).getCentro());
+			ctrRetangulo.retangulos_desenhados.remove(figura_selecionada);
+		}
+		
+		else if (figura_selecionada instanceof Reta) {
+			if(((Reta) figura_selecionada).getRoatcao() == 0) ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, new Color(255,0,0), ((Reta) figura_selecionada).getTipoLinha(), true);
+			else ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, new Color(255,0,0), ((Reta) figura_selecionada).getTipoLinha(), true, ((Reta) figura_selecionada).getRoatcao(), ((Reta) figura_selecionada).getPtMedio());
+			ctrReta.retas_desenhadas.remove(figura_selecionada);
+		}
+		else if (figura_selecionada instanceof PoligonoRegular) {
+			if(((PoligonoRegular) figura_selecionada).getRoatcao() == 0) ctrPoligono.draw_poligono_regular(panel, new Color(255,0,0), ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true);
+			else ctrPoligono.draw_poligono_regular(panel, new Color(255,0,0), ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
+			ctrPoligono.poligonos_regulares_desenhados.remove(figura_selecionada);
+		}
+	}
+	
 	/**
 	 * função auxiliar para calculo de ponto de rotacionamento
 	 * função para mover a figura de um ponto ao outro usando um ponto de ref
@@ -441,8 +570,6 @@ public class ControleFigura extends ControleDraw{
 			ctrPoligono.draw_poligono_regular(panel, ((PoligonoRegular) figura_selecionada).getCorLinha(), ((PoligonoRegular) figura_selecionada).getTipoLinha(), novo_ponto, novo_p2, ((PoligonoRegular) figura_selecionada).getQtdArestas(), false);
 		}
 	}
-	
-	/************************************************Função aux***************************************************/
 	
 		/**
 		 * redraw de todas as figuras já desenhadas
@@ -671,17 +798,41 @@ public class ControleFigura extends ControleDraw{
 		return new Ponto(x, y);
 	}
 	
-	
 	/**
-	 * @param anguloI
-	 * @param anguloF
+	 * Método de calculo de produto vetorial
+	 * para verificar se um ponto esta à esquerda ou direita da reta(p1,p2).
+	 * @param p1
+	 * @param p2
 	 * @param ptTeste
 	 * @return
 	 */
-	public boolean produtoVetorial(Ponto anguloI, Ponto anguloF, Ponto ptTeste){
+	public boolean produtoVetorial(Ponto p1, Ponto p2, Ponto ptTeste){
 		// (Bx-Ax)*(Y-Ay) - (By-Ay)*(X-Ax)
-		if( ( ((anguloF.getX() - anguloI.getX())*(ptTeste.getY() - anguloI.getY()))-((anguloF.getY() - anguloI.getY())*(ptTeste.getX() - anguloI.getX())) ) >= 0)
+		if( ( ((p2.getX() - p1.getX())*(ptTeste.getY() - p1.getY()))-((p2.getY() - p1.getY())*(ptTeste.getX() - p2.getX())) ) >= 0)
 			return false;
 		return true;
+	}
+	
+	/**
+	 * Método de calculo de produto vetorial
+	 * para verificar se um ponto esta à esquerda ou direita da reta(r).
+	 * @param r
+	 * @param ptTeste
+	 * @return
+	 */
+	public boolean produtoVetorial(Reta r, Ponto ptTeste){
+		// (Bx-Ax)*(Y-Ay) - (By-Ay)*(X-Ax)
+		if( ( ((r.getPtoFinal().getX() - r.getPtoInicial().getX())*(ptTeste.getY() - r.getPtoInicial().getY()))-((r.getPtoFinal().getY() - r.getPtoInicial().getY())*(ptTeste.getX() - r.getPtoFinal().getX())) ) >= 0)
+			return false;
+		return true;
+	}
+	
+	public boolean interno_selecao(Retangulo ret, Ponto p){
+		if(produtoVetorial(ret.getLado0(), p) 
+			&& produtoVetorial(ret.getLado1(), p) 
+			&& !produtoVetorial(ret.getLado2(), p) 
+			&& !produtoVetorial(ret.getLado3(), p))
+			return true;
+		return false;
 	}
 }

@@ -28,6 +28,14 @@ public class ControleRetangulo extends ControleFigura {
 	 * @param p2
 	 * @param tipoLinha
 	 * @param redraw
+	 * 
+	 */
+	/* Modelo do retângulo
+	 * p1------(l3)-----p4
+	 * |				|
+	 * (l0)			  (l1)    								
+	 * |				|
+	 * p3------(l2)-----p2
 	 */
 	public void drawRetangulo(Draw panel, Color cor, Ponto p1, Ponto p2, TipoLinha tipoLinha, boolean redraw){
 		// calculando pontos auxiliares do retangulo
@@ -91,14 +99,7 @@ public class ControleRetangulo extends ControleFigura {
 		ret.setLado1(new Reta(p2,p4));
 		ret.setLado2(new Reta(p2,p3));
 		ret.setLado3(new Reta(p1,p4));
-		ret.setCentro(new Ponto(	
-			(Math.abs(Math.round(
-					(p1.getX()+p2.getX())/2)
-			)), 
-			(Math.abs(Math.round(
-					(p1.getY()+p2.getY())/2)
-			))			
-		));
+		ret.setCentro(ctrPonto.midPoint(p1, p2));
 		
 		// add figura a ser desenhada
 		if(!redraw)retangulos_desenhados.add(ret);
@@ -107,5 +108,20 @@ public class ControleRetangulo extends ControleFigura {
 		for (Reta r : this.getRetas(ret)) {
 			ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, cor, tipoLinha,true, angulo, pivo);
 		}
+	}
+	
+	/************************************************Função para aux seleção***************************************************/
+	
+	public Retangulo gera_ret_selecao(Ponto p1, Ponto p2){
+		Ponto p3 = new Ponto(p1.getX(),p2.getY()), p4 = new Ponto(p2.getX(),p1.getY());
+		Retangulo ret = new Retangulo();
+		ret.setRoatcao(0);
+		ret.setLado0(new Reta(p1,p3));
+		ret.setLado1(new Reta(p2,p4));
+		ret.setLado2(new Reta(p2,p3));
+		ret.setLado3(new Reta(p1,p4));
+		ret.setCentro(ctrPonto.midPoint(p1, p2));
+		
+		return ret;
 	}
 }

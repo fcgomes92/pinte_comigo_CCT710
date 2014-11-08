@@ -53,6 +53,7 @@ public class App {
 	// botões de ferramentas de desenho
 	private JButton bt_draw_reta_tool, bt_draw_circulo_tool, bt_draw_poligono_tool, bt_draw_elipse_tool, bt_escolher_cor_linha_tool; 
 	private JButton bt_escolher_tipo_linha_tool, bt_draw_ret_tool, bt_draw_arc_circulo_tool, bt_draw_arc_elipse_tool;
+	private JButton bt_selecionar_area;
 	
 	// botão da ferramenta de texto
 	private JButton bt_txt, bt_escolher_tamanho_letra; 
@@ -77,7 +78,8 @@ public class App {
 	private ControleFigura ctrFigura;
 	
 	// controle de listeners
-	private MouseListener ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse, ml_text, ml_fill, ml_mover_figura, ml_escala_figura, ml_rotacionar_figura;
+	private MouseListener ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse;
+	private MouseListener ml_text, ml_fill, ml_mover_figura, ml_escala_figura, ml_rotacionar_figura, ml_selecionar_area;
 	
 	// key listeners para entrada de texto
 	private KeyListener kl_entrada_txt;
@@ -191,6 +193,10 @@ public class App {
 		bt_escala_figura = new JButton("Alterar Escala Figura");
 		bt_escala_figura.setPreferredSize(btDim);
 		bt_escala_figura.setMaximumSize(btDim);
+		
+		bt_selecionar_area = new JButton("Selecionar Área");
+		bt_selecionar_area.setPreferredSize(btDim);
+		bt_selecionar_area.setMaximumSize(btDim);
 		
 		// inicialização frame principal
 		mainFrame = new JFrame("Pinte Comigo!");
@@ -713,6 +719,48 @@ public class App {
 			}
 		};
 		
+		// listener sobre a selecção de área
+		ml_selecionar_area = new MouseListener() {
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// pega o ultimo ponto e chama o método de desenho
+						p2 = new Ponto(e.getX(),e.getY());
+						if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
+						
+						// add os pontos de click
+						pontos_ref.add(p1);
+						pontos_ref.add(p2);
+						
+						ctrFigura.selecao_multipla(drawPanel, p1, p2);
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// pega o primeiro ponto
+						p1 = new Ponto(e.getX(),e.getY());
+						if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				};
+		
 		// listeners dos botões
 		// ferramenta desenho retas
 		bt_draw_reta_tool.addActionListener(new ActionListener() {
@@ -905,6 +953,17 @@ public class App {
 			}
 		});
 		
+		// ferramenta de selecionar área
+		bt_selecionar_area.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// remove outros listeners e adciona o referente
+				remove_all_listeners(drawPanel);
+				drawPanel.addMouseListener(ml_selecionar_area);
+			}
+		});
+		
 		// botão de novo desenho
 		btNovo.addActionListener(new ActionListener() {
 			
@@ -957,6 +1016,7 @@ public class App {
 		workspaceToolsPanel.add(bt_mover_figura_unica);
 		workspaceToolsPanel.add(bt_rotacionar_figura_unica);
 		workspaceToolsPanel.add(bt_escala_figura);
+		workspaceToolsPanel.add(bt_selecionar_area);
 		
 		workspaceToolsPanel.setBackground(new Color(0,0,0));
 		
@@ -1030,5 +1090,6 @@ public class App {
 		drawPanel.removeMouseListener(ml_mover_figura);
 		drawPanel.removeMouseListener(ml_escala_figura);
 		drawPanel.removeMouseListener(ml_rotacionar_figura);
+		drawPanel.removeMouseListener(ml_selecionar_area);
 	}
 }
