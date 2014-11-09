@@ -577,56 +577,56 @@ public class ControleFigura extends ControleDraw{
 		}
 	}
 	
-		/**
-		 * redraw de todas as figuras já desenhadas
-		 * função de auxilio em alguns desenhos
-		 * @param panel
-		 */
-		public void draw_all_again(Draw panel){
-			for (Circulo c : ctrCirculo.circulos_desenhados) {
-				if(c.getRoatcao()==0)ctrCirculo.drawCirculoDDA(c.getCentro(), c.getBorda(), panel, c.getCorLinha(), c.getTipoLinha(), true);
-				else ctrCirculo.drawCirculoDDA(c.getCentro(), c.getBorda(), panel, c.getCorLinha(), c.getTipoLinha(), true, c.getRoatcao(), c.getCentro());
-			}
-			
-			for (Circulo c : ctrCirculo.arcos_desenhados){
-				if(c.getRoatcao()==0) ctrCirculo.drawCirculoArch(c.getCentro(), c.getBorda(), c.getAnguloInicial(), c.getAnguloFinal(), panel, c.getCorLinha(), c.getTipoLinha(), true);
-				else ctrCirculo.drawCirculoArch(c.getCentro(), c.getBorda(), c.getAnguloInicial(), c.getAnguloFinal(), panel, c.getCorLinha(), c.getTipoLinha(), true, c.getRoatcao(), c.getCentro());
-			}
-			
-			for (Elipse e : ctrElipse.elipses_desenhadas) {
-				if(e.getRoatcao()==0) ctrElipse.drawElipse(panel, e.getCorLinha(), e.getCentro(), e.getBorda(), e.getTipoLinha(), true);
-				else ctrElipse.drawElipse(panel, e.getCorLinha(), e.getCentro(), e.getBorda(), e.getTipoLinha(), true, e.getRoatcao(), e.getCentro());
-			}
-			
-			for (Elipse e : ctrElipse.arcos_desenhados){
-				if(e.getRoatcao()==0) ctrElipse.drawElipseArc(panel, e.getCorLinha(), e.getCentro(), e.getBorda(), e.getAnguloInicial(), e.getAnguloFinal(), e.getTipoLinha(), true);
-				else ctrElipse.drawElipseArc(panel, e.getCorLinha(), e.getCentro(), e.getBorda(), e.getAnguloInicial(), e.getAnguloFinal(), e.getTipoLinha(), true, e.getRoatcao(), e.getCentro());
-			}
-			
-			for (PoligonoRegular p: ctrPoligono.poligonos_regulares_desenhados) {
-				if(p.getRoatcao()==0) ctrPoligono.draw_poligono_regular(panel, p.getCorLinha(), p.getTipoLinha(), p.getCentro(), p.getBorda(), p.getQtdArestas(), true);
-				else ctrPoligono.draw_poligono_regular(panel, p.getCorLinha(), p.getTipoLinha(), p.getCentro(), p.getBorda(), p.getQtdArestas(), true, p.getRoatcao(), p.getCentro());
-			}
-			
-			for (Retangulo r : ctrRetangulo.retangulos_desenhados) {
-				if(r.getRoatcao()==0) ctrRetangulo.drawRetangulo(panel, r.getCorLinha(), r.getLado0().getPtoInicial(), r.getLado1().getPtoInicial(), r.getTipoLinha(), true);
-				else ctrRetangulo.drawRetangulo(panel, r.getCorLinha(), r.getLado0().getPtoInicial(), r.getLado1().getPtoInicial(), r.getTipoLinha(), true, r.getRoatcao(), r.getCentro());
-			}
-			
-			for (Reta r : ctrReta.retas_desenhadas){
-				if(r.getRoatcao()==0) ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, r.getCorLinha(), r.getTipoLinha(), true);
-				else ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, r.getCorLinha(), r.getTipoLinha(), true, r.getRoatcao(), r.getPtMedio());
-			}
+	/**
+	 * redraw de todas as figuras já desenhadas
+	 * função de auxilio em alguns desenhos
+	 * @param panel
+	 */
+	public void draw_all_again(Draw panel){
+		for (Circulo c : ctrCirculo.circulos_desenhados) {
+			if(c.getRoatcao()==0)ctrCirculo.drawCirculoDDA(c.getCentro(), c.getBorda(), panel, c.getCorLinha(), c.getTipoLinha(), true);
+			else ctrCirculo.drawCirculoDDA(c.getCentro(), c.getBorda(), panel, c.getCorLinha(), c.getTipoLinha(), true, c.getRoatcao(), c.getCentro());
 		}
 		
-		/**
-		 * @param p1
-		 * @param panel
-		 */
-		public void get_figura_proxima(Ponto p1, Draw panel){
+		for (Circulo c : ctrCirculo.arcos_desenhados){
+			if(c.getRoatcao()==0) ctrCirculo.drawCirculoArch(c.getCentro(), c.getBorda(), c.getAnguloInicial(), c.getAnguloFinal(), panel, c.getCorLinha(), c.getTipoLinha(), true);
+			else ctrCirculo.drawCirculoArch(c.getCentro(), c.getBorda(), c.getAnguloInicial(), c.getAnguloFinal(), panel, c.getCorLinha(), c.getTipoLinha(), true, c.getRoatcao(), c.getCentro());
+		}
+		
+		for (Elipse e : ctrElipse.elipses_desenhadas) {
+			if(e.getRoatcao()==0) ctrElipse.drawElipse(panel, e.getCorLinha(), e.getCentro(), e.getBorda(), e.getTipoLinha(), true);
+			else ctrElipse.drawElipse(panel, e.getCorLinha(), e.getCentro(), e.getBorda(), e.getTipoLinha(), true, e.getRoatcao(), e.getCentro());
+		}
+		
+		for (Elipse e : ctrElipse.arcos_desenhados){
+			if(e.getRoatcao()==0) ctrElipse.drawElipseArc(panel, e.getCorLinha(), e.getCentro(), e.getBorda(), e.getAnguloInicial(), e.getAnguloFinal(), e.getTipoLinha(), true);
+			else ctrElipse.drawElipseArc(panel, e.getCorLinha(), e.getCentro(), e.getBorda(), e.getAnguloInicial(), e.getAnguloFinal(), e.getTipoLinha(), true, e.getRoatcao(), e.getCentro());
+		}
+		
+		for (PoligonoRegular p: ctrPoligono.poligonos_regulares_desenhados) {
+			if(p.getRoatcao()==0) ctrPoligono.draw_poligono_regular(panel, p.getCorLinha(), p.getTipoLinha(), p.getCentro(), p.getBorda(), p.getQtdArestas(), true);
+			else ctrPoligono.draw_poligono_regular(panel, p.getCorLinha(), p.getTipoLinha(), p.getCentro(), p.getBorda(), p.getQtdArestas(), true, p.getRoatcao(), p.getCentro());
+		}
+		
+		for (Retangulo r : ctrRetangulo.retangulos_desenhados) {
+			if(r.getRoatcao()==0) ctrRetangulo.drawRetangulo(panel, r.getCorLinha(), r.getLado0().getPtoInicial(), r.getLado1().getPtoInicial(), r.getTipoLinha(), true);
+			else ctrRetangulo.drawRetangulo(panel, r.getCorLinha(), r.getLado0().getPtoInicial(), r.getLado1().getPtoInicial(), r.getTipoLinha(), true, r.getRoatcao(), r.getCentro());
+		}
+		
+		for (Reta r : ctrReta.retas_desenhadas){
+			if(r.getRoatcao()==0) ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, r.getCorLinha(), r.getTipoLinha(), true);
+			else ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, r.getCorLinha(), r.getTipoLinha(), true, r.getRoatcao(), r.getPtMedio());
+		}
+	}
+	
+	/**
+	* @param p1
+	* @param panel
+	*/
+	public void get_figura_proxima(Ponto p1, Draw panel){
 			
-			double distancia = Double.MAX_VALUE, distancia_temp;
-			
+		double distancia = Double.MAX_VALUE, distancia_temp;
+		
 			/*
 			 *  Inicio da verificação dos objetos desenhados no painel
 			 */
