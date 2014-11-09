@@ -338,46 +338,62 @@ public class ControleFigura extends ControleDraw{
 	 * @param escala
 	 * @param bg_color
 	 */
-	public void scale_all(Draw panel, int escala, Color bg_color){
-		circulos_desenhados_aux = ctrCirculo.circulos_desenhados;
+	public void scale_all(Draw panel, double escala, Color bg_color){
+		
+		circulos_desenhados_aux = new LinkedList<Circulo>();
+		circulos_desenhados_aux.addAll(ctrCirculo.circulos_desenhados);
 		for (Circulo c : circulos_desenhados_aux) {
 			figura_selecionada = c;
+			ctrCirculo.circulos_desenhados.remove(c);
 			alterar_escala_figura(panel, escala, bg_color);
 		}
 		
-		arco_circulos_desenhados_aux = ctrCirculo.arcos_desenhados; 
+		
+		arco_circulos_desenhados_aux = new LinkedList<Circulo>();
+		arco_circulos_desenhados_aux.addAll(ctrCirculo.arcos_desenhados); 
 		for (Circulo c : arco_circulos_desenhados_aux){
 			figura_selecionada = c;
+			ctrCirculo.arcos_desenhados.remove(c);
 			alterar_escala_figura(panel, escala, bg_color);
 		}
 		
-		elipses_desenhados_aux = ctrElipse.elipses_desenhadas;
+		elipses_desenhados_aux = new LinkedList<Elipse>();
+		elipses_desenhados_aux.addAll(ctrElipse.elipses_desenhadas);
 		for (Elipse c : elipses_desenhados_aux) {
 			figura_selecionada = c;
+			ctrElipse.elipses_desenhadas.remove(c);
 			alterar_escala_figura(panel, escala, bg_color);
 		}
 		
-		arco_elipses_desenhados_aux = ctrElipse.arcos_desenhados;
+		arco_elipses_desenhados_aux = new LinkedList<Elipse>(); 
+		arco_elipses_desenhados_aux.addAll(ctrElipse.arcos_desenhados);
 		for (Elipse c : arco_elipses_desenhados_aux){
 			figura_selecionada = c;
+			 	
 			alterar_escala_figura(panel, escala, bg_color);
 		}
 		
-		poligonos_desenhados_aux = ctrPoligono.poligonos_regulares_desenhados;
+		poligonos_desenhados_aux = new LinkedList<PoligonoRegular>(); 
+		poligonos_desenhados_aux.addAll(ctrPoligono.poligonos_regulares_desenhados);
 		for (PoligonoRegular c: poligonos_desenhados_aux) {
 			figura_selecionada = c;
+			ctrPoligono.poligonos_regulares_desenhados.remove(c);
 			alterar_escala_figura(panel, escala, bg_color);
 		}
 		
-		retangulos_desenhados_aux = ctrRetangulo.retangulos_desenhados;
+		retangulos_desenhados_aux = new LinkedList<Retangulo>(); 
+		retangulos_desenhados_aux.addAll(ctrRetangulo.retangulos_desenhados);
 		for (Retangulo c : retangulos_desenhados_aux) {
 			figura_selecionada = c;
+			ctrRetangulo.retangulos_desenhados.remove(c);
 			alterar_escala_figura(panel, escala, bg_color);
 		}
 		
-		retas_desenhados_aux = ctrReta.retas_desenhadas;
+		retas_desenhados_aux = new LinkedList<Reta>(); 
+		retas_desenhados_aux.addAll(ctrReta.retas_desenhadas);
 		for (Reta c : retas_desenhados_aux){
 			figura_selecionada = c;
+			ctrReta.retas_desenhadas.remove(c);
 			alterar_escala_figura(panel, escala, bg_color);
 		}
 	}
@@ -765,7 +781,12 @@ public class ControleFigura extends ControleDraw{
 				else ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
 		}
 	
-
+	/**
+	 * @param plot
+	 * @param pivo
+	 * @param angulo
+	 * @return
+	 */
 	public Ponto novo_ponto(Ponto plot, Ponto pivo, int angulo){
 		
 		double cos = Math.cos(Math.toRadians(angulo));

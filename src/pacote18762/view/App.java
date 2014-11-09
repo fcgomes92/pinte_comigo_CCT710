@@ -60,6 +60,7 @@ public class App {
 	
 	// botões de ferramentas de area de trabalho
 	private JButton bt_escolher_cor_area_de_trabalho_tool, bt_show_pontos_ref, bt_fill, bt_mover_figura_unica, bt_rotacionar_figura_unica, bt_escala_figura;
+	private JButton bt_scale_all;
 	
 	// main window
 	private JFrame mainFrame;
@@ -80,6 +81,7 @@ public class App {
 	// controle de listeners
 	private MouseListener ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse;
 	private MouseListener ml_text, ml_fill, ml_mover_figura, ml_escala_figura, ml_rotacionar_figura, ml_selecionar_area;
+	private MouseListener ml_scale_all;
 	
 	// key listeners para entrada de texto
 	private KeyListener kl_entrada_txt;
@@ -193,6 +195,10 @@ public class App {
 		bt_escala_figura = new JButton("Alterar Escala Figura");
 		bt_escala_figura.setPreferredSize(btDim);
 		bt_escala_figura.setMaximumSize(btDim);
+		
+		bt_scale_all = new JButton("Alterar Escala Geral");
+		bt_scale_all.setPreferredSize(btDim);
+		bt_scale_all.setMaximumSize(btDim);
 		
 		bt_selecionar_area = new JButton("Selecionar Área");
 		bt_selecionar_area.setPreferredSize(btDim);
@@ -725,6 +731,37 @@ public class App {
 			}
 		};
 		
+		//listenerr da escala da figura
+		ml_scale_all = new MouseListener() {
+					
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {	
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				p1 = new Ponto(e.getX(),e.getY());
+				if(e.getButton() == e.BUTTON1){
+					ctrFigura.scale_all(drawPanel, 1.6, cor_area_de_trabalho);
+				}
+				else if(e.getButton() == e.BUTTON3){
+					ctrFigura.scale_all(drawPanel, 0.625, cor_area_de_trabalho);
+				}
+			}
+		};
+		
 		// listener sobre a selecção de área
 		ml_selecionar_area = new MouseListener() {
 					
@@ -900,6 +937,15 @@ public class App {
 			}
 		});
 		
+		bt_scale_all.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				remove_all_listeners(drawPanel);
+				drawPanel.addMouseListener(ml_scale_all);
+			}
+		});
+		
 		// trocar cor área de trabalho
 		bt_escolher_cor_area_de_trabalho_tool.addActionListener(new ActionListener() {
 			
@@ -1022,6 +1068,7 @@ public class App {
 		workspaceToolsPanel.add(bt_mover_figura_unica);
 		workspaceToolsPanel.add(bt_rotacionar_figura_unica);
 		workspaceToolsPanel.add(bt_escala_figura);
+		workspaceToolsPanel.add(bt_scale_all);
 		workspaceToolsPanel.add(bt_selecionar_area);
 		
 		workspaceToolsPanel.setBackground(new Color(0,0,0));
@@ -1097,5 +1144,6 @@ public class App {
 		drawPanel.removeMouseListener(ml_escala_figura);
 		drawPanel.removeMouseListener(ml_rotacionar_figura);
 		drawPanel.removeMouseListener(ml_selecionar_area);
+		drawPanel.removeMouseListener(ml_scale_all);
 	}
 }
