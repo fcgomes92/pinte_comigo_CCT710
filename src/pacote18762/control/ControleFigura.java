@@ -765,12 +765,7 @@ public class ControleFigura extends ControleDraw{
 				else ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
 		}
 	
-	/**
-	 * @param plot
-	 * @param pivo
-	 * @param angulo
-	 * @return
-	 */
+
 	public Ponto novo_ponto(Ponto plot, Ponto pivo, int angulo){
 		
 		double cos = Math.cos(Math.toRadians(angulo));
