@@ -60,7 +60,7 @@ public class App {
 	
 	// botões de ferramentas de area de trabalho
 	private JButton bt_escolher_cor_area_de_trabalho_tool, bt_show_pontos_ref, bt_fill, bt_mover_figura_unica, bt_rotacionar_figura_unica, bt_escala_figura;
-	private JButton bt_scale_all;
+	private JButton bt_scale_all, bt_move_all;
 	
 	// main window
 	private JFrame mainFrame;
@@ -81,7 +81,7 @@ public class App {
 	// controle de listeners
 	private MouseListener ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse;
 	private MouseListener ml_text, ml_fill, ml_mover_figura, ml_escala_figura, ml_rotacionar_figura, ml_selecionar_area;
-	private MouseListener ml_scale_all;
+	private MouseListener ml_scale_all, ml_move_all;
 	
 	// key listeners para entrada de texto
 	private KeyListener kl_entrada_txt;
@@ -199,6 +199,10 @@ public class App {
 		bt_scale_all = new JButton("Alterar Escala Geral");
 		bt_scale_all.setPreferredSize(btDim);
 		bt_scale_all.setMaximumSize(btDim);
+		
+		bt_move_all = new JButton("Mover todas as figuras");
+		bt_move_all.setPreferredSize(btDim);
+		bt_move_all.setMaximumSize(btDim);
 		
 		bt_selecionar_area = new JButton("Selecionar Área");
 		bt_selecionar_area.setPreferredSize(btDim);
@@ -661,6 +665,35 @@ public class App {
 			}
 		};
 		
+		// listener da seleção de figura
+		ml_move_all = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				p2 = new Ponto(e.getX(),e.getY());
+				
+				ctrFigura.move_all(drawPanel, p1, p2, cor_area_de_trabalho);
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				p1 = new Ponto(e.getX(),e.getY());
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {				
+			}
+					
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+					
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		};
+		
 		//listener da rotação de figura
 		ml_rotacionar_figura = new MouseListener() {
 			
@@ -1005,6 +1038,16 @@ public class App {
 			}
 		});
 		
+		// botão para selecionar uma figura
+		bt_move_all.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				remove_all_listeners(drawPanel);
+				drawPanel.addMouseListener(ml_move_all);
+			}
+		});
+		
 		// ferramenta de selecionar área
 		bt_selecionar_area.addActionListener(new ActionListener() {
 			
@@ -1066,6 +1109,7 @@ public class App {
 		workspaceToolsPanel.add(bt_show_pontos_ref);
 		workspaceToolsPanel.add(bt_fill);
 		workspaceToolsPanel.add(bt_mover_figura_unica);
+		workspaceToolsPanel.add(bt_move_all);
 		workspaceToolsPanel.add(bt_rotacionar_figura_unica);
 		workspaceToolsPanel.add(bt_escala_figura);
 		workspaceToolsPanel.add(bt_scale_all);
@@ -1145,5 +1189,6 @@ public class App {
 		drawPanel.removeMouseListener(ml_rotacionar_figura);
 		drawPanel.removeMouseListener(ml_selecionar_area);
 		drawPanel.removeMouseListener(ml_scale_all);
+		drawPanel.removeMouseListener(ml_move_all);
 	}
 }

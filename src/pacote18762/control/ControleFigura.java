@@ -284,51 +284,144 @@ public class ControleFigura extends ControleDraw{
 	 * @param p1
 	 * @param bg_color
 	 */
-	public void move_all(Draw panel, Ponto p1, Color bg_color){
-		
-		Ponto centro_panel = new Ponto(Math.round(panel.getWidth()/2),Math.round(panel.getHeight()/2));
+	public void move_all(Draw panel, Ponto p1, Ponto p2, Color bg_color){
 		
 		circulos_desenhados_aux.clear();
 		circulos_desenhados_aux.addAll(ctrCirculo.circulos_desenhados);
 		for (Circulo c : circulos_desenhados_aux) {
 			figura_selecionada = c;
-			mover_figura_selecionada(panel, p1, centro_panel, bg_color);
+			ctrCirculo.circulos_desenhados.remove(c);
+			mover_figura_selecionada(panel, p1, p2, bg_color);
 		}
 		
-		arco_circulos_desenhados_aux = ctrCirculo.arcos_desenhados; 
+		arco_circulos_desenhados_aux = new LinkedList<Circulo>();
+		arco_circulos_desenhados_aux.addAll(ctrCirculo.arcos_desenhados);  
 		for (Circulo c : arco_circulos_desenhados_aux){
 			figura_selecionada = c;
-			mover_figura_selecionada(panel, p1, bg_color);
+			ctrCirculo.arcos_desenhados.remove(c);
+			mover_figura_selecionada(panel, p1, p2, bg_color);
 		}
 		
-		elipses_desenhados_aux = ctrElipse.elipses_desenhadas;
+		elipses_desenhados_aux = new LinkedList<Elipse>();
+		elipses_desenhados_aux.addAll(ctrElipse.elipses_desenhadas);
 		for (Elipse c : elipses_desenhados_aux) {
 			figura_selecionada = c;
-			mover_figura_selecionada(panel, p1, bg_color);
+			ctrElipse.elipses_desenhadas.remove(c);
+			mover_figura_selecionada(panel, p1, p2, bg_color);
 		}
 		
-		arco_elipses_desenhados_aux = ctrElipse.arcos_desenhados;
+		arco_elipses_desenhados_aux = new LinkedList<Elipse>(); 
+		arco_elipses_desenhados_aux.addAll(ctrElipse.arcos_desenhados);
 		for (Elipse c : arco_elipses_desenhados_aux){
 			figura_selecionada = c;
-			mover_figura_selecionada(panel, p1, bg_color);
+			ctrElipse.arcos_desenhados.remove(c); 
+			mover_figura_selecionada(panel, p1, p2, bg_color);
 		}
 		
-		poligonos_desenhados_aux = ctrPoligono.poligonos_regulares_desenhados;
+		poligonos_desenhados_aux = new LinkedList<PoligonoRegular>(); 
+		poligonos_desenhados_aux.addAll(ctrPoligono.poligonos_regulares_desenhados);
 		for (PoligonoRegular c: poligonos_desenhados_aux) {
 			figura_selecionada = c;
-			mover_figura_selecionada(panel, p1, bg_color);
+			ctrPoligono.poligonos_regulares_desenhados.remove(c);
+			mover_figura_selecionada(panel, p1, p2, bg_color);
 		}
 		
-		retangulos_desenhados_aux = ctrRetangulo.retangulos_desenhados;
+		retangulos_desenhados_aux = new LinkedList<Retangulo>(); 
+		retangulos_desenhados_aux.addAll(ctrRetangulo.retangulos_desenhados);
 		for (Retangulo c : retangulos_desenhados_aux) {
 			figura_selecionada = c;
-			mover_figura_selecionada(panel, p1, bg_color);
+			ctrRetangulo.retangulos_desenhados.remove(c);
+			mover_figura_selecionada(panel, p1, p2, bg_color);
 		}
 		
-		retas_desenhados_aux = ctrReta.retas_desenhadas;
+		retas_desenhados_aux = new LinkedList<Reta>(); 
+		retas_desenhados_aux.addAll(ctrReta.retas_desenhadas);
 		for (Reta c : retas_desenhados_aux){
 			figura_selecionada = c;
-			mover_figura_selecionada(panel, p1, bg_color);
+			ctrReta.retas_desenhadas.remove(c);
+			mover_figura_selecionada(panel, p1, p2, bg_color);
+		}
+	}
+	
+	/**
+	 * função auxiliar para calculo de ponto de rotacionamento
+	 * função para mover a figura de um ponto ao outro usando um ponto de ref
+	 * @param panel
+	 * @param novo_ponto
+	 * @param ref
+	 * @param bg_color
+	 */
+	public void mover_figura_selecionada(Draw panel, Ponto novo_ponto, Ponto ref, Color bg_color){
+		// apaga figura antiga
+		this.apaga_figura_selecionada(panel, bg_color);
+		
+		int dif_x = ref.getX() - novo_ponto.getX();
+		int dif_y = ref.getY() - novo_ponto.getY();
+		
+		// cria nova figura
+		if (figura_selecionada instanceof Circulo) {
+			
+			Ponto centro = new Ponto(((Circulo) figura_selecionada).getCentro().getX()+dif_x,((Circulo) figura_selecionada).getCentro().getY() + dif_y);
+			Ponto borda = new Ponto(((Circulo) figura_selecionada).getBorda().getX()+dif_x,((Circulo) figura_selecionada).getBorda().getY()+dif_y);
+			
+			if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0){
+				ctrCirculo.drawCirculoDDA(centro, borda, panel, ((Circulo) figura_selecionada).getCorLinha(), ((Circulo) figura_selecionada).getTipoLinha(),false);
+			}
+			else{
+				if(((Circulo) figura_selecionada).getRoatcao() == 0) ctrCirculo.drawCirculoArch(centro, borda, ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, ((Circulo) figura_selecionada).getCorLinha(), ((Circulo) figura_selecionada).getTipoLinha(), false);
+				else ctrCirculo.drawCirculoArch(centro, borda, ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, ((Circulo) figura_selecionada).getCorLinha(), ((Circulo) figura_selecionada).getTipoLinha(), false, ((Circulo) figura_selecionada).getRoatcao(), centro);
+			}
+		}
+		
+		else if (figura_selecionada instanceof Elipse) {
+			
+			Ponto centro_inicial = new Ponto(((Elipse) figura_selecionada).getCentro().getX()+dif_x,((Elipse) figura_selecionada).getCentro().getY()+dif_y);
+			Ponto borda_inicial = new Ponto(((Elipse) figura_selecionada).getBorda().getX()+dif_x,((Elipse) figura_selecionada).getBorda().getY()+dif_y);
+			
+			if(((Elipse) figura_selecionada).getAnguloInicial()==0 && ((Elipse) figura_selecionada).getAnguloFinal() ==0){
+				if(((Elipse) figura_selecionada).getRoatcao() == 0) ctrElipse.drawElipse(panel, ((Elipse) figura_selecionada).getCorLinha(),centro_inicial , borda_inicial, ((Elipse) figura_selecionada).getTipoLinha(), false);
+				else ctrElipse.drawElipse(panel, ((Elipse) figura_selecionada).getCorLinha(), centro_inicial, borda_inicial, ((Elipse) figura_selecionada).getTipoLinha(), false, ((Elipse) figura_selecionada).getRoatcao(), centro_inicial);
+			}
+			else{
+				if(((Elipse) figura_selecionada).getRoatcao() == 0) ctrElipse.drawElipseArc(panel, ((Elipse) figura_selecionada).getCorLinha(), centro_inicial, borda_inicial, ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), false);
+				else ctrElipse.drawElipseArc(panel, ((Elipse) figura_selecionada).getCorLinha(), centro_inicial, borda_inicial, ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), false, ((Elipse) figura_selecionada).getRoatcao(), centro_inicial);
+			}
+		}
+		
+		else if (figura_selecionada instanceof Retangulo) {
+			
+			Ponto medio = ((Retangulo) figura_selecionada).getCentro();
+			medio = new Ponto(medio.getX()+dif_x, medio.getY()+dif_y);
+			Ponto novo_p1 = ((Retangulo) figura_selecionada).getLado0().getPtoInicial();
+			novo_p1 = new Ponto(novo_p1.getX()+dif_x, novo_p1.getY()+dif_y);
+			Ponto novo_p2 = ((Retangulo) figura_selecionada).getLado1().getPtoInicial();
+			novo_p2 = new Ponto(novo_p2.getX()+dif_x, novo_p2.getY()+dif_y);
+			
+			if(((Retangulo) figura_selecionada).getRoatcao() == 0) ctrRetangulo.drawRetangulo(panel, ((Retangulo) figura_selecionada).getCorLinha(), novo_p1,  novo_p2, ((Retangulo) figura_selecionada).getTipoLinha(),false);
+			else ctrRetangulo.drawRetangulo(panel, ((Retangulo) figura_selecionada).getCorLinha(), novo_p1,  novo_p2, ((Retangulo) figura_selecionada).getTipoLinha(),false, ((Retangulo) figura_selecionada).getRoatcao(), medio);
+		}
+		
+		else if (figura_selecionada instanceof Reta) {
+			
+			Ponto medio = ((Reta) figura_selecionada).getPtMedio();
+			medio = new Ponto(medio.getX()+dif_x, medio.getY()+dif_y);
+			Ponto novo_p1 = ((Reta) figura_selecionada).getPtoInicial();
+			novo_p1 = new Ponto(novo_p1.getX()+dif_x, novo_p1.getY()+dif_y);
+			Ponto novo_p2 = ((Reta) figura_selecionada).getPtoFinal();
+			novo_p2 = new Ponto(novo_p2.getX()+dif_x, novo_p2.getY()+dif_y);
+			
+			if(((Reta) figura_selecionada).getRoatcao() == 0) ctrReta.drawReta(novo_p1, novo_p2, panel, ((Reta) figura_selecionada).getCorLinha(), ((Reta) figura_selecionada).getTipoLinha(), false);
+			else ctrReta.drawReta(novo_p1, novo_p2, panel, ((Reta) figura_selecionada).getCorLinha(), ((Reta) figura_selecionada).getTipoLinha(), false, ((Reta) figura_selecionada).getRoatcao(), medio);
+		}
+		else if (figura_selecionada instanceof PoligonoRegular) {
+			
+			Ponto centro = ((PoligonoRegular) figura_selecionada).getCentro();
+			centro = new Ponto(centro.getX()+dif_x, centro.getY()+dif_y);
+			Ponto borda = ((PoligonoRegular) figura_selecionada).getBorda();
+			borda = new Ponto(borda.getX()+dif_x, borda.getY()+dif_y);
+			
+			if(((PoligonoRegular) figura_selecionada).getRoatcao() == 0) ctrPoligono.draw_poligono_regular(panel, ((PoligonoRegular) figura_selecionada).getCorLinha(), ((PoligonoRegular) figura_selecionada).getTipoLinha(), centro, borda, ((PoligonoRegular) figura_selecionada).getQtdArestas(), false);
+			else ctrPoligono.draw_poligono_regular(panel, ((PoligonoRegular) figura_selecionada).getCorLinha(), ((PoligonoRegular) figura_selecionada).getTipoLinha(), centro, borda, ((PoligonoRegular) figura_selecionada).getQtdArestas(), false, ((PoligonoRegular) figura_selecionada).getRoatcao(), centro);
 		}
 	}
 	
@@ -369,7 +462,7 @@ public class ControleFigura extends ControleDraw{
 		arco_elipses_desenhados_aux.addAll(ctrElipse.arcos_desenhados);
 		for (Elipse c : arco_elipses_desenhados_aux){
 			figura_selecionada = c;
-			 	
+			ctrElipse.arcos_desenhados.remove(c); 	
 			alterar_escala_figura(panel, escala, bg_color);
 		}
 		
@@ -501,79 +594,6 @@ public class ControleFigura extends ControleDraw{
 			if(((PoligonoRegular) figura_selecionada).getRoatcao() == 0) ctrPoligono.draw_poligono_regular(panel, new Color(255,0,0), ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true);
 			else ctrPoligono.draw_poligono_regular(panel, new Color(255,0,0), ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
 			ctrPoligono.poligonos_regulares_desenhados.remove(figura_selecionada);
-		}
-	}
-	
-	/**
-	 * função auxiliar para calculo de ponto de rotacionamento
-	 * função para mover a figura de um ponto ao outro usando um ponto de ref
-	 * @param panel
-	 * @param novo_ponto
-	 * @param ref
-	 * @param bg_color
-	 */
-	public void mover_figura_selecionada(Draw panel, Ponto novo_ponto, Ponto ref, Color bg_color){
-		// apaga figura antiga
-		this.apaga_figura_selecionada(panel, bg_color);
-		
-		// cria nova figura
-		if (figura_selecionada instanceof Circulo) {
-			
-			int dif_x = ref.getX() - novo_ponto.getX();
-			int dif_y = ref.getY() - novo_ponto.getY();
-			
-			Ponto centro = new Ponto(((Circulo) figura_selecionada).getCentro().getX()+dif_x,((Circulo) figura_selecionada).getCentro().getY() + dif_y);
-			Ponto borda = new Ponto(((Circulo) figura_selecionada).getBorda().getX()+dif_x,((Circulo) figura_selecionada).getBorda().getY()+dif_y);
-			
-			if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0){
-				ctrCirculo.drawCirculoDDA(centro, borda, panel, ((Circulo) figura_selecionada).getCorLinha(), ((Circulo) figura_selecionada).getTipoLinha(),false);
-			}
-			else{
-				if(((Circulo) figura_selecionada).getRoatcao() == 0) ctrCirculo.drawCirculoArch(centro, borda, ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, ((Circulo) figura_selecionada).getCorLinha(), ((Circulo) figura_selecionada).getTipoLinha(), false);
-				else ctrCirculo.drawCirculoArch(centro, borda, ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, ((Circulo) figura_selecionada).getCorLinha(), ((Circulo) figura_selecionada).getTipoLinha(), false, ((Circulo) figura_selecionada).getRoatcao(), centro);
-			}
-		}
-		
-		else if (figura_selecionada instanceof Elipse) {
-			
-			Ponto centro_inicial = ((Elipse) figura_selecionada).getCentro();
-			Ponto borda_inicial = ((Elipse) figura_selecionada).getBorda();
-			
-			if(((Elipse) figura_selecionada).getAnguloInicial()==0 && ((Elipse) figura_selecionada).getAnguloFinal() ==0){
-				if(((Elipse) figura_selecionada).getRoatcao() == 0) ctrElipse.drawElipse(panel, ((Elipse) figura_selecionada).getCorLinha(), novo_ponto, new Ponto(borda_inicial.getX()+(novo_ponto.getX()-centro_inicial.getX()),borda_inicial.getY()+(novo_ponto.getY()-centro_inicial.getY())), ((Elipse) figura_selecionada).getTipoLinha(), false);
-				else ctrElipse.drawElipse(panel, ((Elipse) figura_selecionada).getCorLinha(), novo_ponto, new Ponto(borda_inicial.getX()+(novo_ponto.getX()-centro_inicial.getX()),borda_inicial.getY()+(novo_ponto.getY()-centro_inicial.getY())), ((Elipse) figura_selecionada).getTipoLinha(), false, ((Elipse) figura_selecionada).getRoatcao(), centro_inicial);
-			}
-			else{
-				if(((Elipse) figura_selecionada).getRoatcao() == 0) ctrElipse.drawElipseArc(panel, ((Elipse) figura_selecionada).getCorLinha(), novo_ponto, new Ponto(borda_inicial.getX()+(novo_ponto.getX()-centro_inicial.getX()),borda_inicial.getY()+(novo_ponto.getY()-centro_inicial.getY())), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), false);
-				else ctrElipse.drawElipseArc(panel, ((Elipse) figura_selecionada).getCorLinha(), novo_ponto, new Ponto(borda_inicial.getX()+(novo_ponto.getX()-centro_inicial.getX()),borda_inicial.getY()+(novo_ponto.getY()-centro_inicial.getY())), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), false, ((Elipse) figura_selecionada).getRoatcao(), centro_inicial);
-			}
-		}
-		
-		else if (figura_selecionada instanceof Retangulo) {
-			
-			Ponto medio = ((Retangulo) figura_selecionada).getCentro();
-			Ponto novo_p1 = new Ponto(((Retangulo) figura_selecionada).getLado0().getPtoInicial().getX()+(novo_ponto.getX()-medio.getX()),((Retangulo) figura_selecionada).getLado0().getPtoInicial().getY()+(novo_ponto.getY()-medio.getY()));
-			Ponto novo_p2 = new Ponto(((Retangulo) figura_selecionada).getLado1().getPtoInicial().getX()+(novo_ponto.getX()-medio.getX()),((Retangulo) figura_selecionada).getLado1().getPtoInicial().getY()+(novo_ponto.getY()-medio.getY()));
-			
-			ctrRetangulo.drawRetangulo(panel, ((Retangulo) figura_selecionada).getCorLinha(), novo_p1,  novo_p2, ((Retangulo) figura_selecionada).getTipoLinha(),false);
-		}
-		
-		else if (figura_selecionada instanceof Reta) {
-			
-			Ponto medio = ((Reta) figura_selecionada).getPtMedio();
-			Ponto novo_p1 = new Ponto(((Reta) figura_selecionada).getPtoInicial().getX() + (novo_ponto.getX() - medio.getX()),((Reta) figura_selecionada).getPtoInicial().getY() + (novo_ponto.getY() - medio.getY()));
-			Ponto novo_p2 = new Ponto(((Reta) figura_selecionada).getPtoFinal().getX() + (novo_ponto.getX() - medio.getX()),((Reta) figura_selecionada).getPtoFinal().getY() + (novo_ponto.getY() - medio.getY()));
-			
-			
-			ctrReta.drawReta(novo_p1, novo_p2, panel, ((Reta) figura_selecionada).getCorLinha(), ((Reta) figura_selecionada).getTipoLinha(), false);
-		}
-		else if (figura_selecionada instanceof PoligonoRegular) {
-			
-			Ponto centro = ((PoligonoRegular) figura_selecionada).getCentro();
-			Ponto borda = ((PoligonoRegular) figura_selecionada).getBorda();
-			Ponto novo_p2 = new Ponto(borda.getX() + (novo_ponto.getX()-centro.getX()),borda.getY() + (novo_ponto.getY()-centro.getY()));
-			
-			ctrPoligono.draw_poligono_regular(panel, ((PoligonoRegular) figura_selecionada).getCorLinha(), ((PoligonoRegular) figura_selecionada).getTipoLinha(), novo_ponto, novo_p2, ((PoligonoRegular) figura_selecionada).getQtdArestas(), false);
 		}
 	}
 	
@@ -740,53 +760,53 @@ public class ControleFigura extends ControleDraw{
 			}
 		}
 		 
-		/**
-		 * função para apagar uma figura selecionada
-		 * função de aux para desenhar e redesenhar
-		 * @param panel
-		 * @param bg_color
-		 */
-		public void apaga_figura_selecionada(Draw panel, Color bg_color){
-			if (figura_selecionada instanceof Circulo)
-				if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0)
-					if(((Circulo) figura_selecionada).getRoatcao()==0)ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(),true);
-					else ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(),true, ((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro()); 
-				else
-					if(((Circulo) figura_selecionada).getRoatcao()==0) ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(), true);
-					else ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(), true,((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro());
-			
-			else if (figura_selecionada instanceof Elipse) {
-				if(((Elipse) figura_selecionada).getAnguloInicial()==0 && ((Elipse) figura_selecionada).getAnguloFinal() ==0){
-					if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipse(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true);
-					else ctrElipse.drawElipse(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
-					
-				}
-				else{
-					if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipseArc(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true);
-					else ctrElipse.drawElipseArc(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
-				}
+	/**
+	 * função para apagar uma figura selecionada
+	 * função de aux para desenhar e redesenhar
+	 * @param panel
+	 * @param bg_color
+	 */
+	public void apaga_figura_selecionada(Draw panel, Color bg_color){
+		if (figura_selecionada instanceof Circulo)
+			if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0)
+				if(((Circulo) figura_selecionada).getRoatcao()==0)ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(),true);
+				else ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(),true, ((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro()); 
+			else
+				if(((Circulo) figura_selecionada).getRoatcao()==0) ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(), true);
+				else ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(), true,((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro());
+		
+		else if (figura_selecionada instanceof Elipse) {
+			if(((Elipse) figura_selecionada).getAnguloInicial()==0 && ((Elipse) figura_selecionada).getAnguloFinal() ==0){
+				if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipse(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true);
+				else ctrElipse.drawElipse(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
+				
 			}
-			
-			else if (figura_selecionada instanceof Retangulo) {
-				if(((Retangulo) figura_selecionada).getRoatcao() == 0) ctrRetangulo.drawRetangulo(panel, bg_color, ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true);
-				else ctrRetangulo.drawRetangulo(panel, bg_color, ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true,((Retangulo) figura_selecionada).getRoatcao(), ((Retangulo) figura_selecionada).getCentro());
+			else{
+				if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipseArc(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true);
+				else ctrElipse.drawElipseArc(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
 			}
-			
-			else if (figura_selecionada instanceof Reta) {
-				if(((Reta) figura_selecionada).getRoatcao() == 0) ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, bg_color, ((Reta) figura_selecionada).getTipoLinha(), true);
-				else ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, bg_color, ((Reta) figura_selecionada).getTipoLinha(), true, ((Reta) figura_selecionada).getRoatcao(), ((Reta) figura_selecionada).getPtMedio());
-			}
-			else if (figura_selecionada instanceof PoligonoRegular)
-				if(((PoligonoRegular) figura_selecionada).getRoatcao() == 0) ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true);
-				else ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
 		}
+		
+		else if (figura_selecionada instanceof Retangulo) {
+			if(((Retangulo) figura_selecionada).getRoatcao() == 0) ctrRetangulo.drawRetangulo(panel, bg_color, ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true);
+			else ctrRetangulo.drawRetangulo(panel, bg_color, ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true,((Retangulo) figura_selecionada).getRoatcao(), ((Retangulo) figura_selecionada).getCentro());
+		}
+		
+		else if (figura_selecionada instanceof Reta) {
+			if(((Reta) figura_selecionada).getRoatcao() == 0) ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, bg_color, ((Reta) figura_selecionada).getTipoLinha(), true);
+			else ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, bg_color, ((Reta) figura_selecionada).getTipoLinha(), true, ((Reta) figura_selecionada).getRoatcao(), ((Reta) figura_selecionada).getPtMedio());
+		}
+		else if (figura_selecionada instanceof PoligonoRegular)
+			if(((PoligonoRegular) figura_selecionada).getRoatcao() == 0) ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true);
+			else ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
+	}
 	
 	/**
-	 * @param plot
-	 * @param pivo
-	 * @param angulo
-	 * @return
-	 */
+	* @param plot
+	* @param pivo
+	* @param angulo
+	* @return
+	*/
 	public Ponto novo_ponto(Ponto plot, Ponto pivo, int angulo){
 		
 		double cos = Math.cos(Math.toRadians(angulo));
