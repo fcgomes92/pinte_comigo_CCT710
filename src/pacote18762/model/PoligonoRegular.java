@@ -24,4 +24,8 @@ public class PoligonoRegular extends Figura{
 	public void setQtdArestas(int qtdArestas) {
 		this.qtdArestas = qtdArestas;
 	}
+	public String toString(){
+		return "["+this.centro.getX()+","+this.centro.getY()+"/"+
+				this.borda.getX()+","+this.borda.getY()+"/" +"]";
+	}
 }

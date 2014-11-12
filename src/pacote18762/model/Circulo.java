@@ -51,4 +51,10 @@ public class Circulo extends Figura{
 	public void setAnguloFinal(int anguloFinal) {
 		this.anguloFinal = anguloFinal;
 	}
+	public String toString(){
+		return "["+this.centro.getX()+","+this.centro.getY()+"/"+
+				this.borda.getX()+","+this.borda.getY()+"/" +
+				this.anguloInicial+","+this.anguloFinal+"/"+
+				this.raio+"]";
+	}
 }

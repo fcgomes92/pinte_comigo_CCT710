@@ -1,18 +1,14 @@
 package pacote18762.view;
 
-import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Rectangle;
-import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -21,15 +17,19 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import pacote18762.control.ControleArquivo;
 import pacote18762.control.ControleCirculo;
 import pacote18762.control.ControleDraw;
 import pacote18762.control.ControleElipse;
 import pacote18762.control.ControleFigura;
+import pacote18762.control.ControleGrade;
 import pacote18762.control.ControleLetra;
 import pacote18762.control.ControlePoligonoRegular;
 import pacote18762.control.ControlePonto;
@@ -60,7 +60,7 @@ public class App {
 	
 	// botões de ferramentas de area de trabalho
 	private JButton bt_escolher_cor_area_de_trabalho_tool, bt_show_pontos_ref, bt_fill, bt_mover_figura_unica, bt_rotacionar_figura_unica, bt_escala_figura;
-	private JButton bt_scale_all, bt_move_all;
+	private JButton bt_scale_all, bt_move_all, bt_rotate_all, bt_show_grid;
 	
 	// main window
 	private JFrame mainFrame;
@@ -77,11 +77,13 @@ public class App {
 	private ControleLetra ctrLetra;
 	private ControleDraw ctrDraw;
 	private ControleFigura ctrFigura;
+	private ControleGrade ctrGrade;
+	private ControleArquivo ctrArquivo;
 	
 	// controle de listeners
 	private MouseListener ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse;
 	private MouseListener ml_text, ml_fill, ml_mover_figura, ml_escala_figura, ml_rotacionar_figura, ml_selecionar_area;
-	private MouseListener ml_scale_all, ml_move_all;
+	private MouseListener ml_scale_all, ml_move_all, ml_rotate_all;
 	
 	// key listeners para entrada de texto
 	private KeyListener kl_entrada_txt;
@@ -204,9 +206,17 @@ public class App {
 		bt_move_all.setPreferredSize(btDim);
 		bt_move_all.setMaximumSize(btDim);
 		
+		bt_rotate_all = new JButton("Rotacionar todas as figuras");
+		bt_rotate_all.setPreferredSize(btDim);
+		bt_rotate_all.setMaximumSize(btDim);
+		
 		bt_selecionar_area = new JButton("Selecionar Área");
 		bt_selecionar_area.setPreferredSize(btDim);
 		bt_selecionar_area.setMaximumSize(btDim);
+		
+		bt_show_grid = new JButton("Show Grid");
+		bt_show_grid.setPreferredSize(btDim);
+		bt_show_grid.setMaximumSize(btDim);
 		
 		// inicialização frame principal
 		mainFrame = new JFrame("Pinte Comigo!");
@@ -227,7 +237,9 @@ public class App {
 		ctrRetangulo = new ControleRetangulo();
 		ctrLetra = new ControleLetra();
 		ctrDraw = new ControleDraw();
+		ctrGrade = new ControleGrade(drawPanel);
 		ctrFigura = new ControleFigura(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo);
+		ctrArquivo = new ControleArquivo(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo);
 		
 		// inicialização das variaveis de auxilio
 		p1 = new Ponto(-1,-1);
@@ -617,20 +629,21 @@ public class App {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				p1 = new Ponto(e.getX(), e.getY());
-				Robot rb = null;
-				BufferedImage img;
-					try {
-						rb = new Robot();
-						img = rb.createScreenCapture(new Rectangle(drawPanel.getLocationOnScreen(),new Dimension(drawPanel.getWidth(),drawPanel.getHeight())));
-						Color corPonto = new Color(img.getRGB(p1.getX(), p1.getY()));
-//						drawToolsPanel.setBackground(corPonto);
-						ctrDraw.img = img;
-						ctrDraw.fill(drawPanel, p1, new Color(255,0,0), corPonto);
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+//				p1 = new Ponto(e.getX(), e.getY());
+//				Robot rb = null;
+//				BufferedImage img;
+//					try {
+//						rb = new Robot();
+//						img = rb.createScreenCapture(new Rectangle(drawPanel.getLocationOnScreen(),new Dimension(drawPanel.getWidth(),drawPanel.getHeight())));
+//						Color corPonto = new Color(img.getRGB(p1.getX(), p1.getY()));
+////						drawToolsPanel.setBackground(corPonto);
+//						ctrDraw.img = img;
+//						ctrDraw.fill(drawPanel, p1, new Color(255,0,0), corPonto);
+//					} catch (AWTException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
+				ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
 			}
 		};
 		
@@ -691,6 +704,33 @@ public class App {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+			}
+		};
+		
+		// listener da rotação de figura
+		ml_rotate_all = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+					
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {				
+			}
+					
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+					
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				anguloInicial = -1;
+				while(anguloInicial < 0 || anguloInicial > 360) anguloInicial = Integer.parseInt(JOptionPane.showInputDialog("Entre com o valor do angulo (0<a<360):"));
+				ctrFigura.rotate_all(drawPanel, anguloInicial, cor_area_de_trabalho);
 			}
 		};
 		
@@ -1048,6 +1088,16 @@ public class App {
 			}
 		});
 		
+		// botão para selecionar uma figura
+		bt_rotate_all.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				remove_all_listeners(drawPanel);
+				drawPanel.addMouseListener(ml_rotate_all);
+			}
+		});
+		
 		// ferramenta de selecionar área
 		bt_selecionar_area.addActionListener(new ActionListener() {
 			
@@ -1056,6 +1106,25 @@ public class App {
 				// remove outros listeners e adciona o referente
 				remove_all_listeners(drawPanel);
 				drawPanel.addMouseListener(ml_selecionar_area);
+			}
+		});
+		
+		
+		// botão para selecionar uma figura
+		bt_show_grid.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, new Color(255-cor_area_de_trabalho.getRed(),255-cor_area_de_trabalho.getGreen(),255-cor_area_de_trabalho.getBlue()));
+					ctrGrade.setVisibleGrade(false);
+					ctrFigura.draw_all_again(drawPanel);
+				}
+				else {
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrGrade.setVisibleGrade(true);
+					ctrFigura.draw_all_again(drawPanel);
+				}
 			}
 		});
 		
@@ -1076,6 +1145,21 @@ public class App {
 			}
 		});
 		
+		// botão de salvar
+		btSalvar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				JFileChooser chooser = new JFileChooser();
+			    int returnVal = chooser.showSaveDialog(drawPanel);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			    	if(ctrArquivo.save_file(chooser.getSelectedFile().getAbsolutePath())) System.out.println("Sucesso no save!");
+					else System.out.println("Fail :(");
+			    }
+			}
+		});
+
 		// botão de sair
 		btExit.addActionListener(new ActionListener() {
 			
@@ -1111,9 +1195,11 @@ public class App {
 		workspaceToolsPanel.add(bt_mover_figura_unica);
 		workspaceToolsPanel.add(bt_move_all);
 		workspaceToolsPanel.add(bt_rotacionar_figura_unica);
+		workspaceToolsPanel.add(bt_rotate_all);
 		workspaceToolsPanel.add(bt_escala_figura);
 		workspaceToolsPanel.add(bt_scale_all);
 		workspaceToolsPanel.add(bt_selecionar_area);
+		workspaceToolsPanel.add(bt_show_grid);
 		
 		workspaceToolsPanel.setBackground(new Color(0,0,0));
 		
@@ -1190,5 +1276,6 @@ public class App {
 		drawPanel.removeMouseListener(ml_selecionar_area);
 		drawPanel.removeMouseListener(ml_scale_all);
 		drawPanel.removeMouseListener(ml_move_all);
+		drawPanel.removeMouseListener(ml_rotate_all);
 	}
 }

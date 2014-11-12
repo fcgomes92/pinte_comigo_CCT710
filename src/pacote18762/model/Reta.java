@@ -35,7 +35,7 @@ public class Reta extends Figura{
 	
 	@Override
 	public String toString() {
-		return "Reta [ptoInicial=" + ptoInicial + ", ptoFinal=" + ptoFinal
+		return "[" + ptoInicial + "," + ptoFinal
 				+ "]";
 	}
 }

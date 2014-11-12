@@ -491,6 +491,75 @@ public class ControleFigura extends ControleDraw{
 		}
 	}
 
+	/**
+	 * Função para rotação geral de figuras na área de trabalho.
+	 * @param panel
+	 * @param angulo
+	 * @param ref
+	 * @param bg_color
+	 */
+	public void rotate_all(Draw panel, int angulo, Color bg_color){
+		
+		Ponto ref = new Ponto(panel.getWidth()/2,panel.getHeight()/2);
+		
+		circulos_desenhados_aux = new LinkedList<Circulo>();
+		circulos_desenhados_aux.addAll(ctrCirculo.circulos_desenhados);
+		for (Circulo c : circulos_desenhados_aux) {
+			figura_selecionada = c;
+			ctrCirculo.circulos_desenhados.remove(c);
+			this.rotacionar_figura(panel, angulo, ref, bg_color);
+		}
+		
+		
+		arco_circulos_desenhados_aux = new LinkedList<Circulo>();
+		arco_circulos_desenhados_aux.addAll(ctrCirculo.arcos_desenhados); 
+		for (Circulo c : arco_circulos_desenhados_aux){
+			figura_selecionada = c;
+			ctrCirculo.arcos_desenhados.remove(c);
+			this.rotacionar_figura(panel, angulo, ref, bg_color);
+		}
+		
+		elipses_desenhados_aux = new LinkedList<Elipse>();
+		elipses_desenhados_aux.addAll(ctrElipse.elipses_desenhadas);
+		for (Elipse c : elipses_desenhados_aux) {
+			figura_selecionada = c;
+			ctrElipse.elipses_desenhadas.remove(c);
+			this.rotacionar_figura(panel, angulo, ref, bg_color);
+		}
+		
+		arco_elipses_desenhados_aux = new LinkedList<Elipse>(); 
+		arco_elipses_desenhados_aux.addAll(ctrElipse.arcos_desenhados);
+		for (Elipse c : arco_elipses_desenhados_aux){
+			figura_selecionada = c;
+			ctrElipse.arcos_desenhados.remove(c); 	
+			this.rotacionar_figura(panel, angulo, ref, bg_color);
+		}
+		
+		poligonos_desenhados_aux = new LinkedList<PoligonoRegular>(); 
+		poligonos_desenhados_aux.addAll(ctrPoligono.poligonos_regulares_desenhados);
+		for (PoligonoRegular c: poligonos_desenhados_aux) {
+			figura_selecionada = c;
+			ctrPoligono.poligonos_regulares_desenhados.remove(c);
+			this.rotacionar_figura(panel, angulo, ref, bg_color);
+		}
+		
+		retangulos_desenhados_aux = new LinkedList<Retangulo>(); 
+		retangulos_desenhados_aux.addAll(ctrRetangulo.retangulos_desenhados);
+		for (Retangulo c : retangulos_desenhados_aux) {
+			figura_selecionada = c;
+			ctrRetangulo.retangulos_desenhados.remove(c);
+			this.rotacionar_figura(panel, angulo, ref, bg_color);
+		}
+		
+		retas_desenhados_aux = new LinkedList<Reta>(); 
+		retas_desenhados_aux.addAll(ctrReta.retas_desenhadas);
+		for (Reta c : retas_desenhados_aux){
+			figura_selecionada = c;
+			ctrReta.retas_desenhadas.remove(c);
+			this.rotacionar_figura(panel, angulo, ref, bg_color);
+		}
+	}
+	
 	/************************************************Função aux***************************************************/
 	
 	public void selecao_multipla(Draw panel, Ponto p1, Ponto p2, Color bg_color){

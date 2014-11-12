@@ -44,4 +44,8 @@ public class Retangulo extends Figura{
 	public void setLado3(Reta lado3) {
 		this.lado3 = lado3;
 	}
+	public String toString(){
+		return "["+this.lado0.getPtoInicial().getX()+","+this.lado0.getPtoInicial().getY()+"/"+
+				this.lado1.getPtoInicial().getX()+","+this.lado1.getPtoInicial().getY()+"]";
+	}
 }
