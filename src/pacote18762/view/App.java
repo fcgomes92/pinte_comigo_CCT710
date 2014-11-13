@@ -22,7 +22,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import pacote18762.control.ControleArquivo;
 import pacote18762.control.ControleCirculo;
@@ -1155,6 +1154,24 @@ public class App {
 			    int returnVal = chooser.showSaveDialog(drawPanel);
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
 			    	if(ctrArquivo.save_file(chooser.getSelectedFile().getAbsolutePath())) System.out.println("Sucesso no save!");
+					else System.out.println("Fail :(");
+			    }
+			}
+		});
+		
+		// botão de salvar
+		btLoad.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				JFileChooser chooser = new JFileChooser();
+			    int returnVal = chooser.showSaveDialog(drawPanel);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			    	if(ctrArquivo.load_file(chooser.getSelectedFile().getAbsolutePath())) {
+			    		System.out.println("Sucesso no load!");
+			    		ctrFigura.draw_all_again(drawPanel);
+			    	}
 					else System.out.println("Fail :(");
 			    }
 			}

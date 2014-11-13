@@ -55,6 +55,7 @@ public class Circulo extends Figura{
 		return "["+this.centro.getX()+","+this.centro.getY()+"/"+
 				this.borda.getX()+","+this.borda.getY()+"/" +
 				this.anguloInicial+","+this.anguloFinal+"/"+
-				this.raio+"]";
+				this.raio+","+this.getRoatcao()+"/"+
+				this.getCorLinha().getRed()+","+this.getCorLinha().getGreen()+","+this.getCorLinha().getBlue()+"]";
 	}
 }
