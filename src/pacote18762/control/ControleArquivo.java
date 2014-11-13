@@ -14,6 +14,7 @@ import pacote18762.model.PoligonoRegular;
 import pacote18762.model.Ponto;
 import pacote18762.model.Reta;
 import pacote18762.model.Retangulo;
+import pacote18762.model.TipoLinha;
 
 public class ControleArquivo {
 	
@@ -37,6 +38,8 @@ public class ControleArquivo {
 			String file_content = "";
 			System.out.println(path);
 			File file = new File(path);
+			TipoLinha tp_linha;
+			Color cor;
 			
 			// Sai caso não exista.
 			if(!file.exists()) return false;
@@ -63,43 +66,120 @@ public class ControleArquivo {
 						case "C":
 							// Ponto 1
 							aux_ponto = aux_linha[0].split(",");
-							Ponto p1 = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							Ponto p1C = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
 							// Ponto 2
 							aux_ponto = aux_linha[1].split(",");
-							Ponto p2 = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							Ponto p2C = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
 							// Angulos
 							aux_ponto = aux_linha[2].split(",");
-							int anguloI = Integer.parseInt(aux_ponto[0]);
-							int anguloF = Integer.parseInt(aux_ponto[1]);
+							int anguloIC = Integer.parseInt(aux_ponto[0]);
+							int anguloFC = Integer.parseInt(aux_ponto[1]);
 							// Raio e rotação
 							aux_ponto = aux_linha[3].split(",");
-							double raio = Double.parseDouble(aux_ponto[0]); 
-							int rot = Integer.parseInt(aux_ponto[1]);
+							double raioC = Double.parseDouble(aux_ponto[0]); 
+							int rotC = Integer.parseInt(aux_ponto[1]);
 							// Componentes da cor
 							aux_ponto = aux_linha[4].split(",");
-							Color cor = new Color(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]),Integer.parseInt(aux_ponto[2]));
+							cor = new Color(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]),Integer.parseInt(aux_ponto[2]));
 							
-							Circulo c = new Circulo();
-							c.setCentro(p1);
-							c.setBorda(p2);
-							c.setAnguloInicial(anguloI);
-							c.setAnguloFinal(anguloF);
-							c.setRoatcao(rot);
-							c.setRaio(raio);
-							c.setCorLinha(cor);
-							ctrCirculo.circulos_desenhados.add(c);
+							Circulo cC = new Circulo();
+							cC.setCentro(p1C);
+							cC.setBorda(p2C);
+							cC.setAnguloInicial(anguloIC);
+							cC.setAnguloFinal(anguloFC);
+							cC.setRoatcao(rotC);
+							cC.setRaio(raioC);
+							cC.setCorLinha(cor);
+							ctrCirculo.circulos_desenhados.add(cC);
 							break;
 					
 						case "AC":
+							// Ponto 1
+							aux_ponto = aux_linha[0].split(",");
+							Ponto p1AC = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Ponto 2
+							aux_ponto = aux_linha[1].split(",");
+							Ponto p2AC = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Angulos
+							aux_ponto = aux_linha[2].split(",");
+							int anguloIAC = Integer.parseInt(aux_ponto[0]);
+							int anguloFAC = Integer.parseInt(aux_ponto[1]);
+							// Raio e rotação
+							aux_ponto = aux_linha[3].split(",");
+							double raioAC = Double.parseDouble(aux_ponto[0]); 
+							int rotAC = Integer.parseInt(aux_ponto[1]);
+							// Componentes da cor
+							aux_ponto = aux_linha[4].split(",");
+							cor = new Color(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]),Integer.parseInt(aux_ponto[2]));
 							
+							Circulo cAC = new Circulo();
+							cAC.setCentro(p1AC);
+							cAC.setBorda(p2AC);
+							cAC.setAnguloInicial(anguloIAC);
+							cAC.setAnguloFinal(anguloFAC);
+							cAC.setRoatcao(rotAC);
+							cAC.setRaio(raioAC);
+							cAC.setCorLinha(cor);
+							ctrCirculo.arcos_desenhados.add(cAC);
 							break;
 							
 						case "E":
+							// Ponto 1
+							aux_ponto = aux_linha[0].split(",");
+							Ponto p1E =	 new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Ponto 2
+							aux_ponto = aux_linha[1].split(",");
+							Ponto p2E = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Angulos
+							aux_ponto = aux_linha[2].split(",");
+							int anguloIE = Integer.parseInt(aux_ponto[0]);
+							int anguloFE = Integer.parseInt(aux_ponto[1]);
+							// Raio e rotação 
+							int rotE = Integer.parseInt(aux_linha[3]);
+							// Componentes da cor
+							aux_ponto = aux_linha[4].split(",");
+							cor = new Color(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]),Integer.parseInt(aux_ponto[2]));
+							// Componente de linha
+							tp_linha = aux_linha[5].equals("fina")?TipoLinha.fina:aux_linha[5].equals("grossa")?TipoLinha.grossa:TipoLinha.pontilhada;
 							
+							Elipse eE = new Elipse();
+							eE.setCentro(p1E);
+							eE.setBorda(p2E);
+							eE.setAnguloInicial(anguloIE);
+							eE.setAnguloFinal(anguloFE);
+							eE.setRoatcao(rotE);
+							eE.setCorLinha(cor);
+							eE.setTipoLinha(tp_linha);
+							ctrElipse.elipses_desenhadas.add(eE);
 							break;
 					
 						case "AE":
+							// Ponto 1
+							aux_ponto = aux_linha[0].split(",");
+							Ponto p1AE =	 new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Ponto 2
+							aux_ponto = aux_linha[1].split(",");
+							Ponto p2AE = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Angulos
+							aux_ponto = aux_linha[2].split(",");
+							int anguloIAE = Integer.parseInt(aux_ponto[0]);
+							int anguloFAE = Integer.parseInt(aux_ponto[1]);
+							// Raio e rotação 
+							int rotAE = Integer.parseInt(aux_linha[3]);
+							// Componentes da cor
+							aux_ponto = aux_linha[4].split(",");
+							cor = new Color(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]),Integer.parseInt(aux_ponto[2]));
+							tp_linha = aux_linha[5].equals("fina")?TipoLinha.fina:aux_linha[5].equals("grossa")?TipoLinha.grossa:TipoLinha.pontilhada;
 							
+							Elipse eAE = new Elipse();
+							eAE.setCentro(p1AE);
+							eAE.setBorda(p2AE);
+							eAE.setAnguloInicial(anguloIAE);
+							eAE.setAnguloFinal(anguloFAE);
+							eAE.setRoatcao(rotAE);
+							eAE.setCorLinha(cor);
+							eAE.setTipoLinha(tp_linha);
+							ctrElipse.elipses_desenhadas.add(eAE);
 							break;
 							
 						case "P":

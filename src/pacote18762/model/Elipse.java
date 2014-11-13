@@ -65,6 +65,8 @@ public class Elipse extends Figura{
 	public String toString(){
 		return "["+this.centro.getX()+","+this.centro.getY()+"/"+
 				this.borda.getX()+","+this.borda.getY()+"/" +
-				this.anguloInicial+","+this.anguloFinal+"]";
+				this.anguloInicial+","+this.anguloFinal+"/"+this.getRoatcao()+"/"+
+				this.getCorLinha().getRed()+","+this.getCorLinha().getGreen()+","+this.getCorLinha().getBlue()+"/"+
+				this.getTipoLinha()+"]";
 	}
 }

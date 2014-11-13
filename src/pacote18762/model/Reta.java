@@ -35,7 +35,8 @@ public class Reta extends Figura{
 	
 	@Override
 	public String toString() {
-		return "[" + ptoInicial + "," + ptoFinal
-				+ "]";
+		return "[" + ptoInicial + "," + ptoFinal + "/"
+				+this.getRoatcao()+"/"+
+				this.getCorLinha().getRed()+","+this.getCorLinha().getGreen()+","+this.getCorLinha().getBlue()+"]";
 	}
 }

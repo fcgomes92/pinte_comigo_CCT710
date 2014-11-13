@@ -47,6 +47,7 @@ public class ControleCirculo extends ControleFigura{
 		circulo.setAnguloFinal(0);
 		circulo.setRaio(raio);
 		circulo.setCorLinha(cor);
+		circulo.setTipoLinha(tipoLinha);
 		
 		// add nos circulos desenhados
 		if(!redraw)circulos_desenhados.add(circulo);
@@ -174,6 +175,8 @@ public class ControleCirculo extends ControleFigura{
 		arco.setAnguloInicial(anguloInicial);
 		arco.setAnguloFinal(anguloFinal);
 		arco.setRaio(raio);
+		arco.setCorLinha(cor);
+		arco.setTipoLinha(tipoLinha);
 				
 		// add nos circulos desenhados
 		if(!redraw)arcos_desenhados.add(arco);
@@ -292,6 +295,8 @@ public class ControleCirculo extends ControleFigura{
 		circulo.setAnguloInicial(0);
 		circulo.setAnguloFinal(0);
 		circulo.setRaio(raio);
+		circulo.setCorLinha(cor);
+		circulo.setTipoLinha(tipoLinha);
 		
 		// add nos circulos desenhados
 		if(!redraw)circulos_desenhados.add(circulo);
@@ -429,6 +434,8 @@ public class ControleCirculo extends ControleFigura{
 		arco.setAnguloInicial(anguloInicial);
 		arco.setAnguloFinal(anguloFinal);
 		arco.setRaio(raio);
+		arco.setCorLinha(cor);
+		arco.setTipoLinha(tipoLinha);
 				
 		// add nos circulos desenhados
 		if(!redraw)arcos_desenhados.add(arco);
