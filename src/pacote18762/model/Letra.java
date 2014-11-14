@@ -3,7 +3,8 @@ package pacote18762.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Letra {
+@SuppressWarnings("serial")
+public class Letra extends Figura{
 	private List<Reta> retas = new LinkedList<Reta>();
 	private Ponto top_left;
 

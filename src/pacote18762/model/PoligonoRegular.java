@@ -1,5 +1,6 @@
 package pacote18762.model;
 
+@SuppressWarnings("serial")
 public class PoligonoRegular extends Figura{
 	
 	private Ponto centro;

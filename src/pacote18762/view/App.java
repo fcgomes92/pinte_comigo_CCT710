@@ -25,13 +25,11 @@ import javax.swing.SpringLayout;
 
 import pacote18762.control.ControleArquivo;
 import pacote18762.control.ControleCirculo;
-import pacote18762.control.ControleDraw;
 import pacote18762.control.ControleElipse;
 import pacote18762.control.ControleFigura;
 import pacote18762.control.ControleGrade;
 import pacote18762.control.ControleLetra;
 import pacote18762.control.ControlePoligonoRegular;
-import pacote18762.control.ControlePonto;
 import pacote18762.control.ControleReta;
 import pacote18762.control.ControleRetangulo;
 import pacote18762.model.Draw;
@@ -44,7 +42,7 @@ import pacote18762.model.TipoLinha;
  *  do programa.
  * 
  *  @author gomes
- *  @version 1.0
+ *  @version 1.5.1-16
  */
 public class App {
 	// botões de opção
@@ -68,13 +66,13 @@ public class App {
 	
 	// controles
 	private ControleReta ctrReta;
-	private ControlePonto ctrPonto;
+//	private ControlePonto ctrPonto;
 	private ControleCirculo ctrCirculo;
 	private ControlePoligonoRegular ctrPoligono;
 	private ControleElipse ctrElipse;
 	private ControleRetangulo ctrRetangulo;
 	private ControleLetra ctrLetra;
-	private ControleDraw ctrDraw;
+//	private ControleDraw ctrDraw;
 	private ControleFigura ctrFigura;
 	private ControleGrade ctrGrade;
 	private ControleArquivo ctrArquivo;
@@ -88,8 +86,9 @@ public class App {
 	private KeyListener kl_entrada_txt;
 	
 	// variaveis de auxilio no desenho
-	private Ponto p1, p2, pInicial, pMedio, inicio_texto;
-	private LinkedList<Ponto> pontosPoligono, pontos_ref;
+	private Ponto p1, p2, inicio_texto;
+	private LinkedList<Ponto> pontos_ref;
+//	private LinkedList<Ponto> pontosPoligono;
 	private int arestasPoligono, anguloInicial, anguloFinal, incremento_texto;
 	private Color corEscolhida = new Color(0,0,0);
 	private Dimension btDim = new Dimension(200,25);
@@ -231,11 +230,11 @@ public class App {
 		ctrReta = new ControleReta();
 		ctrCirculo = new ControleCirculo();
 		ctrElipse = new ControleElipse();
-		ctrPonto = new ControlePonto();
+//		ctrPonto = new ControlePonto();
 		ctrPoligono = new ControlePoligonoRegular();
 		ctrRetangulo = new ControleRetangulo();
 		ctrLetra = new ControleLetra();
-		ctrDraw = new ControleDraw();
+//		ctrDraw = new ControleDraw();
 		ctrGrade = new ControleGrade(drawPanel);
 		ctrFigura = new ControleFigura(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo);
 		ctrArquivo = new ControleArquivo(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo);
@@ -244,7 +243,7 @@ public class App {
 		p1 = new Ponto(-1,-1);
 		p2 = new Ponto(-1,-1);
 		inicio_texto = new Ponto(0,0);
-		pontosPoligono = new LinkedList<Ponto>();
+//		pontosPoligono = new LinkedList<Ponto>();
 		arestasPoligono = 1;
 		anguloInicial = -1;
 		anguloFinal = -1;
@@ -813,11 +812,11 @@ public class App {
 			public void mouseClicked(MouseEvent e) {
 				p1 = new Ponto(e.getX(),e.getY());
 				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
-				if(e.getButton() == e.BUTTON1){
+				if(e.getButton() == MouseEvent.BUTTON1){
 					ctrFigura.get_figura_proxima(p1, drawPanel);
 					ctrFigura.alterar_escala_figura(drawPanel, 1.6, cor_area_de_trabalho);
 				}
-				else if(e.getButton() == e.BUTTON3){
+				else if(e.getButton() == MouseEvent.BUTTON3){
 					ctrFigura.get_figura_proxima(p1, drawPanel);
 					ctrFigura.alterar_escala_figura(drawPanel, 0.625, cor_area_de_trabalho);
 				}
@@ -847,10 +846,10 @@ public class App {
 			public void mouseClicked(MouseEvent e) {
 				p1 = new Ponto(e.getX(),e.getY());
 				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
-				if(e.getButton() == e.BUTTON1){
+				if(e.getButton() == MouseEvent.BUTTON1){
 					ctrFigura.scale_all(drawPanel, 1.6, cor_area_de_trabalho);
 				}
-				else if(e.getButton() == e.BUTTON3){
+				else if(e.getButton() == MouseEvent.BUTTON3){
 					ctrFigura.scale_all(drawPanel, 0.625, cor_area_de_trabalho);
 				}
 			}

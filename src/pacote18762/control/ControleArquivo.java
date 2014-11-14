@@ -23,7 +23,7 @@ public class ControleArquivo {
 	private ControlePoligonoRegular ctrPoligono;
 	private ControleReta ctrReta;
 	private ControleRetangulo ctrRetangulo;
-	private ControlePonto ctrPonto;
+//	private ControlePonto ctrPonto;
 	
 	public ControleArquivo(ControleCirculo circulo, ControleElipse elipse, ControlePoligonoRegular poligono, ControleReta reta, ControleRetangulo retangulo){
 		this.ctrCirculo = circulo;

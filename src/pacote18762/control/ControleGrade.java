@@ -1,21 +1,27 @@
 package pacote18762.control;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import pacote18762.model.Draw;
 import pacote18762.model.Grade;
 import pacote18762.model.Ponto;
 import pacote18762.model.TipoLinha;
 
+/**
+ * @author gomes
+ */
 public class ControleGrade {
 	
 	private Grade grade;
 	private ControleReta ctrReta = new ControleReta();
 	
+	/**
+	 * Contrutor
+	 * @param panel Paneil de Desenho
+	 */
 	public ControleGrade(Draw panel){
 		this.grade = new Grade();
-		this.grade.setGap(40);
+		this.grade.setGap(20);
 		this.grade.setHeight(1920);
 		this.grade.setWidth(1080);
 	}
@@ -24,15 +30,19 @@ public class ControleGrade {
 		grade.setVisivel(cond);
 	}
 	
+	/**
+	 * Verifica se a grade esta visível
+	 * @return True/False
+	 */
 	public boolean isVisible(){
 		return grade.isVisivel();
 	}
 	
-	public Ponto guia_ponto(){
-		Ponto pto = new Ponto(-1,-1);
-		return pto;
-	}
-	
+	/**
+	 * Função para desenho das linhas da grade.
+	 * @param panel Painel de Desenho
+	 * @param bg_color Cor de fundo do painel
+	 */
 	public void draw_grid(Draw panel, Color bg_color){
 		
 		System.out.println(grade.getHeight() + "-" + grade.getWidth());
@@ -52,27 +62,27 @@ public class ControleGrade {
 		}
 	}
 	
+	
+	/**
+	 * Função para verificar o quão longe o ponto selecionado está
+	 * de um dos pontos de intersecção da grade.
+	 * @param p Ponto
+	 * @return Novo Ponto
+	 */
 	public Ponto get_ponto_prox(Ponto p){
 		int x = p.getX() , y = p.getY(), gap_aux = grade.getGap(), mid_gap = gap_aux/2;
 		
-		System.out.println("X: " + x);
-		System.out.println("Y: " + y);
+		// calculo do 'nível' de proximidade do ponto
+		int proximidade_x = x%gap_aux;
+		int proximidade_y = y%gap_aux;
 		
-		int proximidade_x = x%40;
-		int proximidade_y = y%40;
-		
-		System.out.println("P-X: " + proximidade_x);
-		System.out.println("P-Y: " + proximidade_y);
-		
+		// ajuste de x
 		if(proximidade_x <= mid_gap) x -= proximidade_x;
 		else x += (gap_aux - proximidade_x);
 		
+		// ajuste de y
 		if(proximidade_y <= mid_gap) y -= proximidade_y;
 		else y += (gap_aux - proximidade_y);
-		
-		System.out.println("X: " + x);
-		System.out.println("Y: " + y);
-		System.out.println();
 		
 		return new Ponto(x,y);
 	}

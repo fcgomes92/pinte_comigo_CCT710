@@ -1,7 +1,6 @@
 package pacote18762.control;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,9 +19,10 @@ import pacote18762.model.TipoLinha;
  * @author gomes
  *
  */
-public class ControleLetra {
+public class ControleLetra extends ControleFigura{
 	
 	private List<Letra> alfabeto = new LinkedList<Letra>();
+	private List<Letra> letras_text = new LinkedList<Letra>();
 	private ControleReta ctrReta = new ControleReta();
 	
 	/**
@@ -35,6 +35,8 @@ public class ControleLetra {
 	 */
 	public void drawLetra(Draw panel, Color cor, Ponto ptIncial, int valor_letra, TipoLinha tipoLinha, TamanhoLetra tamanho_letra){
 		
+		Letra l = new Letra();
+		letras_text.add(l);
 		Ponto p1Temp, p2Temp;
 		
 		if(tamanho_letra == TamanhoLetra.tamanho8x8){
