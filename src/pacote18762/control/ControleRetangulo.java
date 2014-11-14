@@ -48,6 +48,8 @@ public class ControleRetangulo extends ControleFigura {
 		ret.setLado1(new Reta(p2,p4));
 		ret.setLado2(new Reta(p2,p3));
 		ret.setLado3(new Reta(p1,p4));
+		ret.setCorLinha(cor);
+		ret.setTipoLinha(tipoLinha);
 		ret.setCentro(ctrPonto.midPoint(p1, p2));
 		
 		// add figura a ser desenhada
@@ -99,6 +101,8 @@ public class ControleRetangulo extends ControleFigura {
 		ret.setLado1(new Reta(p2,p4));
 		ret.setLado2(new Reta(p2,p3));
 		ret.setLado3(new Reta(p1,p4));
+		ret.setCorLinha(cor);
+		ret.setTipoLinha(tipoLinha);
 		ret.setCentro(ctrPonto.midPoint(p1, p2));
 		
 		// add figura a ser desenhada

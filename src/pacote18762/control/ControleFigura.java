@@ -929,5 +929,5 @@ public class ControleFigura extends ControleDraw{
 			&& !produtoVetorial(ret.getLado3(), p))
 			return true;
 		return false;
-	}
+	}	
 }

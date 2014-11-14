@@ -47,6 +47,7 @@ public class Retangulo extends Figura{
 	public String toString(){
 		return "["+this.lado0.getPtoInicial().getX()+","+this.lado0.getPtoInicial().getY()+"/"+
 				this.lado1.getPtoInicial().getX()+","+this.lado1.getPtoInicial().getY()+"/"+this.getRoatcao()+"/"+
-				this.getCorLinha().getRed()+","+this.getCorLinha().getGreen()+","+this.getCorLinha().getBlue()+"]";
+				this.getCorLinha().getRed()+","+this.getCorLinha().getGreen()+","+this.getCorLinha().getBlue()+"/"+
+				this.getTipoLinha()+"]";
 	}
 }

@@ -179,19 +179,79 @@ public class ControleArquivo {
 							eAE.setRoatcao(rotAE);
 							eAE.setCorLinha(cor);
 							eAE.setTipoLinha(tp_linha);
-							ctrElipse.elipses_desenhadas.add(eAE);
+							ctrElipse.arcos_desenhados.add(eAE);
 							break;
 							
 						case "P":
+							// Ponto 1
+							aux_ponto = aux_linha[0].split(",");
+							Ponto p1R =	 new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Ponto 2
+							aux_ponto = aux_linha[1].split(",");
+							Ponto p2R = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Rotação 
+							int rotR = Integer.parseInt(aux_linha[2]);
+							// Componentes da cor
+							aux_ponto = aux_linha[3].split(",");
+							cor = new Color(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]),Integer.parseInt(aux_ponto[2]));
+							tp_linha = aux_linha[4].equals("fina")?TipoLinha.fina:aux_linha[4].equals("grossa")?TipoLinha.grossa:TipoLinha.pontilhada;
+							// Quantidade de arestas
+							int qtdArestas = Integer.parseInt(aux_linha[5]);
 							
+							PoligonoRegular polR = new PoligonoRegular();
+							polR.setCentro(p1R);
+							polR.setBorda(p2R);
+							polR.setRoatcao(rotR);
+							polR.setCorLinha(cor);
+							polR.setTipoLinha(tp_linha);
+							polR.setQtdArestas(qtdArestas);
+							ctrPoligono.poligonos_regulares_desenhados.add(polR);
 							break;
 					
 						case "Ret":
+							// Ponto 1
+							aux_ponto = aux_linha[0].split(",");
+							Ponto p1Ret =	 new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Ponto 2
+							aux_ponto = aux_linha[1].split(",");
+							Ponto p2Ret = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Rotação 
+							int rotRet = Integer.parseInt(aux_linha[2]);
+							// Componentes da cor
+							aux_ponto = aux_linha[3].split(",");
+							cor = new Color(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]),Integer.parseInt(aux_ponto[2]));
+							tp_linha = aux_linha[4].equals("fina")?TipoLinha.fina:aux_linha[4].equals("grossa")?TipoLinha.grossa:TipoLinha.pontilhada;
 							
+							Retangulo ret = new Retangulo();
+							ret.setLado0(new Reta(p1Ret,null));
+							ret.setLado1(new Reta(p2Ret,null));
+							ret.setRoatcao(rotRet);
+							ret.setCorLinha(cor);
+							ret.setTipoLinha(tp_linha);
+							ctrRetangulo.retangulos_desenhados.add(ret);
 							break;
 					
 						case "Reta":
+							// Ponto 1
+							aux_ponto = aux_linha[0].split(",");
+							Ponto p1Reta =	 new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Ponto 2
+							aux_ponto = aux_linha[1].split(",");
+							Ponto p2Reta = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							// Rotação 
+							int rotReta = Integer.parseInt(aux_linha[2]);
+							// Componentes da cor
+							aux_ponto = aux_linha[3].split(",");
+							cor = new Color(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]),Integer.parseInt(aux_ponto[2]));
+							tp_linha = aux_linha[4].equals("fina")?TipoLinha.fina:aux_linha[4].equals("grossa")?TipoLinha.grossa:TipoLinha.pontilhada;
 							
+							Reta reta = new Reta();
+							reta.setPtoInicial(p1Reta);
+							reta.setPtoFinal(p2Reta);
+							reta.setRoatcao(rotReta);
+							reta.setCorLinha(cor);
+							reta.setTipoLinha(tp_linha);
+							ctrReta.retas_desenhadas.add(reta);
 							break;
 					}
 				}

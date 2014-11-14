@@ -6,7 +6,7 @@ public class Grade {
 	private LinkedList<Ponto> pontos = new LinkedList<Ponto>();
 	private boolean visivel = false;
 	private int gap = 0;
-	private int height = 0, width = 0;
+	private int height = 400, width = 400;
 	
 	public boolean isVisivel() {
 		return visivel;

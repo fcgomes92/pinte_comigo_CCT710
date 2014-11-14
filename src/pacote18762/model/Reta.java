@@ -6,15 +6,9 @@ public class Reta extends Figura{
 	private Ponto ptMedio;
 	private Ponto ptoInicial;
 	private Ponto ptoFinal;
+
+	public Reta() {}
 	
-	public Ponto getPtMedio() {
-		return ptMedio;
-	}
-
-	public void setPtMedio(Ponto ptMedio) {
-		this.ptMedio = ptMedio;
-	}
-
 	public Reta(Ponto pInicial, Ponto pFinal){
 			this.setPtoInicial(pInicial);
 			this.setPtoFinal(pFinal);
@@ -33,10 +27,20 @@ public class Reta extends Figura{
 		this.ptoFinal = ptoFinal;
 	}
 	
+	public Ponto getPtMedio() {
+		return ptMedio;
+	}
+
+	public void setPtMedio(Ponto ptMedio) {
+		this.ptMedio = ptMedio;
+	}
+	
 	@Override
 	public String toString() {
-		return "[" + ptoInicial + "," + ptoFinal + "/"
-				+this.getRoatcao()+"/"+
-				this.getCorLinha().getRed()+","+this.getCorLinha().getGreen()+","+this.getCorLinha().getBlue()+"]";
+		return "[" + ptoInicial.getX() + "," + ptoInicial.getY() + "/"+
+				ptoFinal.getX() + "," + ptoFinal.getY() + "/" +
+				this.getRoatcao() + "/" +
+				this.getCorLinha().getRed()+","+this.getCorLinha().getGreen()+","+this.getCorLinha().getBlue()+"/"+
+				this.getTipoLinha()+"]";
 	}
 }

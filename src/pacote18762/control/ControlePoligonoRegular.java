@@ -38,6 +38,8 @@ public class ControlePoligonoRegular extends ControleFigura{
 		poligono.setCentro(centro);
 		poligono.setBorda(new Ponto(bx,by));
 		poligono.setQtdArestas(qtd_lados);
+		poligono.setTipoLinha(tipoLinha);
+		poligono.setCorLinha(cor);
 		
 		// add o obj na lista
 		if(!redraw)poligonos_regulares_desenhados.add(poligono);
@@ -89,6 +91,8 @@ public class ControlePoligonoRegular extends ControleFigura{
 		poligono.setCentro(centro);
 		poligono.setBorda(new Ponto(bx,by));
 		poligono.setQtdArestas(qtd_lados);
+		poligono.setTipoLinha(tipoLinha);
+		poligono.setCorLinha(cor);
 		
 		// add o obj na lista
 		if(!redraw)poligonos_regulares_desenhados.add(poligono);

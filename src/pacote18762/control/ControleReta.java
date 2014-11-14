@@ -59,6 +59,8 @@ public class ControleReta  extends ControleFigura{
 			
 			// add obj a ser desenhado
 			Reta r = new Reta(auxI, auxF);
+			r.setCorLinha(cor);
+			r.setTipoLinha(tipoLinha);
 			r.setRoatcao(0);
 			r.setPtMedio(new Ponto(
 					(Math.abs(Math.round(

@@ -286,6 +286,7 @@ public class App {
 			public void mouseReleased(MouseEvent e) {
 				// pega o ultimo ponto e chama o método de desenho
 				p2 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
 				
 				// add os pontos de click
@@ -299,6 +300,7 @@ public class App {
 			public void mousePressed(MouseEvent e) {
 				// pega o primeiro ponto
 				p1 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
 			}
 			
@@ -326,6 +328,7 @@ public class App {
 			public void mouseReleased(MouseEvent e) {
 				// pega o ultimo ponto e chama o método de desenho
 				p2 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
 				// add os pontos de click
 				pontos_ref.add(p1);
@@ -340,6 +343,7 @@ public class App {
 			public void mousePressed(MouseEvent e) {
 				// pega o primeiro ponto
 				p1 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
 			
@@ -367,6 +371,7 @@ public class App {
 			public void mouseReleased(MouseEvent e) {
 				// pega o ultimo ponto e chama o método de desenho
 				p2 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
 				// add os pontos de click
 				pontos_ref.add(p1);
@@ -383,6 +388,7 @@ public class App {
 			public void mousePressed(MouseEvent e) {
 				// pega o primeiro ponto
 				p1 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
 			
@@ -430,6 +436,7 @@ public class App {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				p2 = new Ponto(e.getX(), e.getY()); 
+				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
 				// add os pontos de click
 				pontos_ref.add(p1);
@@ -442,6 +449,7 @@ public class App {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				p1 = new Ponto(e.getX(), e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
 			
@@ -466,6 +474,7 @@ public class App {
 			public void mouseReleased(MouseEvent e) {
 				// pega o ultimo ponto e chama o método de desenho
 				p2 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
 				// add os pontos de click
 				pontos_ref.add(p1);
@@ -479,6 +488,7 @@ public class App {
 			public void mousePressed(MouseEvent e) {
 				// pega o primeiro ponto
 				p1 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
 			
@@ -505,6 +515,7 @@ public class App {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				p2 = new Ponto(e.getX(), e.getY());
+				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
 				// captura do angulo final e inicial
 				anguloInicial = Integer.parseInt(JOptionPane.showInputDialog("Entre com o valor do angulo inicial (0<aI<360):"));
@@ -525,6 +536,7 @@ public class App {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				p1 = new Ponto(e.getX(), e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, new Color(255,0,0), TipoLinha.fina,true);
 			}
@@ -545,6 +557,7 @@ public class App {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				p2 = new Ponto(e.getX(), e.getY());
+				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
 				// captura do angulo final e inicial
 				anguloInicial = Integer.parseInt(JOptionPane.showInputDialog("Entre com o valor do angulo inicial (0<aI<360):"));
@@ -565,6 +578,7 @@ public class App {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				p1 = new Ponto(e.getX(), e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
 			
@@ -604,6 +618,7 @@ public class App {
 			public void mouseClicked(MouseEvent arg0) {
 				incremento_texto=0;
 				inicio_texto = new Ponto(arg0.getX(),arg0.getY());
+				if(ctrGrade.isVisible()) inicio_texto = ctrGrade.get_ponto_prox(inicio_texto);
 			}
 		};
 		
@@ -652,6 +667,7 @@ public class App {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				p2 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
 				ctrFigura.mover_figura_selecionada(drawPanel, p2, cor_area_de_trabalho);
 //				ctrFigura.move_all(drawPanel, p2, cor_area_de_trabalho);
@@ -660,6 +676,7 @@ public class App {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				p1 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				ctrFigura.get_figura_proxima(p1,drawPanel);
 			}
 			
@@ -683,6 +700,7 @@ public class App {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				p2 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
 				ctrFigura.move_all(drawPanel, p1, p2, cor_area_de_trabalho);
 			}
@@ -690,6 +708,7 @@ public class App {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				p1 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 			}
 			
 			@Override
@@ -763,6 +782,7 @@ public class App {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				p1 = new Ponto(arg0.getX(),arg0.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				ctrFigura.get_figura_proxima(p1, drawPanel);
 				anguloInicial = -1;
 				while(anguloInicial < 0 || anguloInicial > 360) anguloInicial = Integer.parseInt(JOptionPane.showInputDialog("Entre com o valor do angulo (0<a<360):"));
@@ -792,6 +812,7 @@ public class App {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				p1 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(e.getButton() == e.BUTTON1){
 					ctrFigura.get_figura_proxima(p1, drawPanel);
 					ctrFigura.alterar_escala_figura(drawPanel, 1.6, cor_area_de_trabalho);
@@ -825,6 +846,7 @@ public class App {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				p1 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(e.getButton() == e.BUTTON1){
 					ctrFigura.scale_all(drawPanel, 1.6, cor_area_de_trabalho);
 				}
@@ -841,6 +863,7 @@ public class App {
 					public void mouseReleased(MouseEvent e) {
 						// pega o ultimo ponto e chama o método de desenho
 						p2 = new Ponto(e.getX(),e.getY());
+						if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 						if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
 						
 						// add os pontos de click
@@ -854,6 +877,7 @@ public class App {
 					public void mousePressed(MouseEvent e) {
 						// pega o primeiro ponto
 						p1 = new Ponto(e.getX(),e.getY());
+						if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 						if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
 					}
 					

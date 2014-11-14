@@ -51,4 +51,29 @@ public class ControleGrade {
 			ctrReta.drawReta(p1, p2, panel, new Color(255-bg_color.getRed(),255-bg_color.getGreen(),255-bg_color.getBlue()), TipoLinha.fina, true);
 		}
 	}
+	
+	public Ponto get_ponto_prox(Ponto p){
+		int x = p.getX() , y = p.getY(), gap_aux = grade.getGap(), mid_gap = gap_aux/2;
+		
+		System.out.println("X: " + x);
+		System.out.println("Y: " + y);
+		
+		int proximidade_x = x%40;
+		int proximidade_y = y%40;
+		
+		System.out.println("P-X: " + proximidade_x);
+		System.out.println("P-Y: " + proximidade_y);
+		
+		if(proximidade_x <= mid_gap) x -= proximidade_x;
+		else x += (gap_aux - proximidade_x);
+		
+		if(proximidade_y <= mid_gap) y -= proximidade_y;
+		else y += (gap_aux - proximidade_y);
+		
+		System.out.println("X: " + x);
+		System.out.println("Y: " + y);
+		System.out.println();
+		
+		return new Ponto(x,y);
+	}
 }
