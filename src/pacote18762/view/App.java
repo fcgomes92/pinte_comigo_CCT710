@@ -236,7 +236,7 @@ public class App {
 		ctrLetra = new ControleLetra();
 //		ctrDraw = new ControleDraw();
 		ctrGrade = new ControleGrade(drawPanel);
-		ctrFigura = new ControleFigura(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo);
+		ctrFigura = new ControleFigura(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo,ctrLetra);
 		ctrArquivo = new ControleArquivo(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo);
 		
 		// inicialização das variaveis de auxilio
@@ -262,9 +262,9 @@ public class App {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
-				System.out.println("Código letra: "+e.getKeyChar());
+				//System.out.println("Código letra: "+e.getKeyChar());
 				if(e.getKeyCode() == 13) inicio_texto.setY(inicio_texto.getY()+((tamanhoLetra == TamanhoLetra.tamanho8x8)?8:(tamanhoLetra == TamanhoLetra.tamanho16x16)?16:32));
-				else if(e.getKeyChar()!=32)ctrLetra.drawLetra(drawPanel, corEscolhida, new Ponto(inicio_texto.getX()+incremento_texto,inicio_texto.getY()), e.getKeyChar(), tipoLinhaDesenho, tamanhoLetra);
+				else if(e.getKeyChar()!=32)ctrLetra.drawLetra(drawPanel, corEscolhida, new Ponto(inicio_texto.getX()+incremento_texto,inicio_texto.getY()), e.getKeyChar(), tipoLinhaDesenho, tamanhoLetra, false);
 				incremento_texto +=(tamanhoLetra == TamanhoLetra.tamanho8x8)?8:(tamanhoLetra == TamanhoLetra.tamanho16x16)?16:32;
 			}	
 			
@@ -321,6 +321,7 @@ public class App {
 				
 			}
 		};
+		
 		ml_circulo = new MouseListener() {
 
 			@Override
@@ -364,6 +365,7 @@ public class App {
 				
 			}
 		};
+		
 		ml_poligono = new MouseListener() {
 			
 			@Override
@@ -430,6 +432,7 @@ public class App {
 				
 			}
 		};
+		
 		ml_elipse = new MouseListener() {
 			
 			@Override
@@ -467,6 +470,7 @@ public class App {
 				// TODO Auto-generated method stub				
 			}
 		};
+		
 		ml_ret = new MouseListener() {
 			
 			@Override
@@ -509,6 +513,7 @@ public class App {
 				
 			}
 		};
+		
 		ml_arc_circulo = new MouseListener() {
 			
 			@Override
@@ -552,6 +557,7 @@ public class App {
 			public void mouseClicked(MouseEvent e) {
 			}
 		};
+
 		ml_arc_elipse = new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -656,7 +662,6 @@ public class App {
 //						// TODO Auto-generated catch block
 //						e1.printStackTrace();
 //					}
-				ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
 			}
 		};
 		
@@ -669,7 +674,12 @@ public class App {
 				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
 				ctrFigura.mover_figura_selecionada(drawPanel, p2, cor_area_de_trabalho);
-//				ctrFigura.move_all(drawPanel, p2, cor_area_de_trabalho);
+				
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
+				}
+				
 			}
 			
 			@Override
@@ -702,6 +712,11 @@ public class App {
 				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
 				ctrFigura.move_all(drawPanel, p1, p2, cor_area_de_trabalho);
+				
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
+				}
 			}
 			
 			@Override
@@ -748,6 +763,10 @@ public class App {
 				anguloInicial = -1;
 				while(anguloInicial < 0 || anguloInicial > 360) anguloInicial = Integer.parseInt(JOptionPane.showInputDialog("Entre com o valor do angulo (0<a<360):"));
 				ctrFigura.rotate_all(drawPanel, anguloInicial, cor_area_de_trabalho);
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
+				}
 			}
 		};
 		
@@ -786,6 +805,10 @@ public class App {
 				anguloInicial = -1;
 				while(anguloInicial < 0 || anguloInicial > 360) anguloInicial = Integer.parseInt(JOptionPane.showInputDialog("Entre com o valor do angulo (0<a<360):"));
 				ctrFigura.rotacionar_figura(drawPanel, anguloInicial, p1, cor_area_de_trabalho);
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
+				}
 			}
 		};
 		
@@ -820,6 +843,12 @@ public class App {
 					ctrFigura.get_figura_proxima(p1, drawPanel);
 					ctrFigura.alterar_escala_figura(drawPanel, 0.625, cor_area_de_trabalho);
 				}
+				
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
+				}
+				
 			}
 		};
 		
@@ -852,6 +881,12 @@ public class App {
 				else if(e.getButton() == MouseEvent.BUTTON3){
 					ctrFigura.scale_all(drawPanel, 0.625, cor_area_de_trabalho);
 				}
+				
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
+				}
+				
 			}
 		};
 		
@@ -1130,8 +1165,7 @@ public class App {
 				drawPanel.addMouseListener(ml_selecionar_area);
 			}
 		});
-		
-		
+			
 		// botão para selecionar uma figura
 		bt_show_grid.addActionListener(new ActionListener() {
 			

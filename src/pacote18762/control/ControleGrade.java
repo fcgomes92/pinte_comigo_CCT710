@@ -45,7 +45,7 @@ public class ControleGrade {
 	 */
 	public void draw_grid(Draw panel, Color bg_color){
 		
-		System.out.println(grade.getHeight() + "-" + grade.getWidth());
+		//System.out.println(grade.getHeight() + "-" + grade.getWidth());
 		
 		Ponto p1, p2;
 		

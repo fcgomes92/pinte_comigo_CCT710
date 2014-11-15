@@ -7,6 +7,7 @@ import java.util.List;
 import pacote18762.model.Circulo;
 import pacote18762.model.Draw;
 import pacote18762.model.Elipse;
+import pacote18762.model.Letra;
 import pacote18762.model.PoligonoRegular;
 import pacote18762.model.Ponto;
 import pacote18762.model.Reta;
@@ -25,6 +26,7 @@ public class ControleFigura extends ControleDraw{
 	private ControlePoligonoRegular ctrPoligono;
 	private ControleReta ctrReta;
 	private ControleRetangulo ctrRetangulo;
+	private ControleLetra ctrLetra;
 	private ControlePonto ctrPonto;
 	
 	private List<Circulo> circulos_desenhados_aux = new LinkedList<Circulo>();
@@ -34,6 +36,7 @@ public class ControleFigura extends ControleDraw{
 	private List<PoligonoRegular> poligonos_desenhados_aux = new LinkedList<>();
 	private List<Reta> retas_desenhados_aux = new LinkedList<>();
 	private List<Retangulo> retangulos_desenhados_aux = new LinkedList<>();
+	private List<Letra> letras_desenhados_aux = new LinkedList<>();
 	
 	private Object figura_selecionada;
 	private LinkedList<Object> figuras_selecao_multipla = new LinkedList<Object>();
@@ -52,12 +55,13 @@ public class ControleFigura extends ControleDraw{
 	 * @param reta
 	 * @param retangulo
 	 */
-	public ControleFigura(ControleCirculo circulo, ControleElipse elipse, ControlePoligonoRegular poligono, ControleReta reta, ControleRetangulo retangulo){
+	public ControleFigura(ControleCirculo circulo, ControleElipse elipse, ControlePoligonoRegular poligono, ControleReta reta, ControleRetangulo retangulo, ControleLetra letra){
 		this.ctrCirculo = circulo;
 		this.ctrElipse = elipse;
 		this.ctrPoligono = poligono;
 		this.ctrReta = reta;
 		this.ctrRetangulo = retangulo;
+		this.ctrLetra = letra;
 		this.ctrPonto = new ControlePonto();
 	}
 	
@@ -133,6 +137,12 @@ public class ControleFigura extends ControleDraw{
 			
 			if(((PoligonoRegular) figura_selecionada).getRoatcao()==0) ctrPoligono.draw_poligono_regular(panel, ((PoligonoRegular) figura_selecionada).getCorLinha(), ((PoligonoRegular) figura_selecionada).getTipoLinha(), novo_ponto, novo_p2, ((PoligonoRegular) figura_selecionada).getQtdArestas(), false);
 			else ctrPoligono.draw_poligono_regular(panel, ((PoligonoRegular) figura_selecionada).getCorLinha(), ((PoligonoRegular) figura_selecionada).getTipoLinha(), novo_ponto, novo_p2, ((PoligonoRegular) figura_selecionada).getQtdArestas(), false, ((PoligonoRegular) figura_selecionada).getRoatcao(), novo_ponto);
+		}
+		else if(figura_selecionada instanceof Letra){
+			
+			if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), novo_ponto, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false);
+			else System.out.println("Eu deveria rotacionar aqui... :(");
+			
 		}
 	}
 	
@@ -341,6 +351,15 @@ public class ControleFigura extends ControleDraw{
 			ctrReta.retas_desenhadas.remove(c);
 			mover_figura_selecionada(panel, p1, p2, bg_color);
 		}
+		
+		letras_desenhados_aux = new LinkedList<>();
+		letras_desenhados_aux.addAll(ctrLetra.letras_text);
+		for (Letra l : letras_desenhados_aux) {
+			figura_selecionada = l;
+			ctrLetra.letras_text.remove(l);
+			mover_figura_selecionada(panel, p1, p2, bg_color);
+		}
+		
 	}
 	
 	/**
@@ -422,6 +441,14 @@ public class ControleFigura extends ControleDraw{
 			
 			if(((PoligonoRegular) figura_selecionada).getRoatcao() == 0) ctrPoligono.draw_poligono_regular(panel, ((PoligonoRegular) figura_selecionada).getCorLinha(), ((PoligonoRegular) figura_selecionada).getTipoLinha(), centro, borda, ((PoligonoRegular) figura_selecionada).getQtdArestas(), false);
 			else ctrPoligono.draw_poligono_regular(panel, ((PoligonoRegular) figura_selecionada).getCorLinha(), ((PoligonoRegular) figura_selecionada).getTipoLinha(), centro, borda, ((PoligonoRegular) figura_selecionada).getQtdArestas(), false, ((PoligonoRegular) figura_selecionada).getRoatcao(), centro);
+		}
+		else if(figura_selecionada instanceof Letra){
+			Ponto top_left = ((Letra) figura_selecionada).getTop_left(); 
+			top_left = new Ponto(top_left.getX() + dif_x , top_left.getY() + dif_y);
+			
+			if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), top_left, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false);
+			else System.out.println("Eu deveria rotacionar aqui... :(");
+			
 		}
 	}
 	
@@ -621,6 +648,15 @@ public class ControleFigura extends ControleDraw{
 				figuras_selecao_multipla.add(r);
 			}
 		}
+		
+		// verificação de retas
+		for (Letra l : ctrLetra.letras_text) {
+			if(this.interno_selecao(selecao_multipla, l.getTop_left())){
+				System.out.println("Letra dentro");
+				figuras_selecao_multipla.add(l);
+			}
+		}
+		
 		System.out.println();
 		this.get_figura_dentro_seleção(p1, panel);
 	}
@@ -673,6 +709,13 @@ public class ControleFigura extends ControleDraw{
 				else ctrPoligono.draw_poligono_regular(panel, new Color(255,0,0), ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
 				ctrPoligono.poligonos_regulares_desenhados.remove(figura_selecionada);
 			}
+			else if(figura_selecionada instanceof Letra){
+				Ponto top_left = ((Letra) figura_selecionada).getTop_left();
+				
+				if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, new Color(255), top_left, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false);
+				else System.out.println("Eu deveria rotacionar aqui... :(");
+				ctrLetra.letras_text.remove(figura_selecionada);
+			}
 		}
 	}
 	
@@ -715,6 +758,10 @@ public class ControleFigura extends ControleDraw{
 		for (Reta r : ctrReta.retas_desenhadas){
 			if(r.getRoatcao()==0) ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, r.getCorLinha(), r.getTipoLinha(), true);
 			else ctrReta.drawReta(r.getPtoInicial(), r.getPtoFinal(), panel, r.getCorLinha(), r.getTipoLinha(), true, r.getRoatcao(), r.getPtMedio());
+		}
+		for (Letra l : ctrLetra.letras_text) {
+			if(l.getRoatcao() == 0) ctrLetra.drawLetra(panel, l.getCorLinha(), l.getTop_left(), l.getCaracter(), l.getTipoLinha(), l.getTamLetra(), true);
+			else System.out.println("Eu deveria rotacionar aqui... :(");	
 		}
 	}
 	
@@ -792,6 +839,15 @@ public class ControleFigura extends ControleDraw{
 				}
 			}
 			
+			// verificação de retas
+			for (Letra l : ctrLetra.letras_text) {
+				distancia_temp = ctrPonto.dist(l.getTop_left(),p1);
+				if(distancia_temp<distancia){
+					distancia = distancia_temp;
+					figura_selecionada = l;
+				}
+			}
+			
 			// validação do tipo de figura
 //			System.out.println(figura_selecionada.getClass());
 			// objetos de comparação
@@ -837,6 +893,12 @@ public class ControleFigura extends ControleDraw{
 				else ctrPoligono.draw_poligono_regular(panel, new Color(255,0,0), ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
 				ctrPoligono.poligonos_regulares_desenhados.remove(figura_selecionada);
 			}
+			else if(figura_selecionada instanceof Letra){
+				Ponto top_left = ((Letra) figura_selecionada).getTop_left();				
+				if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, new Color(255,0,0), top_left, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true);
+				else System.out.println("Eu deveria rotacionar aqui... :(");	
+				ctrLetra.letras_text.remove(figura_selecionada);
+			}
 		}
 		 
 	/**
@@ -846,38 +908,55 @@ public class ControleFigura extends ControleDraw{
 	 * @param bg_color
 	 */
 	public void apaga_figura_selecionada(Draw panel, Color bg_color){
-		if (figura_selecionada instanceof Circulo)
-			if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0)
+		if (figura_selecionada instanceof Circulo){
+			if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0){
 				if(((Circulo) figura_selecionada).getRoatcao()==0)ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(),true);
-				else ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(),true, ((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro()); 
-			else
+				else ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(),true, ((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro());
+				ctrCirculo.circulos_desenhados.remove(figura_selecionada);
+			}
+			
+			else{
 				if(((Circulo) figura_selecionada).getRoatcao()==0) ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(), true);
 				else ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(), true,((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro());
-		
+				ctrCirculo.arcos_desenhados.remove(figura_selecionada);
+			}
+		}
 		else if (figura_selecionada instanceof Elipse) {
 			if(((Elipse) figura_selecionada).getAnguloInicial()==0 && ((Elipse) figura_selecionada).getAnguloFinal() ==0){
 				if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipse(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true);
 				else ctrElipse.drawElipse(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
-				
+				ctrElipse.elipses_desenhadas.remove(figura_selecionada);				
 			}
 			else{
 				if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipseArc(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true);
 				else ctrElipse.drawElipseArc(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
+				ctrElipse.arcos_desenhados.remove(figura_selecionada);
 			}
 		}
 		
 		else if (figura_selecionada instanceof Retangulo) {
 			if(((Retangulo) figura_selecionada).getRoatcao() == 0) ctrRetangulo.drawRetangulo(panel, bg_color, ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true);
 			else ctrRetangulo.drawRetangulo(panel, bg_color, ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true,((Retangulo) figura_selecionada).getRoatcao(), ((Retangulo) figura_selecionada).getCentro());
+			ctrRetangulo.retangulos_desenhados.remove(figura_selecionada);
 		}
 		
 		else if (figura_selecionada instanceof Reta) {
 			if(((Reta) figura_selecionada).getRoatcao() == 0) ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, bg_color, ((Reta) figura_selecionada).getTipoLinha(), true);
 			else ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, bg_color, ((Reta) figura_selecionada).getTipoLinha(), true, ((Reta) figura_selecionada).getRoatcao(), ((Reta) figura_selecionada).getPtMedio());
+			ctrReta.retas_desenhadas.remove(figura_selecionada);
 		}
-		else if (figura_selecionada instanceof PoligonoRegular)
+		
+		else if (figura_selecionada instanceof PoligonoRegular){
 			if(((PoligonoRegular) figura_selecionada).getRoatcao() == 0) ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true);
 			else ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
+			ctrPoligono.poligonos_regulares_desenhados.remove(figura_selecionada);
+		}
+		
+		else if(figura_selecionada instanceof Letra){				
+			if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, bg_color, ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true);
+			else System.out.println("Eu deveria rotacionar aqui... :(");
+			ctrLetra.letras_text.remove(figura_selecionada);
+		}
 	}
 	
 	/**

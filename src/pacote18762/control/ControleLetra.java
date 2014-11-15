@@ -22,7 +22,7 @@ import pacote18762.model.TipoLinha;
 public class ControleLetra extends ControleFigura{
 	
 	private List<Letra> alfabeto = new LinkedList<Letra>();
-	private List<Letra> letras_text = new LinkedList<Letra>();
+	public List<Letra> letras_text = new LinkedList<Letra>();
 	private ControleReta ctrReta = new ControleReta();
 	
 	/**
@@ -33,32 +33,40 @@ public class ControleLetra extends ControleFigura{
 	 * @param tipoLinha
 	 * @param tamanho_letra
 	 */
-	public void drawLetra(Draw panel, Color cor, Ponto ptIncial, int valor_letra, TipoLinha tipoLinha, TamanhoLetra tamanho_letra){
+	public void drawLetra(Draw panel, Color cor, Ponto ptIncial, int valor_letra, TipoLinha tipoLinha, TamanhoLetra tamanho_letra, boolean redraw){
 		
-		Letra l = new Letra();
-		letras_text.add(l);
 		Ponto p1Temp, p2Temp;
+		Letra l = new Letra();
 		
-		if(tamanho_letra == TamanhoLetra.tamanho8x8){
-			for (Reta r : alfabeto.get(valor_letra-47).getRetas()){
+		l.setRoatcao(0);
+		l.setCorLinha(cor);
+		l.setTipoLinha(tipoLinha);
+		l.setTamLetra(tamanho_letra);
+		l.setCaracter((valor_letra));
+		
+		for (Reta r : alfabeto.get(valor_letra-47).getRetas()){
+			if(tamanho_letra == TamanhoLetra.tamanho8x8){
 				p1Temp = new Ponto(r.getPtoInicial().getX() + ptIncial.getX(), r.getPtoInicial().getY() + ptIncial.getY());
 				p2Temp = new Ponto(r.getPtoFinal().getX() + ptIncial.getX(), r.getPtoFinal().getY() + ptIncial.getY());
-				ctrReta.drawReta(p1Temp,p2Temp, panel, cor, tipoLinha,true);
 			}
-		}
-		else if(tamanho_letra == TamanhoLetra.tamanho16x16){
-			for (Reta r : alfabeto.get(valor_letra-47).getRetas()){
+			
+			else if(tamanho_letra == TamanhoLetra.tamanho16x16){
 				p1Temp = new Ponto(r.getPtoInicial().getX()*2 + ptIncial.getX(), r.getPtoInicial().getY()*2 + ptIncial.getY());
 				p2Temp = new Ponto(r.getPtoFinal().getX()*2 + ptIncial.getX(), r.getPtoFinal().getY()*2 + ptIncial.getY());
-				ctrReta.drawReta(p1Temp,p2Temp, panel, cor, tipoLinha,true);
-			}
-		}else{
-			for (Reta r : alfabeto.get(valor_letra-47).getRetas()){
+			
+			}else{
 				p1Temp = new Ponto(r.getPtoInicial().getX()*4 + ptIncial.getX(), r.getPtoInicial().getY()*4 + ptIncial.getY());
 				p2Temp = new Ponto(r.getPtoFinal().getX()*4 + ptIncial.getX(), r.getPtoFinal().getY()*4 + ptIncial.getY());
-				ctrReta.drawReta(p1Temp,p2Temp, panel, cor, tipoLinha,true);
 			}
+			
+			l.setTop_left(ptIncial);
+			l.set_one_line(new Reta(p1Temp, p2Temp));
+			ctrReta.drawReta(p1Temp,p2Temp, panel, cor, tipoLinha,true);
 		}
+		
+//		System.out.println(l.toString());
+		
+		if(!redraw)letras_text.add(l);
 	}
 	
 	/**
