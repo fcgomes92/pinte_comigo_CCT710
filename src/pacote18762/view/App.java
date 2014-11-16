@@ -237,7 +237,7 @@ public class App {
 //		ctrDraw = new ControleDraw();
 		ctrGrade = new ControleGrade(drawPanel);
 		ctrFigura = new ControleFigura(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo,ctrLetra);
-		ctrArquivo = new ControleArquivo(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo);
+		ctrArquivo = new ControleArquivo(ctrCirculo,ctrElipse,ctrPoligono,ctrReta,ctrRetangulo,ctrLetra);
 		
 		// inicialização das variaveis de auxilio
 		p1 = new Ponto(-1,-1);
@@ -1223,7 +1223,8 @@ public class App {
 			public void actionPerformed(ActionEvent e) {
 				
 				JFileChooser chooser = new JFileChooser();
-			    int returnVal = chooser.showSaveDialog(drawPanel);
+				chooser.setApproveButtonText("Load");
+			    int returnVal = chooser.showOpenDialog(drawPanel);
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
 			    	if(ctrArquivo.load_file(chooser.getSelectedFile().getAbsolutePath())) {
 			    		System.out.println("Sucesso no load!");

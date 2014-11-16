@@ -1,7 +1,6 @@
 package pacote18762.control;
 
 import java.io.IOException;
-
 import pacote18762.view.App;
 
 /**

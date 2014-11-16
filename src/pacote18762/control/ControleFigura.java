@@ -141,8 +141,7 @@ public class ControleFigura extends ControleDraw{
 		else if(figura_selecionada instanceof Letra){
 			
 			if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), novo_ponto, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false);
-			else System.out.println("Eu deveria rotacionar aqui... :(");
-			
+			else ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true, ((Letra) figura_selecionada).getRoatcao(), ((Letra) figura_selecionada).getTop_left());
 		}
 	}
 	
@@ -283,6 +282,10 @@ public class ControleFigura extends ControleDraw{
 			Ponto borda = new Ponto(((PoligonoRegular) figura_selecionada).getBorda().getX(),((PoligonoRegular) figura_selecionada).getBorda().getY());
 			
 			ctrPoligono.draw_poligono_regular(panel, ((PoligonoRegular) figura_selecionada).getCorLinha(), ((PoligonoRegular) figura_selecionada).getTipoLinha(), centro, borda, ((PoligonoRegular) figura_selecionada).getQtdArestas(), false, angulo, centro);
+		}
+		else if (figura_selecionada instanceof Letra){
+			Ponto top_left = ((Letra)figura_selecionada).getTop_left();
+			ctrLetra.drawLetra(panel, ((Letra)figura_selecionada).getCorLinha(), top_left, ((Letra)figura_selecionada).getCaracter(), ((Letra)figura_selecionada).getTipoLinha(), ((Letra)figura_selecionada).getTamLetra(), false, angulo, top_left);
 		}
 	}
 	
@@ -447,7 +450,7 @@ public class ControleFigura extends ControleDraw{
 			top_left = new Ponto(top_left.getX() + dif_x , top_left.getY() + dif_y);
 			
 			if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), top_left, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false);
-			else System.out.println("Eu deveria rotacionar aqui... :(");
+			else ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false, ((Letra) figura_selecionada).getRoatcao(), top_left);
 			
 		}
 	}
@@ -585,6 +588,14 @@ public class ControleFigura extends ControleDraw{
 			ctrReta.retas_desenhadas.remove(c);
 			this.rotacionar_figura(panel, angulo, ref, bg_color);
 		}
+		
+		letras_desenhados_aux = new LinkedList<>();
+		letras_desenhados_aux.addAll(ctrLetra.letras_text);
+		for (Letra l : letras_desenhados_aux) {
+			figura_selecionada = l;
+			ctrLetra.letras_text.remove(l);
+			this.rotacionar_figura(panel, angulo, ref, bg_color);
+		}
 	}
 	
 	/************************************************Função aux***************************************************/
@@ -594,6 +605,10 @@ public class ControleFigura extends ControleDraw{
 		// gerando o retângulo de seleção de área
 		selecao_multipla = ctrRetangulo.gera_ret_selecao(p1, p2);
 		ctrRetangulo.drawRetangulo(panel, new Color(255), p1, p2, TipoLinha.pontilhada, true);
+		
+		// reseta as figuras
+		figuras_selecao_multipla = new LinkedList<>();
+		
 		// seleciona as figuras dentro do retângulo, e pinta elas
 		for (Circulo c : ctrCirculo.circulos_desenhados) {
 			if(this.interno_selecao(selecao_multipla, c.getCentro())){
@@ -713,7 +728,7 @@ public class ControleFigura extends ControleDraw{
 				Ponto top_left = ((Letra) figura_selecionada).getTop_left();
 				
 				if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, new Color(255), top_left, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false);
-				else System.out.println("Eu deveria rotacionar aqui... :(");
+				else ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false, ((Letra) figura_selecionada).getRoatcao(), top_left);
 				ctrLetra.letras_text.remove(figura_selecionada);
 			}
 		}
@@ -761,7 +776,7 @@ public class ControleFigura extends ControleDraw{
 		}
 		for (Letra l : ctrLetra.letras_text) {
 			if(l.getRoatcao() == 0) ctrLetra.drawLetra(panel, l.getCorLinha(), l.getTop_left(), l.getCaracter(), l.getTipoLinha(), l.getTamLetra(), true);
-			else System.out.println("Eu deveria rotacionar aqui... :(");	
+			else ctrLetra.drawLetra(panel, l.getCorLinha(), l.getTop_left(), l.getCaracter(), l.getTipoLinha(), l.getTamLetra(), true, l.getRoatcao(), l.getTop_left());	
 		}
 	}
 	
@@ -896,7 +911,7 @@ public class ControleFigura extends ControleDraw{
 			else if(figura_selecionada instanceof Letra){
 				Ponto top_left = ((Letra) figura_selecionada).getTop_left();				
 				if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, new Color(255,0,0), top_left, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true);
-				else System.out.println("Eu deveria rotacionar aqui... :(");	
+				else ctrLetra.drawLetra(panel, new Color(255,0,0), ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true, ((Letra) figura_selecionada).getRoatcao(), top_left);	
 				ctrLetra.letras_text.remove(figura_selecionada);
 			}
 		}
@@ -954,7 +969,7 @@ public class ControleFigura extends ControleDraw{
 		
 		else if(figura_selecionada instanceof Letra){				
 			if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, bg_color, ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true);
-			else System.out.println("Eu deveria rotacionar aqui... :(");
+			else ctrLetra.drawLetra(panel, bg_color, ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true, ((Letra) figura_selecionada).getRoatcao(), ((Letra) figura_selecionada).getTop_left());
 			ctrLetra.letras_text.remove(figura_selecionada);
 		}
 	}

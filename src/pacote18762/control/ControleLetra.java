@@ -70,6 +70,50 @@ public class ControleLetra extends ControleFigura{
 	}
 	
 	/**
+	 * @param panel
+	 * @param cor
+	 * @param ptIncial
+	 * @param valor_letra
+	 * @param tipoLinha
+	 * @param tamanho_letra
+	 */
+	public void drawLetra(Draw panel, Color cor, Ponto ptIncial, int valor_letra, TipoLinha tipoLinha, TamanhoLetra tamanho_letra, boolean redraw, int angulo, Ponto pivo){
+		
+		Ponto p1Temp, p2Temp;
+		Letra l = new Letra();
+		
+		l.setRoatcao(angulo);
+		l.setCorLinha(cor);
+		l.setTipoLinha(tipoLinha);
+		l.setTamLetra(tamanho_letra);
+		l.setCaracter((valor_letra));
+		
+		for (Reta r : alfabeto.get(valor_letra-47).getRetas()){
+			if(tamanho_letra == TamanhoLetra.tamanho8x8){
+				p1Temp = new Ponto(r.getPtoInicial().getX() + ptIncial.getX(), r.getPtoInicial().getY() + ptIncial.getY());
+				p2Temp = new Ponto(r.getPtoFinal().getX() + ptIncial.getX(), r.getPtoFinal().getY() + ptIncial.getY());
+			}
+			
+			else if(tamanho_letra == TamanhoLetra.tamanho16x16){
+				p1Temp = new Ponto(r.getPtoInicial().getX()*2 + ptIncial.getX(), r.getPtoInicial().getY()*2 + ptIncial.getY());
+				p2Temp = new Ponto(r.getPtoFinal().getX()*2 + ptIncial.getX(), r.getPtoFinal().getY()*2 + ptIncial.getY());
+			
+			}else{
+				p1Temp = new Ponto(r.getPtoInicial().getX()*4 + ptIncial.getX(), r.getPtoInicial().getY()*4 + ptIncial.getY());
+				p2Temp = new Ponto(r.getPtoFinal().getX()*4 + ptIncial.getX(), r.getPtoFinal().getY()*4 + ptIncial.getY());
+			}
+			
+			l.setTop_left(ptIncial);
+			l.set_one_line(new Reta(p1Temp, p2Temp));
+			ctrReta.drawReta(p1Temp,p2Temp, panel, cor, tipoLinha,true,angulo,pivo);
+		}
+		
+//		System.out.println(l.toString());
+		
+		if(!redraw)letras_text.add(l);
+	}
+	
+	/**
 	 * @param nomeArquivo
 	 * @return
 	 * @throws FileNotFoundException

@@ -10,10 +10,12 @@ import java.io.IOException;
 
 import pacote18762.model.Circulo;
 import pacote18762.model.Elipse;
+import pacote18762.model.Letra;
 import pacote18762.model.PoligonoRegular;
 import pacote18762.model.Ponto;
 import pacote18762.model.Reta;
 import pacote18762.model.Retangulo;
+import pacote18762.model.TamanhoLetra;
 import pacote18762.model.TipoLinha;
 
 public class ControleArquivo {
@@ -23,20 +25,22 @@ public class ControleArquivo {
 	private ControlePoligonoRegular ctrPoligono;
 	private ControleReta ctrReta;
 	private ControleRetangulo ctrRetangulo;
+	private ControleLetra ctrLetra;
 //	private ControlePonto ctrPonto;
 	
-	public ControleArquivo(ControleCirculo circulo, ControleElipse elipse, ControlePoligonoRegular poligono, ControleReta reta, ControleRetangulo retangulo){
+	public ControleArquivo(ControleCirculo circulo, ControleElipse elipse, ControlePoligonoRegular poligono, ControleReta reta, ControleRetangulo retangulo, ControleLetra letra){
 		this.ctrCirculo = circulo;
 		this.ctrElipse = elipse;
 		this.ctrPoligono = poligono;
 		this.ctrReta = reta;
 		this.ctrRetangulo = retangulo;
+		this.ctrLetra = letra;
 	}
 	
 	public boolean load_file(String path){
 		try{
 			String file_content = "";
-			System.out.println(path);
+			System.out.println("Caminho: "+path);
 			File file = new File(path);
 			TipoLinha tp_linha;
 			Color cor;
@@ -60,7 +64,7 @@ public class ControleArquivo {
 					
 					// Realiza o split da linha lida em pares separados por virgula
 					aux_linha = file_content.split("/");
-					System.out.println(aux_linha[0]);
+//					System.out.println(aux_linha[0]);
 					
 					switch (tipo_escolhido){
 						case "C":
@@ -234,7 +238,7 @@ public class ControleArquivo {
 						case "Reta":
 							// Ponto 1
 							aux_ponto = aux_linha[0].split(",");
-							Ponto p1Reta =	 new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							Ponto p1Reta = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
 							// Ponto 2
 							aux_ponto = aux_linha[1].split(",");
 							Ponto p2Reta = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
@@ -252,6 +256,36 @@ public class ControleArquivo {
 							reta.setCorLinha(cor);
 							reta.setTipoLinha(tp_linha);
 							ctrReta.retas_desenhadas.add(reta);
+							break;
+						case "L":
+							// Ponto Top_Left
+							aux_ponto = aux_linha[0].split(",");
+							Ponto p1TopLeft = new Ponto(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]));
+							
+							// Caracter
+							int caracter = Integer.parseInt(aux_linha[1]);
+							
+							// Tamanho de letra
+							TamanhoLetra tamLetra = aux_linha[2].equals("tamanho8x8")?TamanhoLetra.tamanho8x8:aux_linha[2].equals("tamanho16x16")?TamanhoLetra.tamanho16x16:TamanhoLetra.tamanho32x32;
+							
+							// Tipo de linha
+							tp_linha = aux_linha[3].equals("fina")?TipoLinha.fina:aux_linha[3].equals("grossa")?TipoLinha.grossa:TipoLinha.pontilhada;
+
+							// Componentes da cor
+							aux_ponto = aux_linha[4].split(",");
+							cor = new Color(Integer.parseInt(aux_ponto[0]),Integer.parseInt(aux_ponto[1]),Integer.parseInt(aux_ponto[2]));
+							
+							// Rotação
+							int rotLetra = Integer.parseInt(aux_linha[5]);
+							
+							Letra l = new Letra();
+							l.setCaracter(caracter);
+							l.setTop_left(p1TopLeft);
+							l.setTamLetra(tamLetra);
+							l.setTipoLinha(tp_linha);
+							l.setCorLinha(cor);
+							l.setRoatcao(rotLetra);
+							ctrLetra.letras_text.add(l);
 							break;
 					}
 				}
@@ -291,6 +325,10 @@ public class ControleArquivo {
 							System.out.println("Lendo as retas...");
 							tipo_escolhido="Reta";
 							break;
+						case "Letras":
+							System.out.println("Lendo as letras...");
+							tipo_escolhido="L";
+							break;
 					}
 						
 				}
@@ -310,7 +348,7 @@ public class ControleArquivo {
 		try{
 			
 			String file_content = "";
-			System.out.println(path);
+			System.out.println("Caminho: "+path);
 			File file = new File(path);
 			
 			// Cria arquivo caso não exista.
@@ -374,6 +412,12 @@ public class ControleArquivo {
 		str+="Reta\n";
 		for (Reta c : ctrReta.retas_desenhadas){
 			str+=c.toString();
+			str+="\n";
+		}
+		
+		str+="Letras\n";
+		for (Letra l : ctrLetra.letras_text){
+			str+=l.toString();
 			str+="\n";
 		}
 		return str;
