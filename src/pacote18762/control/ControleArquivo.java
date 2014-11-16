@@ -422,8 +422,4 @@ public class ControleArquivo {
 		}
 		return str;
 	}
-	
-	public void load_estruturas(){
-		
-	}
 }

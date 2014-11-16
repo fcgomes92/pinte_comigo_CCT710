@@ -1034,4 +1034,8 @@ public class ControleFigura extends ControleDraw{
 			return true;
 		return false;
 	}	
+	
+	public void set_figura_selecionada_empty(){
+		this.figura_selecionada = null;
+	}
 }

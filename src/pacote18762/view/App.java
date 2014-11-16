@@ -1,10 +1,13 @@
 package pacote18762.view;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -13,15 +16,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SpringLayout;
+import javax.swing.border.TitledBorder;
 
 import pacote18762.control.ControleArquivo;
 import pacote18762.control.ControleCirculo;
@@ -46,9 +55,12 @@ import pacote18762.model.TipoLinha;
  */
 public class App {
 	// botões de opção
-	private JButton btExit, btLoad, btSalvar, btNovo, btInstrucoes;
+	private JMenuBar menu_bar; // barra de menu principal
+	private JMenu menu; // primeiro menu da barra
+	private JMenuItem mi_exit, mi_load, mi_salvar, mi_novo, mi_instrucoes;
+	
 	// botões de ferramentas de desenho
-	private JButton bt_draw_reta_tool, bt_draw_circulo_tool, bt_draw_poligono_tool, bt_draw_elipse_tool, bt_escolher_cor_linha_tool; 
+	private JButton bt_draw_reta_tool, bt_draw_circulo_tool, bt_draw_poligono_tool, bt_draw_elipse_tool, bt_escolher_cor_linha_tool, bt_apagar_figura; 
 	private JButton bt_escolher_tipo_linha_tool, bt_draw_ret_tool, bt_draw_arc_circulo_tool, bt_draw_arc_elipse_tool;
 	private JButton bt_selecionar_area;
 	
@@ -61,8 +73,9 @@ public class App {
 	
 	// main window
 	private JFrame mainFrame;
-	private JPanel menuPanel, drawToolsPanel, workspaceToolsPanel, mainPanel;
+	private JPanel drawToolsPanel, drawToolsPanel1, drawToolsPanel2, drawToolsPanel3, workspaceToolsPanel, mainPanel, tools_panel, pane;
 	private Draw drawPanel;
+	private JComboBox cb;
 	
 	// controles
 	private ControleReta ctrReta;
@@ -80,7 +93,7 @@ public class App {
 	// controle de listeners
 	private MouseListener ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse;
 	private MouseListener ml_text, ml_fill, ml_mover_figura, ml_escala_figura, ml_rotacionar_figura, ml_selecionar_area;
-	private MouseListener ml_scale_all, ml_move_all, ml_rotate_all;
+	private MouseListener ml_scale_all, ml_move_all, ml_rotate_all, ml_apagar_figura;
 	
 	// key listeners para entrada de texto
 	private KeyListener kl_entrada_txt;
@@ -91,8 +104,7 @@ public class App {
 //	private LinkedList<Ponto> pontosPoligono;
 	private int arestasPoligono, anguloInicial, anguloFinal, incremento_texto;
 	private Color corEscolhida = new Color(0,0,0);
-	private Dimension btDim = new Dimension(200,25);
-	private Dimension btDim2 = new Dimension(150,25);
+	private Dimension btDim = new Dimension(250,25);
 	private TipoLinha tipoLinhaDesenho = TipoLinha.fina;
 	private TamanhoLetra tamanhoLetra = TamanhoLetra.tamanho8x8;
 	private Color cor_area_de_trabalho, cor_pontos_ref;
@@ -105,26 +117,37 @@ public class App {
 	 * @throws IOException
 	 */
 	public App() throws FileNotFoundException, IOException{		
-		// inicialização botões
-		btExit = new JButton("Sair");
-		btExit.setPreferredSize(btDim2);
-		btExit.setMaximumSize(btDim2);
+		// inicialização dos menus		
+		mi_exit = new JMenuItem("Sair");
+		mi_exit.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_Q, ActionEvent.CTRL_MASK)); // set CTRL_Q = Sair
 		
-		btLoad = new JButton("Carregar");
-		btLoad.setPreferredSize(btDim2);
-		btLoad.setMaximumSize(btDim2);
+		mi_load = new JMenuItem("Load");
+		mi_load.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_L, ActionEvent.CTRL_MASK)); // set CTRL_L = Load
 		
-		btSalvar = new JButton("Salvar");
-		btSalvar.setPreferredSize(btDim2);
-		btSalvar.setMaximumSize(btDim2);
+		mi_salvar = new JMenuItem("Salvar");
+		mi_salvar.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_S, ActionEvent.CTRL_MASK)); // set CTRL_S = Save
 		
-		btNovo = new JButton("Novo");
-		btNovo.setPreferredSize(btDim2);
-		btNovo.setMaximumSize(btDim2);
+		mi_novo = new JMenuItem("Novo");
+		mi_novo.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_N, ActionEvent.CTRL_MASK)); // set CTRL_N = Novo
 		
-		btInstrucoes = new JButton("Intruções");
-		btInstrucoes.setPreferredSize(btDim2);
-		btInstrucoes.setMaximumSize(btDim2);
+		mi_instrucoes = new JMenuItem("Instruções");
+		mi_instrucoes.setPreferredSize(btDim);
+		mi_instrucoes.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_I, ActionEvent.CTRL_MASK)); // set CTRL_I = Intruções
+		
+		menu = new JMenu("File");
+		menu.add(mi_novo);
+		menu.add(mi_salvar);
+		menu.add(mi_load);
+		menu.add(mi_exit);
+		
+		menu_bar = new JMenuBar();
+		menu_bar.add(menu);
+		menu_bar.add(mi_instrucoes);
 		
 		// inicialização dos botões
 		bt_draw_reta_tool = new JButton("Reta");
@@ -159,10 +182,13 @@ public class App {
 		bt_escolher_cor_linha_tool.setPreferredSize(btDim);
 		bt_escolher_cor_linha_tool.setMaximumSize(btDim);
 		
-		bt_escolher_tipo_linha_tool = new JButton("Esco"
-				+ "lher Linha");
+		bt_escolher_tipo_linha_tool = new JButton("Escolher Linha");
 		bt_escolher_tipo_linha_tool.setPreferredSize(btDim);
 		bt_escolher_tipo_linha_tool.setMaximumSize(btDim);
+		
+		bt_apagar_figura = new JButton("Borracha");
+		bt_apagar_figura.setPreferredSize(btDim);
+		bt_apagar_figura.setMaximumSize(btDim);
 		
 		bt_escolher_cor_area_de_trabalho_tool = new JButton("Cor A.T.");
 		bt_escolher_cor_area_de_trabalho_tool.setPreferredSize(btDim);
@@ -221,10 +247,13 @@ public class App {
 		
 		// inicialização paineis
 		drawPanel = new Draw();
-		menuPanel = new JPanel();
 		drawToolsPanel = new JPanel();
+		drawToolsPanel1 = new JPanel();
+		drawToolsPanel2 = new JPanel();
+		drawToolsPanel3 = new JPanel();
 		workspaceToolsPanel = new JPanel();
 		mainPanel = new JPanel();
+		tools_panel = new JPanel(new CardLayout());
 		
 		// inicialização controles
 		ctrReta = new ControleReta();
@@ -597,6 +626,41 @@ public class App {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+			}
+		};
+		
+		ml_apagar_figura = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				p1 = new Ponto(arg0.getX(), arg0.getY());
+				ctrFigura.get_figura_proxima(p1, drawPanel);
+				ctrFigura.apaga_figura_selecionada(drawPanel, cor_area_de_trabalho);
+				ctrFigura.set_figura_selecionada_empty();
 			}
 		};
 		
@@ -1030,6 +1094,16 @@ public class App {
 			}
 		});
 		
+		// apagar figura
+		bt_apagar_figura.addActionListener(new ActionListener() {
+					
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				remove_all_listeners(drawPanel);
+				drawPanel.addMouseListener(ml_apagar_figura);
+			}
+		});
+		
 		// iniciar função de texto
 		bt_txt.addActionListener(new ActionListener() {
 			
@@ -1185,7 +1259,7 @@ public class App {
 		});
 		
 		// botão de novo desenho
-		btNovo.addActionListener(new ActionListener() {
+		mi_novo.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1202,7 +1276,7 @@ public class App {
 		});
 		
 		// botão de salvar
-		btSalvar.addActionListener(new ActionListener() {
+		mi_salvar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1217,7 +1291,7 @@ public class App {
 		});
 		
 		// botão de salvar
-		btLoad.addActionListener(new ActionListener() {
+		mi_load.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1236,7 +1310,7 @@ public class App {
 		});
 
 		// botão de sair
-		btExit.addActionListener(new ActionListener() {
+		mi_exit.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1245,24 +1319,40 @@ public class App {
 		});
 		
 		// gerando painel de ferramentas de desenho
+		drawToolsPanel1.setLayout(new BoxLayout(drawToolsPanel1,BoxLayout.Y_AXIS));
+		TitledBorder draw1_title =  BorderFactory.createTitledBorder("Desenho");
+		drawToolsPanel1.setBorder(draw1_title);
+		drawToolsPanel1.add(bt_draw_reta_tool);
+		drawToolsPanel1.add(bt_draw_circulo_tool);
+		drawToolsPanel1.add(bt_draw_arc_circulo_tool);
+		drawToolsPanel1.add(bt_draw_ret_tool);
+		drawToolsPanel1.add(bt_draw_poligono_tool);
+		drawToolsPanel1.add(bt_draw_elipse_tool);
+		drawToolsPanel1.add(bt_draw_arc_elipse_tool);
+		drawToolsPanel1.add(bt_apagar_figura);
+		
+		drawToolsPanel2.setLayout(new BoxLayout(drawToolsPanel2,BoxLayout.Y_AXIS));
+		TitledBorder draw2_title =  BorderFactory.createTitledBorder("Texto");
+		drawToolsPanel2.setBorder(draw2_title);
+		drawToolsPanel2.add(bt_txt);
+		drawToolsPanel2.add(bt_escolher_tamanho_letra);
+		
+		drawToolsPanel3.setLayout(new BoxLayout(drawToolsPanel3,BoxLayout.Y_AXIS));
+		TitledBorder draw3_title =  BorderFactory.createTitledBorder("Opções");
+		drawToolsPanel3.setBorder(draw3_title);
+		drawToolsPanel3.add(bt_escolher_cor_linha_tool);
+		drawToolsPanel3.add(bt_escolher_tipo_linha_tool);
+		
 		drawToolsPanel.setLayout(new BoxLayout(drawToolsPanel,BoxLayout.Y_AXIS));
-		
-		drawToolsPanel.add(bt_draw_reta_tool);
-		drawToolsPanel.add(bt_draw_circulo_tool);
-		drawToolsPanel.add(bt_draw_arc_circulo_tool);
-		drawToolsPanel.add(bt_draw_ret_tool);
-		drawToolsPanel.add(bt_draw_poligono_tool);
-		drawToolsPanel.add(bt_draw_elipse_tool);
-		drawToolsPanel.add(bt_draw_arc_elipse_tool);
-		drawToolsPanel.add(bt_txt);
-		drawToolsPanel.add(bt_escolher_tamanho_letra);
-		drawToolsPanel.add(bt_escolher_cor_linha_tool);
-		drawToolsPanel.add(bt_escolher_tipo_linha_tool);
-		
-		drawToolsPanel.setBackground(new Color(0,0,0));
+		drawToolsPanel.add(drawToolsPanel1);
+		drawToolsPanel.add(drawToolsPanel2);
+		drawToolsPanel.add(drawToolsPanel3);
 		
 		// gerando painel de ferramentas de área de trabalho
 		workspaceToolsPanel.setLayout(new BoxLayout(workspaceToolsPanel,BoxLayout.Y_AXIS));
+		
+		TitledBorder workspace_title =  BorderFactory.createTitledBorder("Área de Trabalho");
+		workspaceToolsPanel.setBorder(workspace_title);
 		
 		workspaceToolsPanel.add(bt_escolher_cor_area_de_trabalho_tool);
 		workspaceToolsPanel.add(bt_show_pontos_ref);
@@ -1276,17 +1366,28 @@ public class App {
 		workspaceToolsPanel.add(bt_selecionar_area);
 		workspaceToolsPanel.add(bt_show_grid);
 		
-		workspaceToolsPanel.setBackground(new Color(0,0,0));
+		//workspaceToolsPanel.setBackground(new Color(0,0,0));
 		
-		// gerando painel de menu
-		menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		// configurando panel de ferramentas
+		JPanel comboBoxPane = new JPanel(new BorderLayout());
+		String comboBoxItems[] = { "Desenho", "Área de Trabalho"};
+		cb = new JComboBox(comboBoxItems);
+		cb.setEditable(false);
+		cb.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				CardLayout cl = (CardLayout)(tools_panel.getLayout());
+		        cl.show(tools_panel, (String)arg0.getItem());
+			}
+		});
+		comboBoxPane.add(cb);
 		
-		menuPanel.add(btInstrucoes);
-		menuPanel.add(btNovo);
-		menuPanel.add(btSalvar);
-		menuPanel.add(btLoad);
-		menuPanel.add(btExit);
-		menuPanel.setBackground(new Color(0,0,0));
+		tools_panel.add(drawToolsPanel,"Desenho");
+		tools_panel.add(workspaceToolsPanel,"Área de Trabalho");
+		
+		pane = new JPanel(new BorderLayout());
+		pane.add(comboBoxPane, BorderLayout.NORTH);
+		pane.add(tools_panel, BorderLayout.SOUTH);
 		
 		//	gerando painel de desenho
 		drawPanel.setOpaque(true);
@@ -1296,32 +1397,21 @@ public class App {
 		SpringLayout sLayout = new SpringLayout();
 		mainPanel.setLayout(sLayout);
 		
-		// set posição painel ferramentas de área de trabal
-		sLayout.putConstraint(SpringLayout.SOUTH, workspaceToolsPanel, 0, SpringLayout.SOUTH, mainPanel);
-		sLayout.putConstraint(SpringLayout.NORTH, workspaceToolsPanel, 0, SpringLayout.SOUTH, menuPanel);
-		sLayout.putConstraint(SpringLayout.EAST, workspaceToolsPanel, 0, SpringLayout.EAST, mainPanel);
-		
 		// set posicao painel ferramentas de desenho
-		sLayout.putConstraint(SpringLayout.SOUTH, drawToolsPanel, 0, SpringLayout.SOUTH, mainPanel);
-		sLayout.putConstraint(SpringLayout.NORTH, drawToolsPanel, 0, SpringLayout.SOUTH, menuPanel);
-		sLayout.putConstraint(SpringLayout.WEST, drawToolsPanel, 0, SpringLayout.WEST, mainPanel);	
+		sLayout.putConstraint(SpringLayout.SOUTH, tools_panel, 0, SpringLayout.SOUTH, mainPanel);
+		sLayout.putConstraint(SpringLayout.NORTH, tools_panel, 0, SpringLayout.NORTH, mainPanel);
+		sLayout.putConstraint(SpringLayout.WEST, tools_panel, 0, SpringLayout.WEST, mainPanel);	
 		
 		// set posição painel de desenho principal
 		sLayout.putConstraint(SpringLayout.SOUTH, drawPanel, 0, SpringLayout.SOUTH, mainPanel);
-		sLayout.putConstraint(SpringLayout.NORTH, drawPanel, 0, SpringLayout.SOUTH, menuPanel);
-		sLayout.putConstraint(SpringLayout.WEST, drawPanel, 0, SpringLayout.EAST, drawToolsPanel);	
-		sLayout.putConstraint(SpringLayout.EAST, drawPanel, 0, SpringLayout.WEST, workspaceToolsPanel);
+		sLayout.putConstraint(SpringLayout.NORTH, drawPanel, 0, SpringLayout.NORTH, mainPanel);
+		sLayout.putConstraint(SpringLayout.WEST, drawPanel, 0, SpringLayout.EAST, tools_panel);	
+		sLayout.putConstraint(SpringLayout.EAST, drawPanel, 0, SpringLayout.EAST, mainPanel);
 		
-		// set posição painel menu
-		sLayout.putConstraint(SpringLayout.NORTH, menuPanel, 0, SpringLayout.NORTH, mainPanel);
-		sLayout.putConstraint(SpringLayout.WEST, menuPanel, 0, SpringLayout.WEST, mainPanel);
-		sLayout.putConstraint(SpringLayout.EAST, menuPanel, 0, SpringLayout.EAST, mainPanel);
-		
-		mainPanel.add(drawToolsPanel);
-		mainPanel.add(workspaceToolsPanel);
+		mainPanel.add(pane);
 		mainPanel.add(drawPanel);
-		mainPanel.add(menuPanel);
 		
+		mainFrame.setJMenuBar(menu_bar);
 		mainFrame.setUndecorated(true);
 		mainFrame.setContentPane(mainPanel);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1336,21 +1426,27 @@ public class App {
 	 * @param panel
 	 */
 	public void remove_all_listeners(Draw panel){
-		drawPanel.removeMouseListener(ml_reta);
-		drawPanel.removeMouseListener(ml_circulo);
-		drawPanel.removeMouseListener(ml_poligono);
-		drawPanel.removeMouseListener(ml_elipse);
-		drawPanel.removeMouseListener(ml_ret);
-		drawPanel.removeMouseListener(ml_arc_elipse);
-		drawPanel.removeMouseListener(ml_arc_circulo);
-		drawPanel.removeMouseListener(ml_text);
-		drawPanel.removeKeyListener(kl_entrada_txt);
-		drawPanel.removeMouseListener(ml_mover_figura);
-		drawPanel.removeMouseListener(ml_escala_figura);
-		drawPanel.removeMouseListener(ml_rotacionar_figura);
-		drawPanel.removeMouseListener(ml_selecionar_area);
-		drawPanel.removeMouseListener(ml_scale_all);
-		drawPanel.removeMouseListener(ml_move_all);
-		drawPanel.removeMouseListener(ml_rotate_all);
+		panel.removeMouseListener(ml_reta);
+		panel.removeMouseListener(ml_circulo);
+		panel.removeMouseListener(ml_poligono);
+		panel.removeMouseListener(ml_elipse);
+		panel.removeMouseListener(ml_ret);
+		panel.removeMouseListener(ml_arc_elipse);
+		panel.removeMouseListener(ml_arc_circulo);
+		panel.removeMouseListener(ml_text);
+		panel.removeKeyListener(kl_entrada_txt);
+		panel.removeMouseListener(ml_mover_figura);
+		panel.removeMouseListener(ml_escala_figura);
+		panel.removeMouseListener(ml_rotacionar_figura);
+		panel.removeMouseListener(ml_selecionar_area);
+		panel.removeMouseListener(ml_scale_all);
+		panel.removeMouseListener(ml_move_all);
+		panel.removeMouseListener(ml_rotate_all);
+		panel.removeMouseListener(ml_apagar_figura);
 	}
+	
+	public void itemStateChanged(ItemEvent evt) {
+        CardLayout cl = (CardLayout)(tools_panel.getLayout());
+        cl.show(tools_panel, (String)evt.getItem());
+    }
 }
