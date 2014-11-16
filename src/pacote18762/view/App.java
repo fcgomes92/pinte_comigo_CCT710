@@ -75,7 +75,7 @@ public class App {
 	private JFrame mainFrame;
 	private JPanel drawToolsPanel, drawToolsPanel1, drawToolsPanel2, drawToolsPanel3, workspaceToolsPanel, mainPanel, tools_panel, pane;
 	private Draw drawPanel;
-	private JComboBox cb;
+	private JComboBox<String> cb;
 	
 	// controles
 	private ControleReta ctrReta;
@@ -190,7 +190,7 @@ public class App {
 		bt_apagar_figura.setPreferredSize(btDim);
 		bt_apagar_figura.setMaximumSize(btDim);
 		
-		bt_escolher_cor_area_de_trabalho_tool = new JButton("Cor A.T.");
+		bt_escolher_cor_area_de_trabalho_tool = new JButton("Cor de fundo");
 		bt_escolher_cor_area_de_trabalho_tool.setPreferredSize(btDim);
 		bt_escolher_cor_area_de_trabalho_tool.setMaximumSize(btDim);
 		
@@ -1156,10 +1156,9 @@ public class App {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cor_area_de_trabalho = new Color(255,255,255); 
-				cor_area_de_trabalho= JColorChooser.showDialog(null, "Escolha a cor da A.T.:", cor_area_de_trabalho);
+				cor_area_de_trabalho= JColorChooser.showDialog(null, "Escolha a cor de fundo:", cor_area_de_trabalho);
 				if (cor_area_de_trabalho==null) cor_area_de_trabalho = new Color(255,255,255);
 				drawPanel.setBackground(cor_area_de_trabalho);
-				drawPanel.setForeground(cor_area_de_trabalho);
 			}
 		});
 		
@@ -1319,6 +1318,7 @@ public class App {
 		});
 		
 		// gerando painel de ferramentas de desenho
+		// primeiro parte das ferramentas
 		drawToolsPanel1.setLayout(new BoxLayout(drawToolsPanel1,BoxLayout.Y_AXIS));
 		TitledBorder draw1_title =  BorderFactory.createTitledBorder("Desenho");
 		drawToolsPanel1.setBorder(draw1_title);
@@ -1330,19 +1330,28 @@ public class App {
 		drawToolsPanel1.add(bt_draw_elipse_tool);
 		drawToolsPanel1.add(bt_draw_arc_elipse_tool);
 		drawToolsPanel1.add(bt_apagar_figura);
-		
+
+		// segunda parte das ferramentas
 		drawToolsPanel2.setLayout(new BoxLayout(drawToolsPanel2,BoxLayout.Y_AXIS));
 		TitledBorder draw2_title =  BorderFactory.createTitledBorder("Texto");
 		drawToolsPanel2.setBorder(draw2_title);
 		drawToolsPanel2.add(bt_txt);
 		drawToolsPanel2.add(bt_escolher_tamanho_letra);
 		
+		// terceira parte das ferramentas
 		drawToolsPanel3.setLayout(new BoxLayout(drawToolsPanel3,BoxLayout.Y_AXIS));
 		TitledBorder draw3_title =  BorderFactory.createTitledBorder("Opções");
 		drawToolsPanel3.setBorder(draw3_title);
 		drawToolsPanel3.add(bt_escolher_cor_linha_tool);
 		drawToolsPanel3.add(bt_escolher_tipo_linha_tool);
+		drawToolsPanel3.add(bt_mover_figura_unica);
+		drawToolsPanel3.add(bt_move_all);
+		drawToolsPanel3.add(bt_rotacionar_figura_unica);
+		drawToolsPanel3.add(bt_rotate_all);
+		drawToolsPanel3.add(bt_escala_figura);
+		drawToolsPanel3.add(bt_scale_all);
 		
+		// panel principal das ferramentas
 		drawToolsPanel.setLayout(new BoxLayout(drawToolsPanel,BoxLayout.Y_AXIS));
 		drawToolsPanel.add(drawToolsPanel1);
 		drawToolsPanel.add(drawToolsPanel2);
@@ -1353,16 +1362,9 @@ public class App {
 		
 		TitledBorder workspace_title =  BorderFactory.createTitledBorder("Área de Trabalho");
 		workspaceToolsPanel.setBorder(workspace_title);
-		
 		workspaceToolsPanel.add(bt_escolher_cor_area_de_trabalho_tool);
 		workspaceToolsPanel.add(bt_show_pontos_ref);
 		workspaceToolsPanel.add(bt_fill);
-		workspaceToolsPanel.add(bt_mover_figura_unica);
-		workspaceToolsPanel.add(bt_move_all);
-		workspaceToolsPanel.add(bt_rotacionar_figura_unica);
-		workspaceToolsPanel.add(bt_rotate_all);
-		workspaceToolsPanel.add(bt_escala_figura);
-		workspaceToolsPanel.add(bt_scale_all);
 		workspaceToolsPanel.add(bt_selecionar_area);
 		workspaceToolsPanel.add(bt_show_grid);
 		
@@ -1371,7 +1373,7 @@ public class App {
 		// configurando panel de ferramentas
 		JPanel comboBoxPane = new JPanel(new BorderLayout());
 		String comboBoxItems[] = { "Desenho", "Área de Trabalho"};
-		cb = new JComboBox(comboBoxItems);
+		cb = new JComboBox<String>(comboBoxItems);
 		cb.setEditable(false);
 		cb.addItemListener(new ItemListener() {
 			@Override
@@ -1387,25 +1389,25 @@ public class App {
 		
 		pane = new JPanel(new BorderLayout());
 		pane.add(comboBoxPane, BorderLayout.NORTH);
-		pane.add(tools_panel, BorderLayout.SOUTH);
+		pane.add(tools_panel, BorderLayout.CENTER);
+		pane.setBorder(BorderFactory.createLoweredSoftBevelBorder());
 		
 		//	gerando painel de desenho
 		drawPanel.setOpaque(true);
 		drawPanel.setBackground(cor_area_de_trabalho);
-		drawPanel.setForeground(cor_area_de_trabalho);
 		
 		SpringLayout sLayout = new SpringLayout();
 		mainPanel.setLayout(sLayout);
 		
 		// set posicao painel ferramentas de desenho
-		sLayout.putConstraint(SpringLayout.SOUTH, tools_panel, 0, SpringLayout.SOUTH, mainPanel);
-		sLayout.putConstraint(SpringLayout.NORTH, tools_panel, 0, SpringLayout.NORTH, mainPanel);
-		sLayout.putConstraint(SpringLayout.WEST, tools_panel, 0, SpringLayout.WEST, mainPanel);	
+		sLayout.putConstraint(SpringLayout.SOUTH, pane, 0, SpringLayout.SOUTH, mainPanel);
+		sLayout.putConstraint(SpringLayout.NORTH, pane, 0, SpringLayout.NORTH, mainPanel);
+		sLayout.putConstraint(SpringLayout.WEST, pane, 0, SpringLayout.WEST, mainPanel);	
 		
 		// set posição painel de desenho principal
 		sLayout.putConstraint(SpringLayout.SOUTH, drawPanel, 0, SpringLayout.SOUTH, mainPanel);
 		sLayout.putConstraint(SpringLayout.NORTH, drawPanel, 0, SpringLayout.NORTH, mainPanel);
-		sLayout.putConstraint(SpringLayout.WEST, drawPanel, 0, SpringLayout.EAST, tools_panel);	
+		sLayout.putConstraint(SpringLayout.WEST, drawPanel, 0, SpringLayout.EAST, pane);	
 		sLayout.putConstraint(SpringLayout.EAST, drawPanel, 0, SpringLayout.EAST, mainPanel);
 		
 		mainPanel.add(pane);
@@ -1444,9 +1446,4 @@ public class App {
 		panel.removeMouseListener(ml_rotate_all);
 		panel.removeMouseListener(ml_apagar_figura);
 	}
-	
-	public void itemStateChanged(ItemEvent evt) {
-        CardLayout cl = (CardLayout)(tools_panel.getLayout());
-        cl.show(tools_panel, (String)evt.getItem());
-    }
 }
