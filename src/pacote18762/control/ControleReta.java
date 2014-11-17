@@ -29,6 +29,7 @@ public class ControleReta  extends ControleFigura{
 	 * @param redraw
 	 */
 	public void drawReta(Ponto p1, Ponto p2, Draw panel, Color cor, TipoLinha tipoLinha, boolean redraw){
+		
 		Ponto auxI = null, auxF = null, temp = null;
 		int dx = 0, dy = 0, erro = 0, x = 0 , y = 0,tempXi = 0, tempYi = 0,tempXf = 0, tempYf = 0; 
 			// clonando o ponto original na reta em um pto temporario
@@ -308,6 +309,8 @@ public class ControleReta  extends ControleFigura{
 			// add obj a ser desenhado
 			Reta r = new Reta(auxI, auxF);
 			r.setRoatcao(angulo);
+			r.setCorLinha(cor);
+			r.setTipoLinha(tipoLinha);
 			r.setPtMedio(new Ponto(
 					(Math.abs(Math.round(
 								(auxI.getX()+auxF.getX())/2)

@@ -10,8 +10,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -28,6 +28,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.SpringLayout;
 import javax.swing.border.TitledBorder;
@@ -58,6 +59,8 @@ public class App {
 	private JMenuBar menu_bar; // barra de menu principal
 	private JMenu menu; // primeiro menu da barra
 	private JMenuItem mi_exit, mi_load, mi_salvar, mi_novo, mi_instrucoes;
+	private JMenuItem mi_rotacionar, mi_mover, mi_escala;
+	private JPopupMenu popup;
 	
 	// botões de ferramentas de desenho
 	private JButton bt_draw_reta_tool, bt_draw_circulo_tool, bt_draw_poligono_tool, bt_draw_elipse_tool, bt_escolher_cor_linha_tool, bt_apagar_figura; 
@@ -91,9 +94,9 @@ public class App {
 	private ControleArquivo ctrArquivo;
 	
 	// controle de listeners
-	private MouseListener ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse;
-	private MouseListener ml_text, ml_fill, ml_mover_figura, ml_escala_figura, ml_rotacionar_figura, ml_selecionar_area;
-	private MouseListener ml_scale_all, ml_move_all, ml_rotate_all, ml_apagar_figura;
+	private MouseAdapter ml_reta, ml_circulo, ml_poligono, ml_elipse, ml_ret, ml_arc_circulo, ml_arc_elipse;
+	private MouseAdapter ml_text, ml_fill, ml_mover_figura, ml_escala_figura, ml_rotacionar_figura, ml_selecionar_area;
+	private MouseAdapter ml_scale_all, ml_move_all, ml_rotate_all, ml_apagar_figura, ml_rotaciona_selecao, ml_move_selecao, ml_scale_selecao;
 	
 	// key listeners para entrada de texto
 	private KeyListener kl_entrada_txt;
@@ -148,6 +151,14 @@ public class App {
 		menu_bar = new JMenuBar();
 		menu_bar.add(menu);
 		menu_bar.add(mi_instrucoes);
+
+		// inicialização dos menus popup
+		mi_escala = new JMenuItem("Alterar Escala");
+		mi_escala.setPreferredSize(btDim);
+		mi_mover = new JMenuItem("Mover");
+		mi_mover.setPreferredSize(btDim);
+		mi_rotacionar = new JMenuItem("Rotacionar");
+		mi_rotacionar.setPreferredSize(btDim);
 		
 		// inicialização dos botões
 		bt_draw_reta_tool = new JButton("Reta");
@@ -246,6 +257,7 @@ public class App {
 		mainFrame = new JFrame("Pinte Comigo!");
 		
 		// inicialização paineis
+		popup = new JPopupMenu();
 		drawPanel = new Draw();
 		drawToolsPanel = new JPanel();
 		drawToolsPanel1 = new JPanel();
@@ -308,7 +320,7 @@ public class App {
 		
 		// inicialização dos listeners de desenho
 		// listener sobre a reta
-		ml_reta = new MouseListener() {
+		ml_reta = new MouseAdapter() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -331,27 +343,9 @@ public class App {
 				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
 		};
 		
-		ml_circulo = new MouseListener() {
+		ml_circulo = new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -375,27 +369,9 @@ public class App {
 				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
 		};
 		
-		ml_poligono = new MouseListener() {
+		ml_poligono = new MouseAdapter() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -421,48 +397,9 @@ public class App {
 				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// Poligonos não regulares
-//				if(arestasPoligono<0){
-//					pontosPoligono = new LinkedList<Ponto>();
-//					pInicial = new Ponto(e.getX(),e.getY());
-//					pontosPoligono.add(pInicial);
-//					if(show_pontos_ref)ctrCirculo.drawCirculoDDA(pInicial, new Ponto(pInicial.getX()+3, pInicial.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
-//					arestasPoligono++;
-//				}
-//				else{
-//					if(e.getButton() == MouseEvent.BUTTON1){
-//						pMedio = new Ponto(e.getX(),e.getY());
-//						pontosPoligono.add(pMedio);
-//						if(show_pontos_ref)ctrCirculo.drawCirculoDDA(pMedio, new Ponto(pMedio.getX()+3, pMedio.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina);
-//						arestasPoligono++;
-//					}
-//					if(ctrPonto.isEqual(pMedio, pInicial) || e.getButton() == MouseEvent.BUTTON3){
-//						pontosPoligono.add(pInicial);
-//						pontos_ref.addAll(pontosPoligono);
-//						ctrPoligono.drawPoligono(pontosPoligono, arestasPoligono, drawPanel, corEscolhida, tipoLinhaDesenho);
-//						arestasPoligono = -1;
-//					}
-//				}
-				
-			}
 		};
 		
-		ml_elipse = new MouseListener() {
+		ml_elipse = new MouseAdapter() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -483,24 +420,9 @@ public class App {
 				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub				
-			}
 		};
 		
-		ml_ret = new MouseListener() {
+		ml_ret = new MouseAdapter() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -523,27 +445,9 @@ public class App {
 				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
 		};
 		
-		ml_arc_circulo = new MouseListener() {
+		ml_arc_circulo = new MouseAdapter() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -573,21 +477,9 @@ public class App {
 				
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, new Color(255,0,0), TipoLinha.fina,true);
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
 		};
 
-		ml_arc_elipse = new MouseListener() {
+		ml_arc_elipse = new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				p2 = new Ponto(e.getX(), e.getY());
@@ -615,46 +507,9 @@ public class App {
 				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina,true);
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
 		};
 		
-		ml_apagar_figura = new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+		ml_apagar_figura = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				p1 = new Ponto(arg0.getX(), arg0.getY());
@@ -665,24 +520,7 @@ public class App {
 		};
 		
 		// listener de texto
-		ml_text = new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-			
+		ml_text = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				incremento_texto=0;
@@ -692,24 +530,7 @@ public class App {
 		};
 		
 		// listener do balde de tinta
-		ml_fill = new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-			
+		ml_fill = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 //				p1 = new Ponto(e.getX(), e.getY());
@@ -730,7 +551,7 @@ public class App {
 		};
 		
 		// listener da seleção de figura
-		ml_mover_figura = new MouseListener() {
+		ml_mover_figura = new MouseAdapter() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -752,23 +573,34 @@ public class App {
 				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 				ctrFigura.get_figura_proxima(p1,drawPanel);
 			}
+		};
+		
+		// listener para mover seleção
+		ml_move_selecao = new MouseAdapter() {
 			
 			@Override
-			public void mouseExited(MouseEvent e) {				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
+				p2 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 				
+				ctrFigura.move_figura_dentro_selecao(p1, p2, drawPanel, cor_area_de_trabalho);
+				
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
+				}
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				p1 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 			}
 		};
 		
 		// listener da seleção de figura
-		ml_move_all = new MouseListener() {
+		ml_move_all = new MouseAdapter() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -788,40 +620,10 @@ public class App {
 				p1 = new Ponto(e.getX(),e.getY());
 				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {				
-			}
-					
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-					
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-			}
 		};
 		
 		// listener da rotação de figura
-		ml_rotate_all = new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-					
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {				
-			}
-					
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-					
+		ml_rotate_all = new MouseAdapter() {		
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				anguloInicial = -1;
@@ -835,32 +637,7 @@ public class App {
 		};
 		
 		//listener da rotação de figura
-		ml_rotacionar_figura = new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+		ml_rotacionar_figura = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				p1 = new Ponto(arg0.getX(),arg0.getY());
@@ -876,25 +653,24 @@ public class App {
 			}
 		};
 		
+		// listener de rotação da seleção
+		ml_rotaciona_selecao = new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				p1 = new Ponto(arg0.getX(),arg0.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
+				anguloInicial = -1;
+				while(anguloInicial < 0 || anguloInicial > 360) anguloInicial = Integer.parseInt(JOptionPane.showInputDialog("Entre com o valor do angulo (0<a<360):"));
+				ctrFigura.rotaciona_figura_dentro_selecao(p1, drawPanel, cor_area_de_trabalho, anguloInicial);
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
+				}
+			}
+		};
+		
 		//listenerr da escala da figura
-		ml_escala_figura = new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {	
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-			
+		ml_escala_figura = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				p1 = new Ponto(e.getX(),e.getY());
@@ -916,25 +692,29 @@ public class App {
 			}
 		};
 		
+		// listener de rotação de seleção
+		ml_scale_selecao = new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				p1 = new Ponto(e.getX(),e.getY());
+				if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
+				if(e.getButton() == MouseEvent.BUTTON1){
+					ctrFigura.muda_escala_figura_dentro_seleção(1.6, cor_area_de_trabalho, drawPanel);
+				}
+				else if(e.getButton() == MouseEvent.BUTTON3){
+					ctrFigura.muda_escala_figura_dentro_seleção(0.625, cor_area_de_trabalho, drawPanel);
+				}
+				
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
+				}
+				
+			}
+		};
+		
 		//listenerr da escala da figura
-		ml_scale_all = new MouseListener() {
-					
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {	
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-			
+		ml_scale_all = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				p1 = new Ponto(e.getX(),e.getY());
@@ -955,12 +735,15 @@ public class App {
 		};
 		
 		// listener sobre a selecção de área
-		ml_selecionar_area = new MouseListener() {
+		ml_selecionar_area = new MouseAdapter() {
 					
 					@Override
 					public void mouseReleased(MouseEvent e) {
 						// pega o ultimo ponto e chama o método de desenho
 						p2 = new Ponto(e.getX(),e.getY());
+						
+						popup.show(pane,p2.getX(),p2.getY());
+						
 						if(ctrGrade.isVisible()) p2 = ctrGrade.get_ponto_prox(p2);
 						if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p2, new Ponto(p2.getX()+3, p2.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
 						
@@ -977,24 +760,6 @@ public class App {
 						p1 = new Ponto(e.getX(),e.getY());
 						if(ctrGrade.isVisible()) p1 = ctrGrade.get_ponto_prox(p1);
 						if(show_pontos_ref)ctrCirculo.drawCirculoDDA(p1, new Ponto(p1.getX()+3, p1.getY()+3), drawPanel, cor_pontos_ref, TipoLinha.fina, true);
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
 					}
 				};
 		
@@ -1317,6 +1082,48 @@ public class App {
 			}
 		});
 		
+		// botões do popup menu
+		mi_escala.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				remove_all_listeners(drawPanel);
+				ctrFigura.apagar_ret_selecao(drawPanel, cor_area_de_trabalho);
+				drawPanel.addMouseListener(ml_scale_selecao);
+			}
+		});
+		
+		mi_rotacionar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				remove_all_listeners(drawPanel);
+				ctrFigura.apagar_ret_selecao(drawPanel, cor_area_de_trabalho);
+				anguloInicial = -1;
+				while(anguloInicial < 0 || anguloInicial > 360) anguloInicial = Integer.parseInt(JOptionPane.showInputDialog("Entre com o valor do angulo (0<a<360):"));
+				ctrFigura.rotaciona_figura_dentro_selecao(p1, drawPanel, cor_area_de_trabalho, anguloInicial);
+				if(ctrGrade.isVisible()){
+					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
+				}
+			}
+		});
+		
+		mi_mover.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				remove_all_listeners(drawPanel);
+				ctrFigura.apagar_ret_selecao(drawPanel, cor_area_de_trabalho);
+				drawPanel.addMouseListener(ml_move_selecao);
+			}
+		});
+		
+		// configurando o menu de seleção multipla
+		popup.add(mi_escala);
+		popup.add(mi_rotacionar);
+		popup.add(mi_mover);
+		
 		// gerando painel de ferramentas de desenho
 		// primeiro parte das ferramentas
 		drawToolsPanel1.setLayout(new BoxLayout(drawToolsPanel1,BoxLayout.Y_AXIS));
@@ -1445,5 +1252,8 @@ public class App {
 		panel.removeMouseListener(ml_move_all);
 		panel.removeMouseListener(ml_rotate_all);
 		panel.removeMouseListener(ml_apagar_figura);
-	}
+		panel.removeMouseListener(ml_move_selecao);
+		panel.removeMouseListener(ml_scale_selecao);
+		panel.removeMouseListener(ml_rotaciona_selecao);
+	}	
 }

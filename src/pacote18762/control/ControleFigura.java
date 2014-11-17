@@ -598,7 +598,46 @@ public class ControleFigura extends ControleDraw{
 		}
 	}
 	
+	/************************************************Funções para seleção***************************************************/
+	
+	public void rotaciona_figura_dentro_selecao(Ponto p1, Draw panel, Color bg_color, int angulo){
+		
+		for (Object o : figuras_selecao_multipla) {
+			
+			figura_selecionada = o;
+			this.rotacionar_figura(panel, angulo, p1, bg_color);
+		}
+		
+		this.draw_all_again(selecao_multipla);
+	}
+	
+	public void move_figura_dentro_selecao(Ponto p1, Ponto p2, Draw panel, Color bg_color){
+		
+		for (Object o : figuras_selecao_multipla) {
+			
+			figura_selecionada = o;
+			this.mover_figura_selecionada(panel, p1, p2, bg_color);
+		}
+		
+		this.draw_all_again(selecao_multipla);
+	}
+	
+	public void muda_escala_figura_dentro_seleção(Double escala, Color bg_color, Draw panel){
+		
+		for (Object o : figuras_selecao_multipla) {
+			
+			figura_selecionada = o;
+			this.alterar_escala_figura(panel, escala, bg_color);
+		}
+		
+		this.draw_all_again(selecao_multipla);
+	}
+	
 	/************************************************Função aux***************************************************/
+	
+	public void apagar_ret_selecao(Draw panel, Color bg_color){
+		ctrRetangulo.drawRetangulo(panel, bg_color, selecao_multipla.getLado0().getPtoInicial(), selecao_multipla.getLado1().getPtoInicial(), TipoLinha.fina, true);
+	}
 	
 	public void selecao_multipla(Draw panel, Ponto p1, Ponto p2, Color bg_color){
 		

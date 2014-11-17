@@ -117,7 +117,26 @@ public class ControleRetangulo extends ControleFigura {
 	/************************************************Função para aux seleção***************************************************/
 	
 	public Retangulo gera_ret_selecao(Ponto p1, Ponto p2){
+		
+		Ponto aux = new Ponto();
+		
+		if(p1.getY() < p2.getY()){
+			aux = p1;
+			p1 = p2;
+			p2 = aux;
+		}
+		
 		Ponto p3 = new Ponto(p1.getX(),p2.getY()), p4 = new Ponto(p2.getX(),p1.getY());
+		
+		if(p1.getX() < p4.getX()){
+			aux = p1;
+			p1 = p4;
+			p4 = aux;
+			aux = p2;
+			p2 = p3;
+			p3 = aux;
+		}
+		
 		Retangulo ret = new Retangulo();
 		ret.setRoatcao(0);
 		ret.setLado0(new Reta(p1,p3));
