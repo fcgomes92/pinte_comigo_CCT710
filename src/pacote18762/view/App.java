@@ -1,9 +1,13 @@
 package pacote18762.view;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -12,10 +16,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -40,6 +47,7 @@ import pacote18762.control.ControleFigura;
 import pacote18762.control.ControleGrade;
 import pacote18762.control.ControleLetra;
 import pacote18762.control.ControlePoligonoRegular;
+import pacote18762.control.ControlePonto;
 import pacote18762.control.ControleReta;
 import pacote18762.control.ControleRetangulo;
 import pacote18762.model.Draw;
@@ -58,7 +66,7 @@ public class App {
 	// botões de opção
 	private JMenuBar menu_bar; // barra de menu principal
 	private JMenu menu; // primeiro menu da barra
-	private JMenuItem mi_exit, mi_load, mi_salvar, mi_novo, mi_instrucoes;
+	private JMenuItem mi_exit, mi_load, mi_salvar, mi_novo, mi_instrucoes, mi_export, mi_export_selecao;
 	private JMenuItem mi_rotacionar, mi_mover, mi_escala;
 	private JPopupMenu popup;
 	
@@ -82,7 +90,7 @@ public class App {
 	
 	// controles
 	private ControleReta ctrReta;
-//	private ControlePonto ctrPonto;
+	private ControlePonto ctrPonto;
 	private ControleCirculo ctrCirculo;
 	private ControlePoligonoRegular ctrPoligono;
 	private ControleElipse ctrElipse;
@@ -133,6 +141,10 @@ public class App {
 		mi_salvar.setAccelerator(KeyStroke.getKeyStroke(
 		        KeyEvent.VK_S, ActionEvent.CTRL_MASK)); // set CTRL_S = Save
 		
+		mi_export = new JMenuItem("Exportar");
+		mi_export.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_E, ActionEvent.CTRL_MASK)); // set CTRL_E = Export
+		
 		mi_novo = new JMenuItem("Novo");
 		mi_novo.setAccelerator(KeyStroke.getKeyStroke(
 		        KeyEvent.VK_N, ActionEvent.CTRL_MASK)); // set CTRL_N = Novo
@@ -145,6 +157,7 @@ public class App {
 		menu = new JMenu("File");
 		menu.add(mi_novo);
 		menu.add(mi_salvar);
+		menu.add(mi_export);
 		menu.add(mi_load);
 		menu.add(mi_exit);
 		
@@ -159,6 +172,8 @@ public class App {
 		mi_mover.setPreferredSize(btDim);
 		mi_rotacionar = new JMenuItem("Rotacionar");
 		mi_rotacionar.setPreferredSize(btDim);
+		mi_export_selecao = new JMenuItem("Exportar");
+		mi_export_selecao.setPreferredSize(btDim);
 		
 		// inicialização dos botões
 		bt_draw_reta_tool = new JButton("Reta");
@@ -271,7 +286,7 @@ public class App {
 		ctrReta = new ControleReta();
 		ctrCirculo = new ControleCirculo();
 		ctrElipse = new ControleElipse();
-//		ctrPonto = new ControlePonto();
+		ctrPonto = new ControlePonto();
 		ctrPoligono = new ControlePoligonoRegular();
 		ctrRetangulo = new ControleRetangulo();
 		ctrLetra = new ControleLetra();
@@ -1054,6 +1069,32 @@ public class App {
 			}
 		});
 		
+		// botão de exportar a tela toda
+		mi_export.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Robot rb;
+				BufferedImage shot;
+				File fl;
+				
+				try {
+					rb = new Robot();
+					shot = rb.createScreenCapture(new Rectangle(drawPanel.getLocationOnScreen(),new Dimension(drawPanel.getWidth(),drawPanel.getHeight())));
+					JFileChooser chooser = new JFileChooser();
+				    int returnVal = chooser.showSaveDialog(drawPanel);
+				    if(returnVal == JFileChooser.APPROVE_OPTION) {
+				    	fl = new File(chooser.getSelectedFile().getAbsolutePath());
+				    	ImageIO.write(shot, "png", fl);
+				    }
+				} catch (AWTException | IOException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
 		// botão de salvar
 		mi_load.addActionListener(new ActionListener() {
 			
@@ -1083,6 +1124,39 @@ public class App {
 		});
 		
 		// botões do popup menu
+		mi_export_selecao.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Robot rb;
+				BufferedImage shot;
+				File fl;
+				Point p;
+				int height = 0, width = 0;
+				
+				try {
+					rb = new Robot();
+					int x = (int) (ctrFigura.selecao_multipla.getLado0().getPtoInicial().getX()+drawPanel.getLocationOnScreen().getX());
+					int y = (int) (ctrFigura.selecao_multipla.getLado0().getPtoInicial().getY()+drawPanel.getLocationOnScreen().getY());
+					p = new Point(x,y);
+					height = (int)Math.round(ctrPonto.dist(ctrFigura.selecao_multipla.getLado0().getPtoInicial(), ctrFigura.selecao_multipla.getLado0().getPtoFinal()));
+					width = (int)Math.round(ctrPonto.dist(ctrFigura.selecao_multipla.getLado3().getPtoInicial(), ctrFigura.selecao_multipla.getLado3().getPtoFinal()));
+					
+					ctrFigura.apagar_ret_selecao(drawPanel, cor_area_de_trabalho);
+					
+					shot = rb.createScreenCapture(new Rectangle(p, new Dimension(width,height)));
+					JFileChooser chooser = new JFileChooser();
+				    int returnVal = chooser.showSaveDialog(drawPanel);
+				    if(returnVal == JFileChooser.APPROVE_OPTION) {
+				    	fl = new File(chooser.getSelectedFile().getAbsolutePath());
+				    	ImageIO.write(shot, "png", fl);
+				    }
+				} catch (AWTException | IOException e) {
+					e.printStackTrace();
+				}			
+			}
+		});
+		
 		mi_escala.addActionListener(new ActionListener() {
 			
 			@Override
@@ -1123,6 +1197,7 @@ public class App {
 		popup.add(mi_escala);
 		popup.add(mi_rotacionar);
 		popup.add(mi_mover);
+		popup.add(mi_export_selecao);
 		
 		// gerando painel de ferramentas de desenho
 		// primeiro parte das ferramentas

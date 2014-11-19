@@ -40,7 +40,7 @@ public class ControleFigura extends ControleDraw{
 	
 	private Object figura_selecionada;
 	private LinkedList<Object> figuras_selecao_multipla = new LinkedList<Object>();
-	private Retangulo selecao_multipla;
+	public Retangulo selecao_multipla;
 	
 	// contrutor vazio para outras figuras
 	public ControleFigura(){
@@ -141,7 +141,7 @@ public class ControleFigura extends ControleDraw{
 		else if(figura_selecionada instanceof Letra){
 			
 			if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), novo_ponto, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false);
-			else ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true, ((Letra) figura_selecionada).getRoatcao(), ((Letra) figura_selecionada).getTop_left());
+			else ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), novo_ponto, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false, ((Letra) figura_selecionada).getRoatcao(), novo_ponto);
 		}
 	}
 	
@@ -450,7 +450,7 @@ public class ControleFigura extends ControleDraw{
 			top_left = new Ponto(top_left.getX() + dif_x , top_left.getY() + dif_y);
 			
 			if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), top_left, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false);
-			else ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false, ((Letra) figura_selecionada).getRoatcao(), top_left);
+			else ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), top_left, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false, ((Letra) figura_selecionada).getRoatcao(), top_left);
 			
 		}
 	}
@@ -766,8 +766,8 @@ public class ControleFigura extends ControleDraw{
 			else if(figura_selecionada instanceof Letra){
 				Ponto top_left = ((Letra) figura_selecionada).getTop_left();
 				
-				if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, new Color(255), top_left, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false);
-				else ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), false, ((Letra) figura_selecionada).getRoatcao(), top_left);
+				if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, new Color(255), top_left, ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true);
+				else ctrLetra.drawLetra(panel, ((Letra) figura_selecionada).getCorLinha(), ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true, ((Letra) figura_selecionada).getRoatcao(), top_left);
 				ctrLetra.letras_text.remove(figura_selecionada);
 			}
 		}

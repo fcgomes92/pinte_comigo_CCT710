@@ -42,7 +42,7 @@ public class ControleLetra extends ControleFigura{
 		l.setCorLinha(cor);
 		l.setTipoLinha(tipoLinha);
 		l.setTamLetra(tamanho_letra);
-		l.setCaracter((valor_letra));
+		l.setCaracter(valor_letra);
 		
 		for (Reta r : alfabeto.get(valor_letra-47).getRetas()){
 			if(tamanho_letra == TamanhoLetra.tamanho8x8){
@@ -61,7 +61,7 @@ public class ControleLetra extends ControleFigura{
 			
 			l.setTop_left(ptIncial);
 			l.set_one_line(new Reta(p1Temp, p2Temp));
-			ctrReta.drawReta(p1Temp,p2Temp, panel, cor, tipoLinha,true);
+			ctrReta.drawReta(p1Temp,p2Temp, panel, l.getCorLinha(), tipoLinha,true);
 		}
 		
 //		System.out.println(l.toString());
@@ -86,7 +86,7 @@ public class ControleLetra extends ControleFigura{
 		l.setCorLinha(cor);
 		l.setTipoLinha(tipoLinha);
 		l.setTamLetra(tamanho_letra);
-		l.setCaracter((valor_letra));
+		l.setCaracter(valor_letra);
 		
 		for (Reta r : alfabeto.get(valor_letra-47).getRetas()){
 			if(tamanho_letra == TamanhoLetra.tamanho8x8){
@@ -105,7 +105,7 @@ public class ControleLetra extends ControleFigura{
 			
 			l.setTop_left(ptIncial);
 			l.set_one_line(new Reta(p1Temp, p2Temp));
-			ctrReta.drawReta(p1Temp,p2Temp, panel, cor, tipoLinha,true,angulo,pivo);
+			ctrReta.drawReta(p1Temp,p2Temp, panel, l.getCorLinha(), tipoLinha,true,angulo,pivo);
 		}
 		
 //		System.out.println(l.toString());
