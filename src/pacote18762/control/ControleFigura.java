@@ -608,7 +608,7 @@ public class ControleFigura extends ControleDraw{
 			this.rotacionar_figura(panel, angulo, p1, bg_color);
 		}
 		
-		this.draw_all_again(selecao_multipla);
+		this.draw_all_again(panel);
 	}
 	
 	public void move_figura_dentro_selecao(Ponto p1, Ponto p2, Draw panel, Color bg_color){
@@ -619,7 +619,7 @@ public class ControleFigura extends ControleDraw{
 			this.mover_figura_selecionada(panel, p1, p2, bg_color);
 		}
 		
-		this.draw_all_again(selecao_multipla);
+		this.draw_all_again(panel);
 	}
 	
 	public void muda_escala_figura_dentro_seleção(Double escala, Color bg_color, Draw panel){
@@ -630,7 +630,7 @@ public class ControleFigura extends ControleDraw{
 			this.alterar_escala_figura(panel, escala, bg_color);
 		}
 		
-		this.draw_all_again(selecao_multipla);
+		this.draw_all_again(panel);
 	}
 	
 	/************************************************Função aux***************************************************/

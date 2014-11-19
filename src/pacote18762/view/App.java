@@ -40,6 +40,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SpringLayout;
 import javax.swing.border.TitledBorder;
 
+import pacote18762.control.ControleApp;
 import pacote18762.control.ControleArquivo;
 import pacote18762.control.ControleCirculo;
 import pacote18762.control.ControleElipse;
@@ -1030,6 +1031,23 @@ public class App {
 					ctrFigura.draw_all_again(drawPanel);
 				}
 				else {
+					JComboBox<String> list = new JComboBox<String>(new String[] {"Tamanho 1", "Tamanho 2", "Tamanho 3"});
+					JOptionPane.showMessageDialog(null, list, "Escolha o tamanho da grade:", JOptionPane.PLAIN_MESSAGE);
+					switch(list.getSelectedItem().toString()){
+						case "Tamanho 1":
+							ctrGrade.set_gap_grid(20);
+							break;
+						case "Tamanho 2":
+							ctrGrade.set_gap_grid(40);
+							break;
+						case "Tamanho 3":
+							ctrGrade.set_gap_grid(80);
+							break;
+						default:
+							ctrGrade.set_gap_grid(80);
+							break;
+								
+					}
 					ctrGrade.draw_grid(drawPanel, cor_area_de_trabalho);
 					ctrGrade.setVisibleGrade(true);
 					ctrFigura.draw_all_again(drawPanel);
@@ -1042,14 +1060,15 @@ public class App {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			    Object[] options = { "Sim, desejo apagar tudo!","Espere! Esqueci uma coisa..." };  
-			    int result = JOptionPane.showOptionDialog(null,  
-			                    "Deseja apagar tudo?",  
-			                    "Novo desenho?", JOptionPane.YES_NO_OPTION,  
-			                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-			    if (result==0){
-			    	drawPanel.update(drawPanel.getGraphics());
-			    }
+//			    Object[] options = { "Sim, desejo apagar tudo!","Espere! Esqueci uma coisa..." };  
+//			    int result = JOptionPane.showOptionDialog(null,  
+//			                    "Deseja apagar tudo?",  
+//			                    "Novo desenho?", JOptionPane.YES_NO_OPTION,  
+//			                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+//			    if (result==0){
+//			    	drawPanel.update(drawPanel.getGraphics());
+//			    }
+				new ControleApp().main(null);
 			    
 			}
 		});

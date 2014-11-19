@@ -30,6 +30,10 @@ public class ControleGrade {
 		grade.setVisivel(cond);
 	}
 	
+	public void set_gap_grid(int gap){
+		this.grade.setGap(gap);
+	}
+	
 	/**
 	 * Verifica se a grade esta visível
 	 * @return True/False
