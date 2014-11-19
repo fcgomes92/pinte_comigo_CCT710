@@ -1046,7 +1046,7 @@ public class ControleFigura extends ControleDraw{
 	 */
 	public boolean produtoVetorial(Ponto p1, Ponto p2, Ponto ptTeste){
 		// (Bx-Ax)*(Y-Ay) - (By-Ay)*(X-Ax)
-		if( ( ((p2.getX() - p1.getX())*(ptTeste.getY() - p1.getY()))-((p2.getY() - p1.getY())*(ptTeste.getX() - p2.getX())) ) >= 0)
+		if( ( ((p2.getX() - p1.getX())*(ptTeste.getY() - p1.getY()))-((p2.getY() - p1.getY())*(ptTeste.getX() - p1.getX())) ) >= 0)
 			return false;
 		return true;
 	}

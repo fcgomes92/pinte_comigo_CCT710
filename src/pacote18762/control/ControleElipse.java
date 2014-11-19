@@ -153,15 +153,15 @@ public class ControleElipse extends ControleFigura{
 		if(!redraw)arcos_desenhados.add(arco);
 		
 		// calculo dos pontos referentes ao angulo
-				Ponto angI, angF;
-				int xTemp = 0 , yTemp = 0;
-				xTemp = (int) Math.round(((arco.getEixoMaior()/2)*(Math.cos(Math.toRadians(anguloInicial)))));
-				yTemp = (int) Math.round(((arco.getEixoMenor()/2)*(Math.sin(Math.toRadians(anguloInicial)))));
-				angI = new Ponto(centro.getX()+xTemp,centro.getY()+yTemp);
-				
-				xTemp = (int) Math.round(((arco.getEixoMaior()/2)*(Math.cos(Math.toRadians(anguloFinal)))));
-				yTemp = (int) Math.round(((arco.getEixoMenor()/2)*(Math.sin(Math.toRadians(anguloFinal)))));
-				angF = new Ponto(centro.getX()+xTemp,centro.getY()+yTemp);
+		Ponto angI, angF;
+		int xTemp = 0 , yTemp = 0;
+		xTemp = (int) Math.round(((arco.getEixoMaior()/2)*(Math.cos(Math.toRadians(anguloInicial)))));
+		yTemp = (int) Math.round(((arco.getEixoMenor()/2)*(Math.sin(Math.toRadians(anguloInicial)))));
+		angI = new Ponto(centro.getX()+xTemp,centro.getY()+yTemp);
+		
+		xTemp = (int) Math.round(((arco.getEixoMaior()/2)*(Math.cos(Math.toRadians(anguloFinal)))));
+		yTemp = (int) Math.round(((arco.getEixoMenor()/2)*(Math.sin(Math.toRadians(anguloFinal)))));
+		angF = new Ponto(centro.getX()+xTemp,centro.getY()+yTemp);
 		
 		// inicio do calculo dos pontos
 		int x = 0, y = 0;
