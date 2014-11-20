@@ -1132,6 +1132,15 @@ public class App {
 			    }
 			}
 		});
+		
+		// botão de instruções
+		mi_instrucoes.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new Instrucoes();
+			}
+		});
 
 		// botão de sair
 		mi_exit.addActionListener(new ActionListener() {
