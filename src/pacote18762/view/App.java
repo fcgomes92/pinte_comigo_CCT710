@@ -265,7 +265,7 @@ public class App {
 		bt_selecionar_area.setPreferredSize(btDim);
 		bt_selecionar_area.setMaximumSize(btDim);
 		
-		bt_show_grid = new JButton("Show Grid");
+		bt_show_grid = new JButton("Mostrar Grade");
 		bt_show_grid.setPreferredSize(btDim);
 		bt_show_grid.setMaximumSize(btDim);
 		
@@ -532,6 +532,7 @@ public class App {
 				ctrFigura.get_figura_proxima(p1, drawPanel);
 				ctrFigura.apaga_figura_selecionada(drawPanel, cor_area_de_trabalho);
 				ctrFigura.set_figura_selecionada_empty();
+				ctrFigura.draw_all_again(drawPanel);
 			}
 		};
 		
