@@ -120,7 +120,7 @@ public class ControleRetangulo extends ControleFigura {
 		
 		Ponto aux = new Ponto();
 		
-		if(p1.getY() < p2.getY()){
+		if(p1.getY() > p2.getY()){
 			aux = p1;
 			p1 = p2;
 			p2 = aux;
@@ -128,7 +128,7 @@ public class ControleRetangulo extends ControleFigura {
 		
 		Ponto p3 = new Ponto(p1.getX(),p2.getY()), p4 = new Ponto(p2.getX(),p1.getY());
 		
-		if(p1.getX() < p4.getX()){
+		if(p1.getX() > p4.getX()){
 			aux = p1;
 			p1 = p4;
 			p4 = aux;

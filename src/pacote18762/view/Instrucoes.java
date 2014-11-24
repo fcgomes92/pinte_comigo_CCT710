@@ -34,8 +34,13 @@ public class Instrucoes extends JFrame{
 	private static final String STR_TITULO = "Instruções - ";
 	private static final String STR_DESENHO = "Desenho";
 	private static final String STR_AT = "Á. Trabalho";
-	private static final String STR_RETAS = "Retas", STR_CIRCULOS = "Circulos", STR_ELIPSE= "Elipse", STR_POLIGONO= "Poligono",STR_RETANGULO = "Retangulo", STR_TEXT = "Texto";
-	private static final String[] op_desenho = {STR_RETAS, STR_CIRCULOS, STR_ELIPSE, STR_POLIGONO, STR_RETANGULO, STR_TEXT};
+	private static final String STR_RETAS = "Retas", STR_CIRCULOS = "Circulos", STR_ELIPSE= "Elipse", STR_POLIGONO= "Poligono";
+	private static final String STR_RETANGULO = "Retangulo", STR_TEXT = "Texto", STR_ESCALA= "Escala", STR_LINHAS= "Tipos de Linha";
+	private static final String STR_MOVER = "Mover", STR_ROT = "Rotacionar", STR_BORRACHA = "Borracha", STR_TAM_LETRA = "Tamanho da Letra", STR_COR_LINHA = "Cor da Linha";
+	private static final String[] op_desenho = {STR_RETAS, STR_CIRCULOS, STR_ELIPSE, STR_POLIGONO, STR_RETANGULO, STR_TEXT, STR_TAM_LETRA,STR_ESCALA, STR_LINHAS, STR_COR_LINHA, STR_MOVER, STR_ROT, STR_BORRACHA};
+	
+	private static final String STR_PTO_REF = "Pontos de Referência", STR_SELECAO = "Seleção de Área", STR_GRADE = "Grade", STR_FUNDO = "Cor de Fundo";
+	private static final String[] op_at= {STR_PTO_REF, STR_SELECAO, STR_GRADE, STR_FUNDO};
 	
 	// Dim dos botões
 	private Dimension dim;
@@ -83,6 +88,13 @@ public class Instrucoes extends JFrame{
 						case STR_POLIGONO : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/poligonos.png")), 0, 0, null); setTitle(STR_TITULO+STR_POLIGONO); break;
 						case STR_RETANGULO : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/retangulo.png")), 0, 0, null); setTitle(STR_TITULO+STR_RETANGULO); break;
 						case STR_TEXT : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/textos.png")), 0, 0, null); setTitle(STR_TITULO+STR_TEXT); break;
+						case STR_TAM_LETRA : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/tamletra.png")), 0, 0, null); setTitle(STR_TITULO+STR_TAM_LETRA); break;
+						case STR_ESCALA : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/escala.png")), 0, 0, null); setTitle(STR_TITULO+STR_ESCALA); break;
+						case STR_LINHAS : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/linhas.png")), 0, 0, null); setTitle(STR_TITULO+STR_LINHAS); break;
+						case STR_COR_LINHA: display_panel.getGraphics().drawImage(ImageIO.read(new File("info/corlinha.png")), 0, 0, null); setTitle(STR_TITULO+STR_COR_LINHA); break;
+						case STR_MOVER : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/mover.png")), 0, 0, null); setTitle(STR_TITULO+STR_MOVER); break;
+						case STR_ROT : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/rotacionar.png")), 0, 0, null); setTitle(STR_TITULO+STR_ROT); break;
+						case STR_BORRACHA : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/borracha.png")), 0, 0, null); setTitle(STR_TITULO+STR_BORRACHA); break;
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -95,8 +107,19 @@ public class Instrucoes extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JComboBox<String> list = new JComboBox<String>(new String[] {"Tamanho 1", "Tamanho 2", "Tamanho 3"});
-				JOptionPane.showMessageDialog(null, list, "Escolha o tamanho letra:", JOptionPane.PLAIN_MESSAGE);
+				JComboBox<String> list = new JComboBox<String>(op_at);
+				JOptionPane.showMessageDialog(null, list, "Escolha um tópico:", JOptionPane.PLAIN_MESSAGE);
+				try {
+					switch(list.getSelectedItem().toString()){
+						case STR_PTO_REF : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/pontoreferencia.png")), 0, 0, null); setTitle(STR_TITULO+STR_PTO_REF); break;
+						case STR_SELECAO : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/selecao.png")), 0, 0, null); setTitle(STR_TITULO+STR_SELECAO); break;
+						case STR_GRADE: display_panel.getGraphics().drawImage(ImageIO.read(new File("info/grade.png")), 0, 0, null); setTitle(STR_TITULO+STR_GRADE); break;
+						case STR_FUNDO : display_panel.getGraphics().drawImage(ImageIO.read(new File("info/corfundo.png")), 0, 0, null); setTitle(STR_TITULO+STR_FUNDO); break;
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		

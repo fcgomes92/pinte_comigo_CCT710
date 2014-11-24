@@ -1167,6 +1167,8 @@ public class App {
 				
 				try {
 					rb = new Robot();
+					System.out.println("X: "+drawPanel.getLocationOnScreen().getX());
+					System.out.println("Y: "+drawPanel.getLocationOnScreen().getY());
 					int x = (int) (ctrFigura.selecao_multipla.getLado0().getPtoInicial().getX()+drawPanel.getLocationOnScreen().getX());
 					int y = (int) (ctrFigura.selecao_multipla.getLado0().getPtoInicial().getY()+drawPanel.getLocationOnScreen().getY());
 					p = new Point(x,y);
@@ -1174,6 +1176,8 @@ public class App {
 					width = (int)Math.round(ctrPonto.dist(ctrFigura.selecao_multipla.getLado3().getPtoInicial(), ctrFigura.selecao_multipla.getLado3().getPtoFinal()));
 					
 					ctrFigura.apagar_ret_selecao(drawPanel, cor_area_de_trabalho);
+					ctrFigura.move_figura_dentro_selecao(p1, p1, drawPanel, cor_area_de_trabalho);
+					ctrFigura.draw_all_again(drawPanel);
 					
 					shot = rb.createScreenCapture(new Rectangle(p, new Dimension(width,height)));
 					JFileChooser chooser = new JFileChooser();
