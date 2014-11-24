@@ -7,6 +7,7 @@ import java.util.List;
 import pacote18762.model.Circulo;
 import pacote18762.model.Draw;
 import pacote18762.model.Elipse;
+import pacote18762.model.Figura;
 import pacote18762.model.Letra;
 import pacote18762.model.PoligonoRegular;
 import pacote18762.model.Ponto;
@@ -962,53 +963,57 @@ public class ControleFigura extends ControleDraw{
 	 * @param bg_color
 	 */
 	public void apaga_figura_selecionada(Draw panel, Color bg_color){
+		
+		TipoLinha tipo_temp = ((Figura) figura_selecionada).getTipoLinha();
+		if(tipo_temp==TipoLinha.pontilhada) tipo_temp = TipoLinha.fina; 
+		
 		if (figura_selecionada instanceof Circulo){
 			if(((Circulo) figura_selecionada).getAnguloInicial()==0 && ((Circulo) figura_selecionada).getAnguloFinal() ==0){
-				if(((Circulo) figura_selecionada).getRoatcao()==0)ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(),true);
-				else ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(),true, ((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro());
+				if(((Circulo) figura_selecionada).getRoatcao()==0)ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, tipo_temp,true);
+				else ctrCirculo.drawCirculoDDA(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), panel, bg_color, tipo_temp,true, ((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro());
 				ctrCirculo.circulos_desenhados.remove(figura_selecionada);
 			}
 			
 			else{
-				if(((Circulo) figura_selecionada).getRoatcao()==0) ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(), true);
-				else ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, bg_color, ((Circulo) figura_selecionada).getTipoLinha(), true,((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro());
+				if(((Circulo) figura_selecionada).getRoatcao()==0) ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, bg_color, tipo_temp, true);
+				else ctrCirculo.drawCirculoArch(((Circulo) figura_selecionada).getCentro(), ((Circulo) figura_selecionada).getBorda(), ((Circulo) figura_selecionada).getAnguloInicial(), ((Circulo) figura_selecionada).getAnguloFinal(), panel, bg_color, tipo_temp, true,((Circulo) figura_selecionada).getRoatcao(), ((Circulo) figura_selecionada).getCentro());
 				ctrCirculo.arcos_desenhados.remove(figura_selecionada);
 			}
 		}
 		else if (figura_selecionada instanceof Elipse) {
 			if(((Elipse) figura_selecionada).getAnguloInicial()==0 && ((Elipse) figura_selecionada).getAnguloFinal() ==0){
-				if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipse(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true);
-				else ctrElipse.drawElipse(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getTipoLinha(), true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
+				if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipse(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), tipo_temp, true);
+				else ctrElipse.drawElipse(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), tipo_temp, true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
 				ctrElipse.elipses_desenhadas.remove(figura_selecionada);				
 			}
 			else{
-				if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipseArc(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true);
-				else ctrElipse.drawElipseArc(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), ((Elipse) figura_selecionada).getTipoLinha(), true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
+				if(((Elipse) figura_selecionada).getRoatcao()==0) ctrElipse.drawElipseArc(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), tipo_temp, true);
+				else ctrElipse.drawElipseArc(panel, bg_color, ((Elipse) figura_selecionada).getCentro(), ((Elipse) figura_selecionada).getBorda(), ((Elipse) figura_selecionada).getAnguloInicial(), ((Elipse) figura_selecionada).getAnguloFinal(), tipo_temp, true, ((Elipse) figura_selecionada).getRoatcao(), ((Elipse) figura_selecionada).getCentro());
 				ctrElipse.arcos_desenhados.remove(figura_selecionada);
 			}
 		}
 		
 		else if (figura_selecionada instanceof Retangulo) {
-			if(((Retangulo) figura_selecionada).getRoatcao() == 0) ctrRetangulo.drawRetangulo(panel, bg_color, ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true);
-			else ctrRetangulo.drawRetangulo(panel, bg_color, ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), ((Retangulo) figura_selecionada).getTipoLinha(),true,((Retangulo) figura_selecionada).getRoatcao(), ((Retangulo) figura_selecionada).getCentro());
+			if(((Retangulo) figura_selecionada).getRoatcao() == 0) ctrRetangulo.drawRetangulo(panel, bg_color, ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), tipo_temp,true);
+			else ctrRetangulo.drawRetangulo(panel, bg_color, ((Retangulo) figura_selecionada).getLado0().getPtoInicial(), ((Retangulo) figura_selecionada).getLado1().getPtoInicial(), tipo_temp,true,((Retangulo) figura_selecionada).getRoatcao(), ((Retangulo) figura_selecionada).getCentro());
 			ctrRetangulo.retangulos_desenhados.remove(figura_selecionada);
 		}
 		
 		else if (figura_selecionada instanceof Reta) {
-			if(((Reta) figura_selecionada).getRoatcao() == 0) ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, bg_color, ((Reta) figura_selecionada).getTipoLinha(), true);
-			else ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, bg_color, ((Reta) figura_selecionada).getTipoLinha(), true, ((Reta) figura_selecionada).getRoatcao(), ((Reta) figura_selecionada).getPtMedio());
+			if(((Reta) figura_selecionada).getRoatcao() == 0) ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, bg_color, tipo_temp, true);
+			else ctrReta.drawReta(((Reta) figura_selecionada).getPtoInicial(), ((Reta) figura_selecionada).getPtoFinal(), panel, bg_color, tipo_temp, true, ((Reta) figura_selecionada).getRoatcao(), ((Reta) figura_selecionada).getPtMedio());
 			ctrReta.retas_desenhadas.remove(figura_selecionada);
 		}
 		
 		else if (figura_selecionada instanceof PoligonoRegular){
-			if(((PoligonoRegular) figura_selecionada).getRoatcao() == 0) ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true);
-			else ctrPoligono.draw_poligono_regular(panel, bg_color, ((PoligonoRegular) figura_selecionada).getTipoLinha(), ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
+			if(((PoligonoRegular) figura_selecionada).getRoatcao() == 0) ctrPoligono.draw_poligono_regular(panel, bg_color, tipo_temp, ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true);
+			else ctrPoligono.draw_poligono_regular(panel, bg_color, tipo_temp, ((PoligonoRegular) figura_selecionada).getCentro(), ((PoligonoRegular) figura_selecionada).getBorda(), ((PoligonoRegular) figura_selecionada).getQtdArestas(), true, ((PoligonoRegular) figura_selecionada).getRoatcao(), ((PoligonoRegular) figura_selecionada).getCentro());
 			ctrPoligono.poligonos_regulares_desenhados.remove(figura_selecionada);
 		}
 		
 		else if(figura_selecionada instanceof Letra){				
-			if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, bg_color, ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true);
-			else ctrLetra.drawLetra(panel, bg_color, ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), ((Letra) figura_selecionada).getTipoLinha(), ((Letra) figura_selecionada).getTamLetra(), true, ((Letra) figura_selecionada).getRoatcao(), ((Letra) figura_selecionada).getTop_left());
+			if(((Letra) figura_selecionada).getRoatcao() == 0) ctrLetra.drawLetra(panel, bg_color, ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), tipo_temp, ((Letra) figura_selecionada).getTamLetra(), true);
+			else ctrLetra.drawLetra(panel, bg_color, ((Letra) figura_selecionada).getTop_left(), ((Letra) figura_selecionada).getCaracter(), tipo_temp, ((Letra) figura_selecionada).getTamLetra(), true, ((Letra) figura_selecionada).getRoatcao(), ((Letra) figura_selecionada).getTop_left());
 			ctrLetra.letras_text.remove(figura_selecionada);
 		}
 	}

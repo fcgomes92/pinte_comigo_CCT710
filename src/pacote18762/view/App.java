@@ -38,6 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.SpringLayout;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import pacote18762.control.ControleApp;
@@ -941,6 +942,7 @@ public class App {
 				cor_area_de_trabalho= JColorChooser.showDialog(null, "Escolha a cor de fundo:", cor_area_de_trabalho);
 				if (cor_area_de_trabalho==null) cor_area_de_trabalho = new Color(255,255,255);
 				drawPanel.setBackground(cor_area_de_trabalho);
+				ctrFigura.draw_all_again(drawPanel);
 			}
 		});
 		

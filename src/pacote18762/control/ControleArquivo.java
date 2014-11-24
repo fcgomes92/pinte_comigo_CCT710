@@ -347,6 +347,9 @@ public class ControleArquivo {
 	public boolean save_file(String path){		
 		try{
 			
+			// garante a extensão do arquivo
+			path += ".ego";
+			
 			String file_content = "";
 			System.out.println("Caminho: "+path);
 			File file = new File(path);
